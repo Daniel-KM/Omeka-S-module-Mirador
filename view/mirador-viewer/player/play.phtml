@@ -1,0 +1,11 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'mirador-viewer play');
+$title = $resource->displayTitle();
+$creator = $resource->value('dcterms:creator', ['type' => 'literal']);
+if ($creator) {
+    $title .= ' - ' . $creator;
+}
+
+echo $this->pageTitle($title);
+?>
+<?php echo $this->miradorViewer($resource); ?>

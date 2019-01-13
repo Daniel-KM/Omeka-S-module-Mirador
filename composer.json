@@ -1,0 +1,19 @@
+{
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "asset/mirador",
+        "version": "2.6.0",
+        "dist": {
+          "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.6.0/build.zip",
+          "type": "zip"
+        }
+      }
+    }
+  ],
+
+  "require": {
+    "asset/mirador": "*"
+  }
+}

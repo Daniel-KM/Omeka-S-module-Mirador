@@ -1,0 +1,12 @@
+<?php
+//{
+//    id: "viewer",
+//            data: [/* … */]
+//        }
+?>
+<div id="<?= $config['id'] ?>" allowfullscreen="allowfullscreen"></div>
+<script type="text/javascript">
+    $(function() {
+        Mirador(<?= json_encode($config) ?>);
+    });
+</script>
