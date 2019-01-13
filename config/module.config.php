@@ -9,12 +9,12 @@ return [
     ],
     'view_helpers' => [
         'factories' => [
-            'miradorViewer' => Service\ViewHelper\MiradorFactory::class,
+            'mirador' => Service\ViewHelper\MiradorFactory::class,
         ],
     ],
     'block_layouts' => [
         'invokables' => [
-            'miradorViewer' => Site\BlockLayout\Mirador::class,
+            'mirador' => Site\BlockLayout\Mirador::class,
         ],
     ],
     'controllers' => [
@@ -33,7 +33,7 @@ return [
     'router' => [
         'routes' => [
             'mirador_player' => [
-                'type' => 'segment',
+                'type' => \Zend\Router\Http\Segment::class,
                 'options' => [
                     'route' => '/:resourcename/:id/play-mirador',
                     'constraints' => [

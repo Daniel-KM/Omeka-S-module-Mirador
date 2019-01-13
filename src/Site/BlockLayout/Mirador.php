@@ -58,7 +58,7 @@ class Mirador extends AbstractBlockLayout
             return 'No item selected'; // @translate
         }
 
-        return $view->partial('common/block-layout/mirador-viewer', [
+        return $view->partial('common/block-layout/mirador', [
             'attachments' => $attachments,
         ]);
     }

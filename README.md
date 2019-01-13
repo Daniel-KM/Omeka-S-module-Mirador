@@ -42,17 +42,17 @@ To embed the Mirador Viewer somewhere else, just use the helper:
 
 ```php
     // Display the viewer with the specified item set.
-    echo $this->miradorViewer($itemSet);
+    echo $this->mirador($itemSet);
 
     // Display the viewer with the specified item and specified options.
-    echo $this->miradorViewer($item, array(
+    echo $this->mirador($item, array(
         'class' => 'my-class',
         'style' => 'display: block; width: 90%; height: 600px; margin: 1em 5%; position: relative;',
         'config' => 'https://example.com/my/specific/config.json',
     ));
 
     // Display multiple resources (items and/or item sets).
-    echo $this->miradorViewer($resources);
+    echo $this->mirador($resources);
 ```
 
 [Universal Viewer]: https://github.com/Daniel-KM/Omeka-S-module-UniversalViewer

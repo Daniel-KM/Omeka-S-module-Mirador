@@ -247,16 +247,16 @@ class Module extends AbstractModule
         $siteSettings = $services->get('Omeka\Settings\Site');
         if ($siteSettings->get(
             'mirador_append_item_set_show',
-            $config['mirador']['site_settings']['miradorviewer_append_item_set_show']
+            $config['mirador']['site_settings']['mirador_append_item_set_show']
         )) {
-            echo $view->miradorViewer($view->itemSet);
+            echo $view->mirador($view->itemSet);
         } elseif ($this->iiifServerIsActive()
             && $siteSettings->get(
                 'mirador_append_item_browse',
-                $config['mirador']['site_settings']['miradorviewer_append_item_browse']
+                $config['mirador']['site_settings']['mirador_append_item_browse']
             )
         ) {
-            echo $view->miradorViewer($view->items);
+            echo $view->mirador($view->items);
         }
     }
 
@@ -272,9 +272,9 @@ class Module extends AbstractModule
         $siteSettings = $services->get('Omeka\Settings\Site');
         if ($siteSettings->get(
             'mirador_append_item_set_browse',
-            $config['mirador']['site_settings']['miradorviewer_append_item_set_browse']
+            $config['mirador']['site_settings']['mirador_append_item_set_browse']
         )) {
-            echo $view->miradorViewer($view->itemSets);
+            echo $view->mirador($view->itemSets);
         }
     }
 
@@ -286,9 +286,9 @@ class Module extends AbstractModule
         $siteSettings = $services->get('Omeka\Settings\Site');
         if ($siteSettings->get(
             'mirador_append_item_show',
-            $config['mirador']['site_settings']['miradorviewer_append_item_show']
+            $config['mirador']['site_settings']['mirador_append_item_show']
         )) {
-            echo $view->miradorViewer($view->item);
+            echo $view->mirador($view->item);
         }
     }
 

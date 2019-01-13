@@ -1,8 +1,7 @@
 <?php
 
 /*
- * Copyright 2015-2018 Daniel Berthereau
- * Copyright 2016-2017 BibLibre
+ * Copyright 2015-2017 Daniel Berthereau
  *
  * This software is governed by the CeCILL license under French law and abiding
  * by the rules of distribution of free software. You can use, modify and/or
@@ -220,12 +219,12 @@ class Mirador extends AbstractHelper
             ? $options['locale']
             : $view->siteSetting('mirador_locale', $this->defaultOptions['locale']);
 
-        $view->headScript()->appendFile($view->assetUrl('mirador/mirador.min.js', 'Mirador'));
-        $view->headLink()->prependStylesheet($view->assetUrl('mirador/css/mirador-combined.min.css', 'Mirador'));
+        $view->headScript()->appendFile($view->assetUrl('vendor/mirador/mirador.min.js', 'Mirador'));
+        $view->headLink()->prependStylesheet($view->assetUrl('vendor/mirador/css/mirador-combined.min.css', 'Mirador'));
 
         $config = [
             'id' => "mirador",
-            'buildPath' => $view->assetUrl('mirador/', 'Mirador', false, false),
+            'buildPath' => $view->assetUrl('vendor/mirador/', 'Mirador', false, false),
             'language' => $locale,
         ];
 
@@ -247,7 +246,7 @@ class Mirador extends AbstractHelper
                 break;
         }
 
-        return $view->partial('common/helper/mirador-viewer', [
+        return $view->partial('common/helper/mirador', [
             'class' => $class,
             'style' => $style,
             'config' => $config,
