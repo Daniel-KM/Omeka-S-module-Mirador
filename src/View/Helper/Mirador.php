@@ -219,8 +219,10 @@ class Mirador extends AbstractHelper
             ? $options['locale']
             : $view->siteSetting('mirador_locale', $this->defaultOptions['locale']);
 
+        $view->headLink()
+            ->prependStylesheet($view->assetUrl('vendor/mirador/css/mirador-combined.min.css', 'Mirador'))
+            ->prependStylesheet($view->assetUrl('css/mirador.css', 'Mirador'));
         $view->headScript()->appendFile($view->assetUrl('vendor/mirador/mirador.min.js', 'Mirador'));
-        $view->headLink()->prependStylesheet($view->assetUrl('vendor/mirador/css/mirador-combined.min.css', 'Mirador'));
 
         $config = [
             'id' => "mirador",
