@@ -1,5 +1,5 @@
 <?php
-namespace MiradorViewer;
+namespace Mirador;
 
 return [
     'view_manager' => [
@@ -9,17 +9,17 @@ return [
     ],
     'view_helpers' => [
         'factories' => [
-            'miradorViewer' => Service\ViewHelper\MiradorViewerFactory::class,
+            'miradorViewer' => Service\ViewHelper\MiradorFactory::class,
         ],
     ],
     'block_layouts' => [
         'invokables' => [
-            'miradorViewer' => Site\BlockLayout\MiradorViewer::class,
+            'miradorViewer' => Site\BlockLayout\Mirador::class,
         ],
     ],
     'controllers' => [
         'invokables' => [
-            'MiradorViewer\Controller\Player' => Controller\PlayerController::class,
+            'Mirador\Controller\Player' => Controller\PlayerController::class,
         ],
     ],
     'form_elements' => [
@@ -32,7 +32,7 @@ return [
     ],
     'router' => [
         'routes' => [
-            'miradorviewer_player' => [
+            'mirador_player' => [
                 'type' => 'segment',
                 'options' => [
                     'route' => '/:resourcename/:id/play-mirador',
@@ -41,7 +41,7 @@ return [
                         'id' => '\d+',
                     ],
                     'defaults' => [
-                        '__NAMESPACE__' => 'MiradorViewer\Controller',
+                        '__NAMESPACE__' => 'Mirador\Controller',
                         'controller' => 'Player',
                         'action' => 'play',
                     ],
@@ -51,7 +51,7 @@ return [
             // If really needed, the next route may be uncommented to keep
             // compatibility with the old schemes used by the plugin for Omeka 2
             // before the version 2.4.2.
-            // 'miradorviewer_player_classic' => [
+            // 'mirador_player_classic' => [
             //     'type' => 'segment',
             //     'options' => [
             //         'route' => '/:resourcename/play/:id',
@@ -60,7 +60,7 @@ return [
             //             'id' => '\d+',
             //         ],
             //         'defaults' => [
-            //             '__NAMESPACE__' => 'MiradorViewer\Controller',
+            //             '__NAMESPACE__' => 'Mirador\Controller',
             //             'controller' => 'Player',
             //             'action' => 'play',
             //         ],
@@ -78,18 +78,18 @@ return [
             ],
         ],
     ],
-    'miradorviewer' => [
+    'mirador' => [
         'config' => [
-            'miradorviewer_manifest_property' => '',
+            'mirador_manifest_property' => '',
         ],
         'site_settings' => [
-            'miradorviewer_append_item_set_show' => true,
-            'miradorviewer_append_item_show' => true,
-            'miradorviewer_append_item_set_browse' => false,
-            'miradorviewer_append_item_browse' => false,
-            'miradorviewer_class' => '',
-            'miradorviewer_style' => 'display: block; width: 90%; height: 600px; margin: 1em 5%; position: relative;',
-            'miradorviewer_locale' => 'en',
+            'mirador_append_item_set_show' => true,
+            'mirador_append_item_show' => true,
+            'mirador_append_item_set_browse' => false,
+            'mirador_append_item_browse' => false,
+            'mirador_class' => '',
+            'mirador_style' => 'display: block; width: 90%; height: 600px; margin: 1em 5%; position: relative;',
+            'mirador_locale' => 'en',
         ],
     ],
 ];

@@ -1,8 +1,8 @@
 <?php
-namespace MiradorViewer\Service\Form;
+namespace Mirador\Service\Form;
 
 use Interop\Container\ContainerInterface;
-use MiradorViewer\Form\SiteSettingsFieldset;
+use Mirador\Form\SiteSettingsFieldset;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 class SiteSettingsFieldsetFactory implements FactoryInterface

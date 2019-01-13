@@ -28,13 +28,13 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-namespace MiradorViewer\View\Helper;
+namespace Mirador\View\Helper;
 
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Site\Theme\Theme;
 use Zend\View\Helper\AbstractHelper;
 
-class MiradorViewer extends AbstractHelper
+class Mirador extends AbstractHelper
 {
     /**
      * These options are used only when the player is called outside of a site
@@ -75,7 +75,7 @@ class MiradorViewer extends AbstractHelper
      *   - (string) locale
      *   - (string) style
      *   - (string) config
-     * @return string. The html string corresponding to the MiradorViewer.
+     * @return string. The html string corresponding to the Mirador.
      */
     public function __invoke($resource, $options = [])
     {
@@ -114,7 +114,7 @@ class MiradorViewer extends AbstractHelper
 
         // Determine the url of the manifest from a field in the metadata.
         $urlManifest = '';
-        $manifestProperty = $view->setting('miradorviewer_manifest_property');
+        $manifestProperty = $view->setting('mirador_manifest_property');
         if ($manifestProperty) {
             $urlManifest = $resource->value($manifestProperty);
             if ($urlManifest) {
@@ -207,25 +207,25 @@ class MiradorViewer extends AbstractHelper
 
         $class = isset($options['class'])
             ? $options['class']
-            : $view->siteSetting('miradorviewer_class', $this->defaultOptions['class']);
+            : $view->siteSetting('mirador_class', $this->defaultOptions['class']);
         if (!empty($class)) {
             $class = ' ' . $class;
         }
 
         $style = isset($options['style'])
             ? $options['style']
-            : $view->siteSetting('miradorviewer_style', $this->defaultOptions['style']);
+            : $view->siteSetting('mirador_style', $this->defaultOptions['style']);
 
         $locale = isset($options['locale'])
             ? $options['locale']
-            : $view->siteSetting('miradorviewer_locale', $this->defaultOptions['locale']);
+            : $view->siteSetting('mirador_locale', $this->defaultOptions['locale']);
 
-        $view->headScript()->appendFile($view->assetUrl('mirador/mirador.min.js', 'MiradorViewer'));
-        $view->headLink()->prependStylesheet($view->assetUrl('mirador/css/mirador-combined.min.css', 'MiradorViewer'));
+        $view->headScript()->appendFile($view->assetUrl('mirador/mirador.min.js', 'Mirador'));
+        $view->headLink()->prependStylesheet($view->assetUrl('mirador/css/mirador-combined.min.css', 'Mirador'));
 
         $config = [
-            'id' => "miradorviewer",
-            'buildPath' => $view->assetUrl('mirador/', 'MiradorViewer', false, false),
+            'id' => "mirador",
+            'buildPath' => $view->assetUrl('mirador/', 'Mirador', false, false),
             'language' => $locale,
         ];
 

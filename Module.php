@@ -28,13 +28,13 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-namespace MiradorViewer;
+namespace Mirador;
 
 use Omeka\Module\AbstractModule;
 use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Module\Manager as ModuleManager;
-use MiradorViewer\Form\ConfigForm;
-use MiradorViewer\Form\SiteSettingsFieldset;
+use Mirador\Form\ConfigForm;
+use Mirador\Form\SiteSettingsFieldset;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\Controller\AbstractController;
@@ -54,7 +54,7 @@ class Module extends AbstractModule
         parent::onBootstrap($event);
 
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        $acl->allow(null, 'MiradorViewer\Controller\Player');
+        $acl->allow(null, 'Mirador\Controller\Player');
     }
 
     public function install(ServiceLocatorInterface $serviceLocator)
@@ -63,7 +63,7 @@ class Module extends AbstractModule
         if (!file_exists($js)) {
             $t = $serviceLocator->get('MvcTranslator');
             throw new ModuleCannotInstallException(
-                $t->translate('The MiradorViewer library should be installed.') // @translate
+                $t->translate('The Mirador library should be installed.') // @translate
                     . ' ' . $t->translate('See module’s installation documentation.') // @translate
             );
         }
@@ -209,12 +209,12 @@ class Module extends AbstractModule
     public function handleSiteSettingsFilters(Event $event)
     {
         $inputFilter = $event->getParam('inputFilter');
-        $inputFilter->get('miradorviewer')->add([
-            'name' => 'miradorviewer_append_item_set_browse',
+        $inputFilter->get('mirador')->add([
+            'name' => 'mirador_append_item_set_browse',
             'required' => false,
         ]);
-        $inputFilter->get('miradorviewer')->add([
-            'name' => 'miradorviewer_append_item_browse',
+        $inputFilter->get('mirador')->add([
+            'name' => 'mirador_append_item_browse',
             'required' => false,
         ]);
     }
@@ -246,14 +246,14 @@ class Module extends AbstractModule
         $config = $services->get('Config');
         $siteSettings = $services->get('Omeka\Settings\Site');
         if ($siteSettings->get(
-            'miradorviewer_append_item_set_show',
-            $config['miradorviewer']['site_settings']['miradorviewer_append_item_set_show']
+            'mirador_append_item_set_show',
+            $config['mirador']['site_settings']['miradorviewer_append_item_set_show']
         )) {
             echo $view->miradorViewer($view->itemSet);
         } elseif ($this->iiifServerIsActive()
             && $siteSettings->get(
-                'miradorviewer_append_item_browse',
-                $config['miradorviewer']['site_settings']['miradorviewer_append_item_browse']
+                'mirador_append_item_browse',
+                $config['mirador']['site_settings']['miradorviewer_append_item_browse']
             )
         ) {
             echo $view->miradorViewer($view->items);
@@ -271,8 +271,8 @@ class Module extends AbstractModule
         $config = $services->get('Config');
         $siteSettings = $services->get('Omeka\Settings\Site');
         if ($siteSettings->get(
-            'miradorviewer_append_item_set_browse',
-            $config['miradorviewer']['site_settings']['miradorviewer_append_item_set_browse']
+            'mirador_append_item_set_browse',
+            $config['mirador']['site_settings']['miradorviewer_append_item_set_browse']
         )) {
             echo $view->miradorViewer($view->itemSets);
         }
@@ -285,8 +285,8 @@ class Module extends AbstractModule
         $config = $services->get('Config');
         $siteSettings = $services->get('Omeka\Settings\Site');
         if ($siteSettings->get(
-            'miradorviewer_append_item_show',
-            $config['miradorviewer']['site_settings']['miradorviewer_append_item_show']
+            'mirador_append_item_show',
+            $config['mirador']['site_settings']['miradorviewer_append_item_show']
         )) {
             echo $view->miradorViewer($view->item);
         }

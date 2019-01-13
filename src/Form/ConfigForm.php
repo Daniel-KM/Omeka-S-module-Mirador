@@ -1,5 +1,5 @@
 <?php
-namespace MiradorViewer\Form;
+namespace Mirador\Form;
 
 use Omeka\Form\Element\PropertySelect;
 use Zend\Form\Form;
@@ -9,7 +9,7 @@ class ConfigForm extends Form
     public function init()
     {
         $this->add([
-            'name' => 'miradorviewer_manifest_property',
+            'name' => 'mirador_manifest_property',
             'type' => PropertySelect::class,
             'options' => [
                 'label' => 'Manifest property', // @translate
@@ -25,7 +25,7 @@ class ConfigForm extends Form
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
-            'name' => 'miradorviewer_manifest_property',
+            'name' => 'mirador_manifest_property',
             'required' => false,
         ]);
     }

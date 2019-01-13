@@ -27,7 +27,7 @@
  * knowledge of the CeCILL license and that you accept its terms.
  */
 
-namespace MiradorViewer\Site\BlockLayout;
+namespace Mirador\Site\BlockLayout;
 
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
@@ -35,7 +35,7 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Zend\View\Renderer\PhpRenderer;
 
-class MiradorViewer extends AbstractBlockLayout
+class Mirador extends AbstractBlockLayout
 {
     public function getLabel()
     {

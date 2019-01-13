@@ -1,5 +1,5 @@
 <?php
-namespace MiradorViewer\Form;
+namespace Mirador\Form;
 
 use Zend\Form\Element;
 use Zend\Form\Fieldset;
@@ -17,69 +17,69 @@ class SiteSettingsFieldset extends Fieldset
         $this->setLabel('Mirador Viewer'); // @translate
 
         $this->add([
-            'name' => 'miradorviewer_append_item_set_show',
+            'name' => 'mirador_append_item_set_show',
             'type' => Element\Checkbox::class,
             'options' => [
                 'label' => 'Append automatically to item set page', // @translate
                 'info' => 'If unchecked, the viewer can be added via the helper in the theme or the block in any page.', // @translate
             ],
             'attributes' => [
-                'id' => 'miradorviewer_append_item_set_show',
+                'id' => 'mirador_append_item_set_show',
             ],
         ]);
 
         $this->add([
-            'name' => 'miradorviewer_append_item_show',
+            'name' => 'mirador_append_item_show',
             'type' => Element\Checkbox::class,
             'options' => [
                 'label' => 'Append automatically to item page', // @translate
                 'info' => 'If unchecked, the viewer can be added via the helper in the theme or the block in any page.', // @translate
             ],
             'attributes' => [
-                'id' => 'miradorviewer_append_item_show',
+                'id' => 'mirador_append_item_show',
             ],
         ]);
 
         $this->add([
-            'name' => 'miradorviewer_append_item_set_browse',
+            'name' => 'mirador_append_item_set_browse',
             'type' => Element\Checkbox::class,
             'options' => [
                 'label' => 'Append automatically to item sets browse page', // @translate
                 'info' => 'If unchecked, the viewer can be added via the helper in the theme or the block in any page.', // @translate
             ],
             'attributes' => [
-                'id' => 'miradorviewer_append_item_set_browse',
+                'id' => 'mirador_append_item_set_browse',
                 'disabled' => !$iiifServerIsActive,
             ],
         ]);
 
         $this->add([
-            'name' => 'miradorviewer_append_item_browse',
+            'name' => 'mirador_append_item_browse',
             'type' => Element\Checkbox::class,
             'options' => [
                 'label' => 'Append automatically to item browse page', // @translate
                 'info' => 'If unchecked, the viewer can be added via the helper in the theme or the block in any page.', // @translate
             ],
             'attributes' => [
-                'id' => 'miradorviewer_append_item_browse',
+                'id' => 'mirador_append_item_browse',
                 'disabled' => !$iiifServerIsActive,
             ],
         ]);
 
         $this->add([
-            'name' => 'miradorviewer_class',
+            'name' => 'mirador_class',
             'type' => Element\Text::class,
             'options' => [
                 'label' => 'Class of main div', // @translate
                 'info' => 'Class to add to the main div.',  // @translate
             ],
             'attributes' => [
-                'id' => 'miradorviewer_class',
+                'id' => 'mirador_class',
             ],
         ]);
 
         $this->add([
-            'name' => 'miradorviewer_style',
+            'name' => 'mirador_style',
             'type' => Element\Text::class,
             'options' => [
                 'label' => 'Inline style', // @translate
@@ -87,18 +87,18 @@ class SiteSettingsFieldset extends Fieldset
                 . ' ' . 'The display and height may be required.', // @translate
             ],
             'attributes' => [
-                'id' => 'miradorviewer_style',
+                'id' => 'mirador_style',
             ],
         ]);
 
         $this->add([
-            'name' => 'miradorviewer_locale',
+            'name' => 'mirador_locale',
             'type' => Element\Text::class,
             'options' => [
                 'label' => 'Locale of the viewer', // @translate
             ],
             'attributes' => [
-                'id' => 'miradorviewer_locale',
+                'id' => 'mirador_locale',
             ],
         ]);
     }

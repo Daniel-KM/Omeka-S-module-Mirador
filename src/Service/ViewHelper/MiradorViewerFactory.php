@@ -1,25 +1,25 @@
 <?php
 
-namespace MiradorViewer\Service\ViewHelper;
+namespace Mirador\Service\ViewHelper;
 
 use Interop\Container\ContainerInterface;
-use MiradorViewer\View\Helper\MiradorViewer;
+use Mirador\View\Helper\Mirador;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Service factory for the MiradorViewer view helper.
+ * Service factory for the Mirador view helper.
  */
-class MiradorViewerFactory implements FactoryInterface
+class MiradorFactory implements FactoryInterface
 {
     /**
-     * Create and return the MiradorViewer view helper
+     * Create and return the Mirador view helper
      *
-     * @return MiradorViewer
+     * @return Mirador
      */
     public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
         $currentTheme = $serviceLocator->get('Omeka\Site\ThemeManager')
             ->getCurrentTheme();
-        return new MiradorViewer($currentTheme);
+        return new Mirador($currentTheme);
     }
 }
