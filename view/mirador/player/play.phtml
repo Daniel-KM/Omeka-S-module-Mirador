@@ -1,4 +1,9 @@
 <?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ */
+
 $this->htmlElement('body')->appendAttribute('class', 'mirador play');
 $title = $resource->displayTitle();
 $creator = $resource->value('dcterms:creator', ['type' => 'literal']);
@@ -8,4 +13,5 @@ if ($creator) {
 
 echo $this->pageTitle($title);
 ?>
+
 <?php echo $this->mirador($resource); ?>

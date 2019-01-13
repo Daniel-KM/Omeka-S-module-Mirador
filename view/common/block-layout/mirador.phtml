@@ -1,4 +1,9 @@
 <?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteBlockAttachmentRepresentation[] $attachments
+ */
+
 $resources = [];
 foreach ($attachments as $attachment) {
     $item = $attachment->item();

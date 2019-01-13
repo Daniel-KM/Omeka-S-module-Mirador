@@ -59,7 +59,9 @@ Only one option can be set in the main config (the manifest property, if any).
 The other can be set differently for each site, in the site settings:
 
 - in site settings for the integration of the player;
-- via the theme of the site (asset/vendor/mirador).
+- via the theme of the site: copy file `view/common/helper/mirador.phtml` in
+  your theme and customize it;
+- via the theme of the site and the assets (`asset/vendor/mirador).
 
 See below the notes for more info.
 
