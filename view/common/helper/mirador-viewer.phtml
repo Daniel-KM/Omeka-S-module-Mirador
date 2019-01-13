@@ -1,8 +1,6 @@
 <div id="<?= $config['id'] ?>" style="<?= $style ?>" class="<?= $class ?>" allowfullscreen="allowfullscreen"></div>
 <script type="text/javascript">
     $(function() {
-        var MiradorViewer = Mirador(<?= json_encode($config) ?>);
-window.MiradorViewer = MiradorViewer;
-console.log(MiradorViewer);
+        Mirador(<?= json_encode($config) ?>);
     });
 </script>
