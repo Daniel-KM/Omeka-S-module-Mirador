@@ -45,8 +45,8 @@ class MiradorViewer extends AbstractHelper
      */
     protected $defaultOptions = [
         'class' => '',
-        'style' => 'background-color: #000; height: 600px',
-        'locale' => 'en-GB:English (GB),fr:French',
+        'style' => 'display: block; width: 90%; height: 600px; margin: 1em 5%; position: relative;',
+        'locale' => 'en',
     ];
 
     /**
@@ -65,7 +65,7 @@ class MiradorViewer extends AbstractHelper
     }
 
     /**
-     * Get the Universal Viewer for the provided resource.
+     * Get the Mirador Viewer for the provided resource.
      *
      * Proxies to {@link render()}.
      *
@@ -156,7 +156,7 @@ class MiradorViewer extends AbstractHelper
         );
         $urlManifest = $view->iiifForceBaseUrlIfRequired($urlManifest);
 
-        return $this->render($urlManifest, $options);
+        return $this->render($urlManifest, $resourceName, $options);
     }
 
     /**
@@ -195,7 +195,7 @@ class MiradorViewer extends AbstractHelper
      * @param array $options
      * @return string
      */
-    protected function render($urlManifest, $options = [])
+    protected function render($urlManifest, $resourceName, $options = [])
     {
         $view = $this->view;
 
@@ -215,54 +215,43 @@ class MiradorViewer extends AbstractHelper
         $style = isset($options['style'])
             ? $options['style']
             : $view->siteSetting('miradorviewer_style', $this->defaultOptions['style']);
-        if (!empty($style)) {
-            $style = ' style="' . $style . '"';
-        }
 
         $locale = isset($options['locale'])
             ? $options['locale']
             : $view->siteSetting('miradorviewer_locale', $this->defaultOptions['locale']);
-        if (!empty($locale)) {
-            $locale = ' data-locale="' . $locale . '"';
-        }
 
-        $view->headScript()->appendFile(
-            $view->assetUrl('vendor/uv/lib/embed.js', 'MiradorViewer', false, false),
-            'application/javascript',
-            ['id' => 'embedUV']
-        );
-        //<link rel="stylesheet" type="text/css" href="build/mirador/css/mirador-combined.css">
-        //<script src="build/mirador/mirador.js"></script>
-
-
-//        $html = sprintf(
-//            '<div class="uv%s" data-config="%s" data-uri="%s"%s%s></div>',
-//            $class,
-//            $config,
-//            $urlManifest,
-//            $locale,
-//            $style
-//        );
-//        $view->headScript()->appendFile(
-//            $view->assetUrl('vendor/uv/lib/embed.js', 'MiradorViewer', false, false),
-//            'application/javascript',
-//            ['id' => 'embedUV']
-//        );
-//        $view->headScript()->appendScript('/* wordpress fix */', 'application/javascript');
+        $view->headScript()->appendFile($view->assetUrl('mirador/mirador.min.js', 'MiradorViewer'));
+        $view->headLink()->prependStylesheet($view->assetUrl('mirador/css/mirador-combined.min.css', 'MiradorViewer'));
 
         $config = [
             'id' => "miradorviewer",
-            'data' => [
-
-            ],
+            'buildPath' => $view->assetUrl('mirador/', 'MiradorViewer', false, false),
+            'language' => $locale,
         ];
+
+        switch($resourceName) {
+            case 'items' :
+                $config += [
+                    'data' => [[
+                        'manifestUri' => $urlManifest,
+                        //'location' => "My Repository",
+                    ]],
+                    'windowObjects' => [['loadedManifest' => $urlManifest]]
+                ];
+                break;
+            case 'item_sets' :
+                $config += [
+                    'data' => [['collectionUri' => $urlManifest]],
+                    'openManifestsPage' => true,
+                ];
+                break;
+        }
 
         return $view->partial('common/helper/mirador-viewer', [
             'class' => $class,
+            'style' => $style,
             'config' => $config,
         ]);
-
-        return $html;
     }
 
     /**

@@ -1,6 +1,2 @@
-/build
-/node_modules
+/asset
 /vendor
-.DS_Store
-.php_cs.cache
-debug.log

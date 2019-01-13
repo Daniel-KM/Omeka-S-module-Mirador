@@ -14,7 +14,7 @@ class SiteSettingsFieldset extends Fieldset
         // The module iiif server is required to display collections of items.
         $iiifServerIsActive = $this->getIiifServerIsActive();
 
-        $this->setLabel('Universal Viewer'); // @translate
+        $this->setLabel('Mirador Viewer'); // @translate
 
         $this->add([
             'name' => 'miradorviewer_append_item_set_show',
@@ -83,8 +83,8 @@ class SiteSettingsFieldset extends Fieldset
             'type' => Element\Text::class,
             'options' => [
                 'label' => 'Inline style', // @translate
-                'info' => 'If any, this style will be added to the main div of the Universal Viewer.' // @translate
-                . ' ' . 'The height may be required.', // @translate
+                'info' => 'If any, this style will be added to the main div of the Mirador Viewer.' // @translate
+                . ' ' . 'The display and height may be required.', // @translate
             ],
             'attributes' => [
                 'id' => 'miradorviewer_style',
@@ -95,8 +95,7 @@ class SiteSettingsFieldset extends Fieldset
             'name' => 'miradorviewer_locale',
             'type' => Element\Text::class,
             'options' => [
-                'label' => 'Locales of the viewer', // @translate
-                'info' => 'Currently not working', // @translate
+                'label' => 'Locale of the viewer', // @translate
             ],
             'attributes' => [
                 'id' => 'miradorviewer_locale',

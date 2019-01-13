@@ -59,7 +59,7 @@ class Module extends AbstractModule
 
     public function install(ServiceLocatorInterface $serviceLocator)
     {
-        $js = __DIR__ . '/vendor/asset/mirador/mirador/mirador.js';
+        $js = __DIR__ . '/asset/mirador/mirador.min.js';
         if (!file_exists($js)) {
             $t = $serviceLocator->get('MvcTranslator');
             throw new ModuleCannotInstallException(
@@ -152,7 +152,7 @@ class Module extends AbstractModule
         $html .= $this->iiifServerIsActive()
             ? $view->translate('The IIIF Server is active, so when no url is set, the viewer will use the standard routes.') // @translate
             : ($view->translate('The IIIF Server is not active, so when no url is set, the viewer won’t be displayed.') // @translate
-                . ' ' . $view->translate('Furthermore, the Universal Viewer can’t display lists of items.')); // @translate
+                . ' ' . $view->translate('Furthermore, the Mirador Viewer can’t display lists of items.')); // @translate
         $html .= '</p>';
         $html .= '<p>'
             . $view->translate('The viewer itself can be configured in settings of each site, via the file "config.json" and the helper.') // @translate
@@ -209,11 +209,11 @@ class Module extends AbstractModule
     public function handleSiteSettingsFilters(Event $event)
     {
         $inputFilter = $event->getParam('inputFilter');
-        $inputFilter->get('MiradorViewer')->add([
+        $inputFilter->get('miradorviewer')->add([
             'name' => 'miradorviewer_append_item_set_browse',
             'required' => false,
         ]);
-        $inputFilter->get('MiradorViewer')->add([
+        $inputFilter->get('miradorviewer')->add([
             'name' => 'miradorviewer_append_item_browse',
             'required' => false,
         ]);
@@ -247,16 +247,16 @@ class Module extends AbstractModule
         $siteSettings = $services->get('Omeka\Settings\Site');
         if ($siteSettings->get(
             'miradorviewer_append_item_set_show',
-            $config['MiradorViewer']['site_settings']['miradorviewer_append_item_set_show']
+            $config['miradorviewer']['site_settings']['miradorviewer_append_item_set_show']
         )) {
-            echo $view->MiradorViewer($view->itemSet);
+            echo $view->miradorViewer($view->itemSet);
         } elseif ($this->iiifServerIsActive()
             && $siteSettings->get(
                 'miradorviewer_append_item_browse',
-                $config['MiradorViewer']['site_settings']['miradorviewer_append_item_browse']
+                $config['miradorviewer']['site_settings']['miradorviewer_append_item_browse']
             )
         ) {
-            echo $view->MiradorViewer($view->items);
+            echo $view->miradorViewer($view->items);
         }
     }
 
@@ -272,9 +272,9 @@ class Module extends AbstractModule
         $siteSettings = $services->get('Omeka\Settings\Site');
         if ($siteSettings->get(
             'miradorviewer_append_item_set_browse',
-            $config['MiradorViewer']['site_settings']['miradorviewer_append_item_set_browse']
+            $config['miradorviewer']['site_settings']['miradorviewer_append_item_set_browse']
         )) {
-            echo $view->MiradorViewer($view->itemSets);
+            echo $view->miradorViewer($view->itemSets);
         }
     }
 
@@ -286,9 +286,9 @@ class Module extends AbstractModule
         $siteSettings = $services->get('Omeka\Settings\Site');
         if ($siteSettings->get(
             'miradorviewer_append_item_show',
-            $config['MiradorViewer']['site_settings']['miradorviewer_append_item_show']
+            $config['miradorviewer']['site_settings']['miradorviewer_append_item_show']
         )) {
-            echo $view->MiradorViewer($view->item);
+            echo $view->miradorViewer($view->item);
         }
     }
 

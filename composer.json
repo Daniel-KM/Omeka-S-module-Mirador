@@ -14,6 +14,22 @@
   ],
 
   "require": {
+    "slowprog/composer-copy-file": "~0.3",
     "asset/mirador": "*"
+  },
+
+  "scripts": {
+    "post-install-cmd": [
+      "SlowProg\\CopyFile\\ScriptHandler::copy"
+    ],
+    "post-update-cmd": [
+      "SlowProg\\CopyFile\\ScriptHandler::copy"
+    ]
+  },
+
+  "extra": {
+    "copy-file": {
+      "vendor/asset/mirador/mirador/": "asset/mirador/"
+    }
   }
 }

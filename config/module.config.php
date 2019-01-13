@@ -88,8 +88,8 @@ return [
             'miradorviewer_append_item_set_browse' => false,
             'miradorviewer_append_item_browse' => false,
             'miradorviewer_class' => '',
-            'miradorviewer_style' => 'background-color: #000; height: 600px;',
-            'miradorviewer_locale' => 'en-GB:English (GB),fr:French',
+            'miradorviewer_style' => 'display: block; width: 90%; height: 600px; margin: 1em 5%; position: relative;',
+            'miradorviewer_locale' => 'en',
         ],
     ],
 ];
