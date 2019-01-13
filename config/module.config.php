@@ -35,7 +35,7 @@ return [
             'mirador_player' => [
                 'type' => \Zend\Router\Http\Segment::class,
                 'options' => [
-                    'route' => '/:resourcename/:id/play-mirador',
+                    'route' => '/:resourcename/:id/mirador',
                     'constraints' => [
                         'resourcename' => 'item|item\-set',
                         'id' => '\d+',
@@ -47,25 +47,6 @@ return [
                     ],
                 ],
             ],
-
-            // If really needed, the next route may be uncommented to keep
-            // compatibility with the old schemes used by the plugin for Omeka 2
-            // before the version 2.4.2.
-            // 'mirador_player_classic' => [
-            //     'type' => 'segment',
-            //     'options' => [
-            //         'route' => '/:resourcename/play/:id',
-            //         'constraints' => [
-            //             'resourcename' => 'item|items|item\-set|item_set|collection|item\-sets|item_sets|collections',
-            //             'id' => '\d+',
-            //         ],
-            //         'defaults' => [
-            //             '__NAMESPACE__' => 'Mirador\Controller',
-            //             'controller' => 'Player',
-            //             'action' => 'play',
-            //         ],
-            //     ],
-            // ],
         ],
     ],
     'translator' => [

@@ -29,7 +29,7 @@
 
   "extra": {
     "copy-file": {
-      "vendor/asset/mirador/mirador/": "asset/mirador/"
+      "vendor/asset/mirador/mirador/": "asset/vendor/mirador/"
     }
   }
 }

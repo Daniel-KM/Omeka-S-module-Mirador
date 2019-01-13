@@ -14,10 +14,11 @@ class ConfigForm extends Form
             'options' => [
                 'label' => 'Manifest property', // @translate
                 'info' => 'The property supplying the manifest URL for the viewer, for example "dcterms:hasFormat".', // @translate
-                'empty_option' => 'Select a property…', // @translate
+                'empty_option' => '',
                 'term_as_value' => true,
             ],
             'attributes' => [
+                'id' => 'mirador_manifest_property',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a property…', // @translate
             ],
