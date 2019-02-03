@@ -174,17 +174,17 @@ class Mirador extends AbstractHelper
                 ? $view->siteSetting('locale')
                 : $view->setting('locale'));
 
-        switch($resourceName) {
-            case 'items' :
+        switch ($resourceName) {
+            case 'items':
                 $config += [
                     'data' => [[
                         'manifestUri' => $urlManifest,
                         //'location' => "My Repository",
                     ]],
-                    'windowObjects' => [['loadedManifest' => $urlManifest]]
+                    'windowObjects' => [['loadedManifest' => $urlManifest]],
                 ];
                 break;
-            case 'item_sets' :
+            case 'item_sets':
             case 'multiple':
                 $config += [
                     'data' => [['collectionUri' => $urlManifest]],
