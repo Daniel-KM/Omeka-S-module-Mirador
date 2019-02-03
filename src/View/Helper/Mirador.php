@@ -9,19 +9,6 @@ use Zend\View\Helper\AbstractHelper;
 class Mirador extends AbstractHelper
 {
     /**
-     * These options are used only when the player is called outside of a site
-     * or when the site settings are not set. They can be bypassed by options
-     * passed to the helper.
-     *
-     * @var array
-     */
-    protected $defaultOptions = [
-        'class' => '',
-        'style' => 'display: block; width: 90%; height: 600px; margin: 1em 5%; position: relative;',
-        'locale' => 'en',
-    ];
-
-    /**
      * @var Theme The current theme, if any
      */
     protected $currentTheme;
@@ -42,12 +29,8 @@ class Mirador extends AbstractHelper
      * Proxies to {@link render()}.
      *
      * @param AbstractResourceEntityRepresentation|AbstractResourceEntityRepresentation[] $resource
-     * @param array $options Associative array of optional values:
-     *   - (string) class
-     *   - (string) locale
-     *   - (string) style
-     *   - (string) config
-     * @return string. The html string corresponding to the Mirador.
+     * @param array $options
+     * @return string Html string corresponding to the viewer.
      */
     public function __invoke($resource, $options = [])
     {
@@ -170,28 +153,9 @@ class Mirador extends AbstractHelper
      */
     protected function render($urlManifest, array $options = [], $resourceName = null)
     {
+        static $id = 0;
+
         $view = $this->view;
-
-        // Check site, because site settings aren’t available outside of a site.
-        $isSite = $view->params()->fromRoute('__SITE__');
-        if (empty($isSite)) {
-            $options += $this->defaultOptions;
-        }
-
-        $class = isset($options['class'])
-            ? $options['class']
-            : $view->siteSetting('mirador_class', $this->defaultOptions['class']);
-        if (!empty($class)) {
-            $class = ' ' . $class;
-        }
-
-        $style = isset($options['style'])
-            ? $options['style']
-            : $view->siteSetting('mirador_style', $this->defaultOptions['style']);
-
-        $locale = isset($options['locale'])
-            ? $options['locale']
-            : $view->siteSetting('mirador_locale', $this->defaultOptions['locale']);
 
         $view->headLink()
             ->appendStylesheet($view->assetUrl('vendor/mirador/css/mirador-combined.min.css', 'Mirador'))
@@ -200,10 +164,15 @@ class Mirador extends AbstractHelper
             ->appendFile($view->assetUrl('vendor/mirador/mirador.min.js', 'Mirador'));
 
         $config = [
-            'id' => "mirador",
+            'id' => 'mirador-' . ++$id,
             'buildPath' => $view->assetUrl('vendor/mirador/', 'Mirador', false, false),
-            'language' => $locale,
         ];
+
+        $config['locale'] = $view->identity()
+            ? $view->userSetting('locale')
+            : ($view->params()->fromRoute('__SITE__')
+                ? $view->siteSetting('locale')
+                : $view->setting('locale'));
 
         switch($resourceName) {
             case 'items' :
@@ -224,9 +193,9 @@ class Mirador extends AbstractHelper
                 break;
         }
 
+        $config += $options;
+
         return $view->partial('common/helper/mirador', [
-            'class' => $class,
-            'style' => $style,
             'config' => $config,
         ]);
     }

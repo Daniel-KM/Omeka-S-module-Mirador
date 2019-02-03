@@ -1,5 +1,12 @@
 /* Mirador custom and fixes for common Omeka themes */
 @media screen {
+    .mirador {
+        display: block;
+        width: 90%;
+        height: 600px;
+        margin: 1em 5%;
+        position: relative;
+    }
     body .mirador-container {
         font-size: initial;
         line-height: initial;

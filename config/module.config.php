@@ -68,9 +68,6 @@ return [
             'mirador_append_item_show' => true,
             'mirador_append_item_set_browse' => false,
             'mirador_append_item_browse' => false,
-            'mirador_class' => '',
-            'mirador_style' => 'display: block; width: 90%; height: 600px; margin: 1em 5%; position: relative;',
-            'mirador_locale' => 'en',
         ],
     ],
 ];

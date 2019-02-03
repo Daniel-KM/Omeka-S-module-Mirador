@@ -77,6 +77,11 @@ class Module extends AbstractModule
         }
     }
 
+    public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
+    {
+        require_once 'data/scripts/upgrade.php';
+    }
+
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
         $sharedEventManager->attach(
