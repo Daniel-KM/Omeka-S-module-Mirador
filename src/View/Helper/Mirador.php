@@ -41,7 +41,7 @@ class Mirador extends AbstractHelper
      *
      * Proxies to {@link render()}.
      *
-     * @param AbstractResourceEntityRepresentation|array $resource
+     * @param AbstractResourceEntityRepresentation|AbstractResourceEntityRepresentation[] $resource
      * @param array $options Associative array of optional values:
      *   - (string) class
      *   - (string) locale
@@ -75,7 +75,7 @@ class Mirador extends AbstractHelper
                 ['force_canonical' => true]
             );
             $urlManifest = $view->iiifForceBaseUrlIfRequired($urlManifest);
-            return $this->render($urlManifest, $options);
+            return $this->render($urlManifest, $options, 'multiple');
         }
 
         // Prepare the url for the manifest of a record after additional checks.
@@ -92,7 +92,7 @@ class Mirador extends AbstractHelper
             if ($urlManifest) {
                 // Manage the case where the url is saved as an uri or a text.
                 $urlManifest = $urlManifest->uri() ?: $urlManifest->value();
-                return $this->render($urlManifest, $options);
+                return $this->render($urlManifest, $options, $resourceName);
             }
         }
 
@@ -128,7 +128,7 @@ class Mirador extends AbstractHelper
         );
         $urlManifest = $view->iiifForceBaseUrlIfRequired($urlManifest);
 
-        return $this->render($urlManifest, $resourceName, $options);
+        return $this->render($urlManifest, $options, $resourceName);
     }
 
     /**
@@ -165,9 +165,10 @@ class Mirador extends AbstractHelper
      *
      * @param string $urlManifest
      * @param array $options
-     * @return string
+     * @param string $resourceName
+     * @return string Html code.
      */
-    protected function render($urlManifest, $resourceName, $options = [])
+    protected function render($urlManifest, array $options = [], $resourceName = null)
     {
         $view = $this->view;
 
@@ -215,6 +216,7 @@ class Mirador extends AbstractHelper
                 ];
                 break;
             case 'item_sets' :
+            case 'multiple':
                 $config += [
                     'data' => [['collectionUri' => $urlManifest]],
                     'openManifestsPage' => true,
