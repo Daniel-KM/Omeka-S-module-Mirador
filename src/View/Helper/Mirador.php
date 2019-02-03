@@ -195,7 +195,8 @@ class Mirador extends AbstractHelper
         $view->headLink()
             ->appendStylesheet($view->assetUrl('vendor/mirador/css/mirador-combined.min.css', 'Mirador'))
             ->appendStylesheet($view->assetUrl('css/mirador.css', 'Mirador'));
-        $view->headScript()->appendFile($view->assetUrl('vendor/mirador/mirador.min.js', 'Mirador'));
+        $view->headScript()
+            ->appendFile($view->assetUrl('vendor/mirador/mirador.min.js', 'Mirador'));
 
         $config = [
             'id' => "mirador",

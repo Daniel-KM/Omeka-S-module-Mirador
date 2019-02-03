@@ -7,11 +7,16 @@
  *
  * @link https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
  */
+
+$configJson = json_encode($config, 320);
+$script = <<<JS
+$(document).ready(function() {
+    $(function() {
+        Mirador($configJson);
+    });
+});
+JS;
+$this->headScript()->appendScript($script);
 ?>
 
 <div id="<?= $config['id'] ?>" style="<?= $style ?>" class="<?= $class ?>" allowfullscreen="allowfullscreen"></div>
-<script type="text/javascript">
-    $(function() {
-        Mirador(<?= json_encode($config) ?>);
-    });
-</script>

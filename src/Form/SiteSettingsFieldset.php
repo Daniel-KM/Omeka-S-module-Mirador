@@ -6,8 +6,10 @@ use Zend\Form\Fieldset;
 
 class SiteSettingsFieldset extends Fieldset
 {
-    /** @var bool */
-    public $iiifServerIsActive;
+    /**
+     * @var bool
+     */
+    protected $iiifServerIsActive;
 
     public function init()
     {
