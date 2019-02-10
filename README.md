@@ -136,6 +136,22 @@ To embed Mirador somewhere else, just use the helper:
 ```
 
 
+List of images in fullscreen
+----------------------------
+
+The standard Mirador doesn’t allow to have the bottom sidebar (list of images)
+in fullscreen, so it’s hard to browse. It’s not a bug, it’s a  [feature].
+To fix it without patching and recompilation, just run this replacement command
+from the root of the module:
+
+```sh
+rpl 'toggleFullScreen:function(){OpenSeadragon.isFullScreen()?(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-expand").addClass("fa-compress"),this.element.find(".mirador-osd-toggle-bottom-panel").hide(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!1)):(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-compress").addClass("fa-expand"),this.element.find(".mirador-osd-toggle-bottom-panel").show(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!0))},' 'toggleFullScreen:function(){OpenSeadragon.isFullScreen()?(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-expand").addClass("fa-compress")/*,this.element.find(".mirador-osd-toggle-bottom-panel").hide(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!1)*/):(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-compress").addClass("fa-expand")/*,this.element.find(".mirador-osd-toggle-bottom-panel").show(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!0)*/)},' asset/vendor/mirador/mirador.min.js
+```
+
+If wanted, you can fix this feature in the Mirador 2.7.0 source file too:
+comment lines 42779, 42780, 42783, and 42784.
+
+
 Warning
 -------
 
@@ -208,6 +224,7 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [api]: https://github.com/ProjectMirador/mirador/wiki/Complete-Configuration-API
 [tutorial]: http://projectmirador.org/docs/docs/getting-started.html
 [Zen mode]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides#zen-mode
+[feature]: https://github.com/ProjectMirador/mirador/pull/1235
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-Mirador/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
