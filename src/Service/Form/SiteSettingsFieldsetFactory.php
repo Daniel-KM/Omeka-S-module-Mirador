@@ -13,8 +13,11 @@ class SiteSettingsFieldsetFactory implements FactoryInterface
         $module = $moduleManager->getModule('IiifServer');
         $iiifServerIsActive = $module && $module->getState() == \Omeka\Module\Manager::STATE_ACTIVE;
 
+        $plugins = require_once dirname(dirname(dirname(__DIR__))) . '/data/plugins/plugins.php';
+
         $form = new SiteSettingsFieldset(null, $options);
-        $form->setIiifServerIsActive($iiifServerIsActive);
-        return $form;
+        return $form
+            ->setIiifServerIsActive($iiifServerIsActive)
+            ->setPlugins($plugins);
     }
 }

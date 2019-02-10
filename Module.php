@@ -2,11 +2,12 @@
 
 namespace Mirador;
 
+use Mirador\Form\ConfigForm;
+use Mirador\Form\SiteSettingsFieldset;
 use Omeka\Module\AbstractModule;
 use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Module\Manager as ModuleManager;
-use Mirador\Form\ConfigForm;
-use Mirador\Form\SiteSettingsFieldset;
+use Omeka\Settings\SettingsInterface;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\Controller\AbstractController;
@@ -31,6 +32,8 @@ class Module extends AbstractModule
 
     public function install(ServiceLocatorInterface $serviceLocator)
     {
+        $this->setServiceLocator($serviceLocator);
+
         $js = __DIR__ . '/asset/vendor/mirador/mirador.min.js';
         if (!file_exists($js)) {
             $t = $serviceLocator->get('MvcTranslator');
@@ -40,20 +43,40 @@ class Module extends AbstractModule
             );
         }
 
-        $this->manageSettings($serviceLocator->get('Omeka\Settings'), 'install');
-        $this->manageSiteSettings($serviceLocator, 'install');
+        $this->manageAnySettings($serviceLocator->get('Omeka\Settings'), 'config', 'install');
+        $this->manageSiteSettings('install');
     }
 
     public function uninstall(ServiceLocatorInterface $serviceLocator)
     {
-        $this->manageSettings($serviceLocator->get('Omeka\Settings'), 'uninstall');
-        $this->manageSiteSettings($serviceLocator, 'uninstall');
+        $this->setServiceLocator($serviceLocator);
+        $this->manageAnySettings($serviceLocator->get('Omeka\Settings'), 'config', 'uninstall');
+        $this->manageSiteSettings('uninstall');
     }
 
-    protected function manageSettings($settings, $process, $key = 'config')
+    protected function manageSiteSettings($process)
+    {
+        $services = $this->getServiceLocator();
+        $settings = $services->get('Omeka\Settings\Site');
+        $api = $services->get('Omeka\ApiManager');
+        $sites = $api->search('sites')->getContent();
+        foreach ($sites as $site) {
+            $settings->setTargetId($site->id());
+            $this->manageAnySettings($settings, 'site_settings', $process);
+        }
+    }
+
+    /**
+     * Set or delete all settings of a specific type.
+     *
+     * @param SettingsInterface $settings
+     * @param string $settingsType
+     * @param string $process
+     */
+    protected function manageAnySettings(SettingsInterface $settings, $settingsType, $process)
     {
         $config = require __DIR__ . '/config/module.config.php';
-        $defaultSettings = $config[strtolower(__NAMESPACE__)][$key];
+        $defaultSettings = $config[strtolower(__NAMESPACE__)][$settingsType];
         foreach ($defaultSettings as $name => $value) {
             switch ($process) {
                 case 'install':
@@ -63,17 +86,6 @@ class Module extends AbstractModule
                     $settings->delete($name);
                     break;
             }
-        }
-    }
-
-    protected function manageSiteSettings(ServiceLocatorInterface $serviceLocator, $process)
-    {
-        $siteSettings = $serviceLocator->get('Omeka\Settings\Site');
-        $api = $serviceLocator->get('Omeka\ApiManager');
-        $sites = $api->search('sites')->getContent();
-        foreach ($sites as $site) {
-            $siteSettings->setTargetId($site->id());
-            $this->manageSettings($siteSettings, $process, 'site_settings');
         }
     }
 
@@ -117,12 +129,9 @@ class Module extends AbstractModule
     public function getConfigForm(PhpRenderer $renderer)
     {
         $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $settings = $services->get('Omeka\Settings');
-        $form = $services->get('FormElementManager')->get(ConfigForm::class);
 
-        $defaultSettings = $config[strtolower(__NAMESPACE__)]['config'];
-        $data = $this->prepareDataToPopulate($settings, $defaultSettings);
+        $settings = $services->get('Omeka\Settings');
+        $data = $this->prepareDataToPopulate($settings, 'config');
 
         $view = $renderer;
         $html = '<p>';
@@ -135,6 +144,7 @@ class Module extends AbstractModule
             . $view->translate('The viewer itself can be basically configured in settings of each site, or in the theme.') // @translate
             . '</p>';
 
+        $form = $services->get('FormElementManager')->get(ConfigForm::class);
         $form->init();
         $form->setData($data);
         $html .= $renderer->formCollection($form);
@@ -143,13 +153,14 @@ class Module extends AbstractModule
 
     public function handleConfigForm(AbstractController $controller)
     {
+        $config = include __DIR__ . '/config/module.config.php';
+        $space = strtolower(__NAMESPACE__);
+
         $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $settings = $services->get('Omeka\Settings');
-        $form = $services->get('FormElementManager')->get(ConfigForm::class);
 
         $params = $controller->getRequest()->getPost();
 
+        $form = $services->get('FormElementManager')->get(ConfigForm::class);
         $form->init();
         $form->setData($params);
         if (!$form->isValid()) {
@@ -158,27 +169,31 @@ class Module extends AbstractModule
         }
 
         $params = $form->getData();
-        $defaultSettings = $config[strtolower(__NAMESPACE__)]['config'];
+
+        $settings = $services->get('Omeka\Settings');
+        $defaultSettings = $config[$space]['config'];
         $params = array_intersect_key($params, $defaultSettings);
         foreach ($params as $name => $value) {
             $settings->set($name, $value);
         }
+        return true;
     }
 
     public function handleSiteSettings(Event $event)
     {
         $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $settings = $services->get('Omeka\Settings\Site');
-        $space = strtolower(__NAMESPACE__);
-        $form = $event->getTarget();
-        $fieldset = $services->get('FormElementManager')->get(SiteSettingsFieldset::class);
 
         // The module iiif server is required to display collections of items.
 
-        $data = $this->prepareDataToPopulate($settings, $config[$space]['site_settings']);
+        $settingType = 'site_settings';
+        $settings = $services->get('Omeka\Settings\Site');
+        $data = $this->prepareDataToPopulate($settings, $settingType);
 
+        $space = strtolower(__NAMESPACE__);
+
+        $fieldset = $services->get('FormElementManager')->get(SiteSettingsFieldset::class);
         $fieldset->setName($space);
+        $form = $event->getTarget();
         $form->add($fieldset);
         $form->get($space)->populateValues($data);
     }
@@ -186,32 +201,47 @@ class Module extends AbstractModule
     public function handleSiteSettingsFilters(Event $event)
     {
         $inputFilter = $event->getParam('inputFilter');
-        $inputFilter->get('mirador')->add([
+        $miradorFilter = $inputFilter->get('mirador');
+        $miradorFilter->add([
             'name' => 'mirador_append_item_set_browse',
             'required' => false,
         ]);
-        $inputFilter->get('mirador')->add([
+        $miradorFilter->add([
             'name' => 'mirador_append_item_browse',
+            'required' => false,
+        ]);
+        $miradorFilter->add([
+            'name' => 'mirador_plugins',
             'required' => false,
         ]);
     }
 
     /**
+     * Prepare data for a form or a fieldset.
+     *
+     * To be overridden by module for specific keys.
+     *
      * @todo Use form methods to populate.
-     * @param \Omeka\Settings\SettingsInterface $settings
-     * @param array$defaultSettings
+     * @param SettingsInterface $settings
+     * @param string $settingsType
      * @return array
      */
-    protected function prepareDataToPopulate(\Omeka\Settings\SettingsInterface $settings, array $defaultSettings)
+    protected function prepareDataToPopulate(SettingsInterface $settings, $settingsType)
     {
+        $config = include __DIR__ . '/config/module.config.php';
+        $space = strtolower(__NAMESPACE__);
+        if (empty($config[$space][$settingsType])) {
+            return;
+        }
+
+        $defaultSettings = $config[$space][$settingsType];
+
         $data = [];
         foreach ($defaultSettings as $name => $value) {
             $val = $settings->get($name, $value);
-            if (is_array($value)) {
-                $val = is_array($val) ? implode(PHP_EOL, $val) : $val;
-            }
             $data[$name] = $val;
         }
+
         return $data;
     }
 

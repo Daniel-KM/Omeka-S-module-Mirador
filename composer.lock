@@ -4,10 +4,76 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1b1ca5d379eb702c51f4005ba99d4d9",
+    "content-hash": "2be4eb3d2950de001b17762ef42d800a",
     "packages": [
         {
-            "name": "asset/mirador",
+            "name": "2sc1815j/mirador-dragndrop-link-plugin",
+            "version": "0.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/2SC1815J/mirador-dragndrop-link-plugin/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "archivelabs/mirador-crosslink-plugin",
+            "version": "0.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/ArchiveLabs/mirador-crosslink-plugin/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "dbmdz/mirador-plugins",
+            "version": "1.0.6",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/dbmdz/mirador-plugins/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "jazahn/mirador-metadata",
+            "version": "0.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/jazahn/mirador-metadata/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "jbhoward-dublin/mirador-plugins-ucd",
+            "version": "0.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/jbhoward-dublin/mirador-plugins-ucd/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "jeffreycwitt/mirador-ldn-plugin",
+            "version": "0.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/jeffreycwitt/mirador-ldn-plugin/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "mirador/mirador",
             "version": "2.7.0",
             "dist": {
                 "type": "zip",
@@ -64,6 +130,61 @@
                 "copy file"
             ],
             "time": "2019-01-10T05:06:10+00:00"
+        },
+        {
+            "name": "sul-dlss/mirador-jump-to-page",
+            "version": "0.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/sul-dlss/mirador-jump-to-page/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "ucla-library/mirador-disable-zoom",
+            "version": "0.1.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/UCLALibrary/mirador-disable-zoom/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "ucla-library/mirador-ruler",
+            "version": "0.1.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/UCLALibrary/mirador-ruler/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "ucla-library/mirador-share-workspace",
+            "version": "0.1.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/UCLALibrary/mirador-share-workspace/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "ucla-library/mirador-sync-windows",
+            "version": "0.1.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/UCLALibrary/mirador-sync-windows/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
         }
     ],
     "packages-dev": [],

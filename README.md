@@ -3,7 +3,7 @@ Mirador Viewer (module for Omeka S)
 
 [Mirador Viewer] is a module for [Omeka S] that integrates [Mirador], an
 advanced online viewer for images, so it can display books, images, maps, etc.
-via the [IIIF] standard.
+via the [IIIF] standard. Common plugins are included.
 
 [Mirador] is an open-source, web based, multi-window image viewing platform with
 the ability to zoom, display, compare and annotate images from around the world.
@@ -63,6 +63,7 @@ Only one option can be set in the main config (the manifest property, if any).
 
 The other ones can be set differently for each site:
 
+- in site settings via the plugin select. See [below](#plugins).
 - in site settings via a json object, that will be merged with the default
   config of the viewer, and with the options set directly in theme, if any.
 - via the theme of the site: copy file `view/common/helper/mirador.phtml` in
@@ -136,11 +137,35 @@ To embed Mirador somewhere else, just use the helper:
 ```
 
 
+### Plugins
+
+Plugins add small features to the Mirador viewer.
+
+Some plugins require json options to work. Some plugins may not work with the
+integrated version of Mirador. Cross compatibility and options has not been
+checked, so add them one by one and only the needed ones.
+
+- [Drag-n-drop link]
+- [Crosslink]
+- [DBMDZ]: Plugins of the Digital Library / Munich Digitization Centre at the Bavarian State Library
+- [Metadata]
+- [UCD]: Plugins of the University College Dublin
+- [LDN]
+- [Jump-to-page]
+- [Disable-zoom]
+- [Ruler]
+- [Share workspace]
+- [Sync windows]
+
+To add and manage a new plugin automatically, fill the file `data/plugins/plugins.php`
+and the file `view/common/helper/mirador-plugins.phtml`.
+
+
 List of images in fullscreen
 ----------------------------
 
 The standard Mirador doesn’t allow to have the bottom sidebar (list of images)
-in fullscreen, so it’s hard to browse. It’s not a bug, it’s a  [feature].
+in fullscreen, so it’s hard to browse. It’s not a bug, it’s a [feature].
 To fix it without patching and recompilation, just run this replacement command
 from the root of the module:
 
@@ -190,7 +215,7 @@ This Agreement may be freely reproduced and published, provided it is not
 altered, and that no provisions are either added or removed herefrom.
 
 [Mirador] is published under the [Apache 2] licence.
-
+Each Mirador plugin has a license. See each repository for more information.
 
 Copyright
 ---------
@@ -223,6 +248,17 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [wiki]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
 [api]: https://github.com/ProjectMirador/mirador/wiki/Complete-Configuration-API
 [tutorial]: http://projectmirador.org/docs/docs/getting-started.html
+[Drag-n-drop link]: https://github.com/2SC1815J/mirador-dragndrop-link-plugin
+[Crosslink]: https://github.com/ArchiveLabs/mirador-crosslink
+[dbmdz]: https://github.com/dbmdz/mirador-plugins
+[Metadata]: https://github.com/jazahn/mirador-metadata
+[ucd]: https://github.com/jbhoward-dublin/mirador-plugins-ucd
+[ldn]: https://github.com/jeffreycwitt/mirador-ldn-plugin
+[jump-to-page]: https://github.com/sul-dlss/mirador-jump-to-page
+[Disable-zoom]: https://github.com/UCLALibrary/mirador-disable-zoom
+[Ruler]: https://github.com/UCLALibrary/mirador-ruler
+[Share workspace]: https://github.com/UCLALibrary/mirador-share-workspace
+[Sync windows]: https://github.com/UCLALibrary/mirador-sync-windows
 [Zen mode]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides#zen-mode
 [feature]: https://github.com/ProjectMirador/mirador/pull/1235
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-Mirador/issues

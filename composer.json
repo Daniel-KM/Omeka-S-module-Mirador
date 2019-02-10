@@ -1,23 +1,156 @@
 {
+  "config": {
+    "vendor-dir": "vendor/asset"
+  },
   "repositories": [
     {
       "type": "package",
       "package": {
-        "name": "asset/mirador",
+        "name": "mirador/mirador",
         "version": "2.7.0",
         "dist": {
           "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.7.0/build.zip",
           "type": "zip"
         }
       }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "2sc1815j/mirador-dragndrop-link-plugin",
+        "version": "0.0.1",
+        "dist": {
+          "url": "https://github.com/2SC1815J/mirador-dragndrop-link-plugin/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "archivelabs/mirador-crosslink-plugin",
+        "version": "0.0.1",
+        "dist": {
+          "url": "https://github.com/ArchiveLabs/mirador-crosslink-plugin/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "dbmdz/mirador-plugins",
+        "version": "1.0.6",
+        "dist": {
+          "url": "https://github.com/dbmdz/mirador-plugins/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "jazahn/mirador-metadata",
+        "version": "0.0.1",
+        "dist": {
+          "url": "https://github.com/jazahn/mirador-metadata/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "jbhoward-dublin/mirador-plugins-ucd",
+        "version": "0.0.1",
+        "dist": {
+          "url": "https://github.com/jbhoward-dublin/mirador-plugins-ucd/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "jeffreycwitt/mirador-ldn-plugin",
+        "version": "0.0.1",
+        "dist": {
+          "url": "https://github.com/jeffreycwitt/mirador-ldn-plugin/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "sul-dlss/mirador-jump-to-page",
+        "version": "0.0.1",
+        "dist": {
+          "url": "https://github.com/sul-dlss/mirador-jump-to-page/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "ucla-library/mirador-disable-zoom",
+        "version": "0.1.0",
+        "dist": {
+          "url": "https://github.com/UCLALibrary/mirador-disable-zoom/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "ucla-library/mirador-ruler",
+        "version": "0.1.0",
+        "dist": {
+          "url": "https://github.com/UCLALibrary/mirador-ruler/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "ucla-library/mirador-share-workspace",
+        "version": "0.1.0",
+        "dist": {
+          "url": "https://github.com/UCLALibrary/mirador-share-workspace/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "ucla-library/mirador-sync-windows",
+        "version": "0.1.0",
+        "dist": {
+          "url": "https://github.com/UCLALibrary/mirador-sync-windows/archive/master.zip",
+          "type": "zip"
+        }
+      }
     }
   ],
-
   "require": {
     "slowprog/composer-copy-file": "~0.3",
-    "asset/mirador": "*"
+    "mirador/mirador": "*",
+    "2sc1815j/mirador-dragndrop-link-plugin": "*",
+    "archivelabs/mirador-crosslink-plugin": "*",
+    "dbmdz/mirador-plugins": "*",
+    "jazahn/mirador-metadata": "*",
+    "jbhoward-dublin/mirador-plugins-ucd": "*",
+    "jeffreycwitt/mirador-ldn-plugin": "*",
+    "sul-dlss/mirador-jump-to-page": "*",
+    "ucla-library/mirador-disable-zoom": "*",
+    "ucla-library/mirador-ruler": "*",
+    "ucla-library/mirador-share-workspace": "*",
+    "ucla-library/mirador-sync-windows": "*"
   },
-
   "scripts": {
     "post-install-cmd": [
       "SlowProg\\CopyFile\\ScriptHandler::copy"
@@ -26,10 +159,37 @@
       "SlowProg\\CopyFile\\ScriptHandler::copy"
     ]
   },
-
   "extra": {
     "copy-file": {
-      "vendor/asset/mirador/mirador/": "asset/vendor/mirador/"
+      "vendor/asset/mirador/mirador/mirador/": "asset/vendor/mirador/",
+      "vendor/asset/2sc1815j/mirador-dragndrop-link-plugin/": "asset/vendor/mirador-plugins/dragndrop-link/",
+      "vendor/asset/archivelabs/mirador-crosslink-plugin/": "asset/vendor/mirador-plugins/crosslink/",
+      "vendor/asset/dbmdz/mirador-plugins/CanvasLink/canvasLink.css": "asset/vendor/mirador-plugins/canvas-link/",
+      "vendor/asset/dbmdz/mirador-plugins/CanvasLink/canvasLink.js": "asset/vendor/mirador-plugins/canvas-link/",
+      "vendor/asset/dbmdz/mirador-plugins/DownloadMenu/downloadMenu.css": "asset/vendor/mirador-plugins/download-menu/",
+      "vendor/asset/dbmdz/mirador-plugins/DownloadMenu/downloadMenu.js": "asset/vendor/mirador-plugins/download-menu/",
+      "vendor/asset/dbmdz/mirador-plugins/ImageCropper/imageCropper.css": "asset/vendor/mirador-plugins/image-cropper/",
+      "vendor/asset/dbmdz/mirador-plugins/ImageCropper/imageCropper.js": "asset/vendor/mirador-plugins/image-cropper/",
+      "vendor/asset/dbmdz/mirador-plugins/KeyboardNavigation/keyboardNavigation.js": "asset/vendor/mirador-plugins/keyboard-navigation/",
+      "vendor/asset/dbmdz/mirador-plugins/ManifestButton/manifestButton.css": "asset/vendor/mirador-plugins/manifest-button/",
+      "vendor/asset/dbmdz/mirador-plugins/ManifestButton/manifestButton.js": "asset/vendor/mirador-plugins/manifest-button/",
+      "vendor/asset/dbmdz/mirador-plugins/MultiPageNavigation/multiPageNavigation.css": "asset/vendor/mirador-plugins/multi-page-navigation/",
+      "vendor/asset/dbmdz/mirador-plugins/MultiPageNavigation/multiPageNavigation.js": "asset/vendor/mirador-plugins/multi-page-navigation/",
+      "vendor/asset/dbmdz/mirador-plugins/PhysicalRuler/physicalRuler.js": "asset/vendor/mirador-plugins/physical-ruler/",
+      "vendor/asset/dbmdz/mirador-plugins/PiwikTracking/piwikTracking.js": "asset/vendor/mirador-plugins/piwik-tracking/",
+      "vendor/asset/dbmdz/mirador-plugins/ShareButtons/shareButtons.css": "asset/vendor/mirador-plugins/share-buttons/",
+      "vendor/asset/dbmdz/mirador-plugins/ShareButtons/shareButtons.js": "asset/vendor/mirador-plugins/share-buttons/",
+      "vendor/asset/dbmdz/mirador-plugins/ViewFromUrl/viewFromUrl.js": "asset/vendor/mirador-plugins/view-from-url/",
+      "vendor/asset/jazahn/mirador-metadata/": "asset/vendor/mirador-plugins/metadata-panel/",
+      "vendor/asset/jbhoward-dublin/mirador-plugins-ucd/mirador-plugin-FromThePage/": "asset/vendor/mirador-plugins/from-the-page/",
+      "vendor/asset/jbhoward-dublin/mirador-plugins-ucd/mirador-plugin-geojson/": "asset/vendor/mirador-plugins/geojson/",
+      "vendor/asset/jeffreycwitt/mirador-ldn-plugin/ldn-plugin.css": "asset/vendor/mirador-plugins/ldn/",
+      "vendor/asset/jeffreycwitt/mirador-ldn-plugin/ldn-plugin.js": "asset/vendor/mirador-plugins/ldn/",
+      "vendor/asset/sul-dlss/mirador-jump-to-page/jump_to_page.js": "asset/vendor/mirador-plugins/jump-to-page/",
+      "vendor/asset/ucla-library/mirador-disable-zoom/dist/": "asset/vendor/mirador-plugins/disable-zoom/",
+      "vendor/asset/ucla-library/mirador-ruler/dist/": "asset/vendor/mirador-plugins/ruler/",
+      "vendor/asset/ucla-library/mirador-share-workspace/dist/": "asset/vendor/mirador-plugins/share-workspace/",
+      "vendor/asset/ucla-library/mirador-sync-windows/dist/": "asset/vendor/mirador-plugins/sync-windows/"
     }
   }
 }

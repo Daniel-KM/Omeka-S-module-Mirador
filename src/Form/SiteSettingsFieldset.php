@@ -9,7 +9,12 @@ class SiteSettingsFieldset extends Fieldset
     /**
      * @var bool
      */
-    protected $iiifServerIsActive;
+    protected $iiifServerIsActive = false;
+
+    /**
+     * @var array
+     */
+    protected $plugins = [];
 
     public function init()
     {
@@ -69,6 +74,24 @@ class SiteSettingsFieldset extends Fieldset
         ]);
 
         $this->add([
+            'name' => 'mirador_plugins',
+            'type' => Element\Select::class,
+            'options' => [
+                'label' => 'Mirador plugins', // @translate
+                'info' => 'Read the doc. Some plugins require json options to work. Cross compatibility has not been checked, so add them one by one and only the needed ones.', // @translate
+                'documentation' => 'https://github.com/daniel-km/omeka-s-module-mirador#plugins',
+                'value_options' => $this->getPlugins(),
+                'empty_option' => '',
+            ],
+            'attributes' => [
+                'id' => 'mirador_plugins',
+                'class' => 'chosen-select',
+                'multiple' => true,
+                'data-placeholder' => 'Select plugins…', // @translate
+            ],
+        ]);
+
+        $this->add([
             'name' => 'mirador_config_item',
             'type' => Element\Textarea::class,
             'options' => [
@@ -100,6 +123,7 @@ class SiteSettingsFieldset extends Fieldset
     public function setIiifServerIsActive($iiifServerIsActive)
     {
         $this->iiifServerIsActive = $iiifServerIsActive;
+        return $this;
     }
 
     /**
@@ -108,5 +132,22 @@ class SiteSettingsFieldset extends Fieldset
     public function getIiifServerIsActive()
     {
         return $this->iiifServerIsActive;
+    }
+
+    /**
+     * @param array $plugins
+     */
+    public function setPlugins(array $plugins)
+    {
+        $this->plugins = $plugins;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPlugins()
+    {
+        return $this->plugins;
     }
 }
