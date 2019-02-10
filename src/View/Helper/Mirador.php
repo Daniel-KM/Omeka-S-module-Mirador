@@ -175,12 +175,14 @@ class Mirador extends AbstractHelper
             'buildPath' => $view->assetUrl('vendor/mirador/', 'Mirador', false, false),
         ];
 
+        // TODO Manage locale in Mirador.
         $config['locale'] = $view->identity()
             ? $view->userSetting('locale')
             : ($view->params()->fromRoute('__SITE__')
                 ? $view->siteSetting('locale')
                 : $view->setting('locale'));
 
+        $isCollection = false;
         switch ($resourceName) {
             case 'items':
                 $config += [
@@ -190,17 +192,32 @@ class Mirador extends AbstractHelper
                     ]],
                     'windowObjects' => [['loadedManifest' => $urlManifest]],
                 ];
+                $siteConfig = $view->siteSetting('mirador_config_item', '{}');
                 break;
             case 'item_sets':
             case 'multiple':
+                $isCollection = true;
                 $config += [
                     'data' => [['collectionUri' => $urlManifest]],
                     'openManifestsPage' => true,
                 ];
+                $siteConfig = $view->siteSetting('mirador_config_collection', '{}');
                 break;
         }
 
-        $config += $options;
+        $placeholders = [
+            '__manifestUri__' => json_encode($urlManifest),
+            '__canvasID__' => json_encode(
+                $isCollection ? null : (substr($urlManifest, 0, -8) . 'canvas/p1')
+            ),
+        ];
+        $siteConfig = str_replace(array_keys($placeholders), array_values($placeholders), $siteConfig);
+        $siteConfig = json_decode($siteConfig, true) ?: [];
+
+        // Since only id, buildPath and data are set, it is possible to use
+        // array_merge, array_replace or "+" operator.
+        // In javascript, use "jQuery.extend(true, config, siteOptions, options)".
+        $config = array_replace_recursive($config, $siteConfig, $options);
 
         return $view->partial('common/helper/mirador', [
             'config' => $config,

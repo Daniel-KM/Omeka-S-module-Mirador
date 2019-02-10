@@ -68,6 +68,8 @@ return [
             'mirador_append_item_show' => true,
             'mirador_append_item_set_browse' => false,
             'mirador_append_item_browse' => false,
+            'mirador_config_item' => null,
+            'mirador_config_collection' => null,
         ],
     ],
 ];

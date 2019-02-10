@@ -44,8 +44,6 @@ The next times:
     composer update
 ```
 
-* Configuration
-
 Then install it like any other Omeka module.
 
 If you don’t have an IIIF Server, install the module [IIIF Server].
@@ -55,18 +53,63 @@ server and your network), use an external image server, or create tiles with [II
 The tiling means that big images like maps and deep paintings, and any other
 images, are converted into tiles in order to load and zoom them instantly.
 
-Only one option can be set in the main config (the manifest property, if any).
-The other ones can be set differently for each site via the theme:
-
-- via the theme of the site: copy file `view/common/helper/mirador.phtml` in
-  your theme and customize it;
-- via the theme of the site and the assets (`asset/vendor/mirador).
-
-See below the notes for more info.
-
 
 Usage
 -----
+
+### Configuration
+
+Only one option can be set in the main config (the manifest property, if any).
+
+The other ones can be set differently for each site:
+
+- in site settings via a json object, that will be merged with the default
+  config of the viewer, and with the options set directly in theme, if any.
+- via the theme of the site: copy file `view/common/helper/mirador.phtml` in
+  your theme and customize it;
+- via the theme of the site and the assets (`asset/vendor/mirador`).
+
+The parameters used to config the viewer can be found in the [wiki], in the
+details of the [api] and in the examples of the [tutorial].
+
+The following placeholders can be used (without quote or double quotes):
+- `__manifestUri__`: first manifest uri (or collection uri),
+- `__canvasID__`, first canvas uri of the manifest.
+
+For example, this params can be set to display an item in [Zen mode]:
+
+```json
+{
+    "mainMenuSettings": {
+        "show": false
+    },
+    "windowObjects": [
+        {
+            "loadedManifest": __manifestUri__,
+            "canvasID": __canvasID__,
+            "viewType": "ImageView",
+            "displayLayout": false,
+            "bottomPanel": false,
+            "sidePanel": false,
+            "annotationLayer": false,
+            "canvasControls": {
+                "annotations": false,
+                "imageManipulation": {
+                    "manipulationLayer": false
+                }
+            }
+        }
+    ]
+}
+```
+
+This config is for item, not for collection. This example is for the site
+setting because it uses placeholders, so it should be adapted if used in theme
+in order to take the default parameters in account. The keys `id` and `data` are
+automatically filled, but may be overridden too.
+
+
+### Display
 
 If the [IIIF Server] is installed, all resources of Omeka S are automatically
 available by Mirador.
@@ -160,6 +203,11 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Diva Viewer]: https://github.com/Daniel-KM/Omeka-S-module-Diva
 [`Mirador.zip`]: https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases
 [iiif specifications]: http://iiif.io/api/
+[jQuery extend]: https://api.jquery.com/jQuery.extend
+[wiki]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
+[api]: https://github.com/ProjectMirador/mirador/wiki/Complete-Configuration-API
+[tutorial]: http://projectmirador.org/docs/docs/getting-started.html
+[Zen mode]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides#zen-mode
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-Mirador/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
