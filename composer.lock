@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77fea8693f2d1e4af3d8fe300d72cc1c",
+    "content-hash": "c1b1ca5d379eb702c51f4005ba99d4d9",
     "packages": [
         {
             "name": "asset/mirador",
-            "version": "2.6.0",
+            "version": "2.7.0",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.6.0/build.zip",
+                "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.7.0/build.zip",
                 "reference": null,
                 "shasum": null
             },
