@@ -1,0 +1,14 @@
+/*
+ * Styles for the metadata tab in the sidebar.
+ */
+@media screen {
+    .mirador-container .sidePanel .tabContentArea {
+        overflow: scroll;
+    }
+    .mirador-container .sidePanel .tabContentArea .metadataPanel {
+        margin-left: -20px;
+        padding-left: 0;
+        word-wrap: break-word;
+        font-size: 90%;
+    }
+}

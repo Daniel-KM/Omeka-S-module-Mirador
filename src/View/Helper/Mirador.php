@@ -163,6 +163,13 @@ class Mirador extends AbstractHelper
         $view->headScript()
             ->appendFile($view->assetUrl('vendor/mirador/mirador.min.js', 'Mirador'));
 
+        if ($view->setting('iiifserver_manifest_media_metadata')) {
+            $view->headLink()
+                ->appendStylesheet($view->assetUrl('vendor/mirador-plugins/metadataTab/metadataTab.css', 'Mirador'));
+            $view->headScript()
+                ->appendFile($view->assetUrl('vendor/mirador-plugins/metadataTab/metadataTab.js', 'Mirador'));
+        }
+
         $config = [
             'id' => 'mirador-' . ++$id,
             'buildPath' => $view->assetUrl('vendor/mirador/', 'Mirador', false, false),
