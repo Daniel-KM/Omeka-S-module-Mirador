@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2be4eb3d2950de001b17762ef42d800a",
+    "content-hash": "57ecc3e2d8e2795dcb926b886daa1ae1",
     "packages": [
         {
             "name": "2sc1815j/mirador-dragndrop-link-plugin",
@@ -23,6 +23,17 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/ArchiveLabs/mirador-crosslink-plugin/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "daniel-km/mirador-plugin-metadata-tab",
+            "version": "1.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/Daniel-KM/Mirador-plugin-MetadataTab/archive/master.zip",
                 "reference": null,
                 "shasum": null
             },

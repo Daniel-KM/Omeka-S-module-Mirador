@@ -39,6 +39,17 @@
     {
       "type": "package",
       "package": {
+        "name": "daniel-km/mirador-plugin-metadata-tab",
+        "version": "1.0.0",
+        "dist": {
+          "url": "https://github.com/Daniel-KM/Mirador-plugin-MetadataTab/archive/master.zip",
+          "type": "zip"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
         "name": "dbmdz/mirador-plugins",
         "version": "1.0.6",
         "dist": {
@@ -141,6 +152,7 @@
     "mirador/mirador": "*",
     "2sc1815j/mirador-dragndrop-link-plugin": "*",
     "archivelabs/mirador-crosslink-plugin": "*",
+    "daniel-km/mirador-plugin-metadata-tab": "*",
     "dbmdz/mirador-plugins": "*",
     "jazahn/mirador-metadata": "*",
     "jbhoward-dublin/mirador-plugins-ucd": "*",
@@ -164,6 +176,7 @@
       "vendor/asset/mirador/mirador/mirador/": "asset/vendor/mirador/",
       "vendor/asset/2sc1815j/mirador-dragndrop-link-plugin/": "asset/vendor/mirador-plugins/dragndrop-link/",
       "vendor/asset/archivelabs/mirador-crosslink-plugin/": "asset/vendor/mirador-plugins/crosslink/",
+      "vendor/asset/daniel-km/mirador-plugin-metadata-tab/": "asset/vendor/mirador-plugins/metadata-tab/",
       "vendor/asset/dbmdz/mirador-plugins/CanvasLink/canvasLink.css": "asset/vendor/mirador-plugins/canvas-link/",
       "vendor/asset/dbmdz/mirador-plugins/CanvasLink/canvasLink.js": "asset/vendor/mirador-plugins/canvas-link/",
       "vendor/asset/dbmdz/mirador-plugins/DownloadMenu/downloadMenu.css": "asset/vendor/mirador-plugins/download-menu/",
