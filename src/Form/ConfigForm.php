@@ -13,7 +13,7 @@ class ConfigForm extends Form
             'type' => PropertySelect::class,
             'options' => [
                 'label' => 'Manifest property', // @translate
-                'info' => 'The property supplying the manifest URL for the viewer, for example "dcterms:hasFormat".', // @translate
+                'info' => 'The property supplying the manifest URL for the viewer, for example "dcterms:hasFormat" or "dcterms:isFormatOf".', // @translate
                 'empty_option' => '',
                 'term_as_value' => true,
             ],
