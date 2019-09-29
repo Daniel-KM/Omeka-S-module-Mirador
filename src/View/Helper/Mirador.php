@@ -48,7 +48,7 @@ class Mirador extends AbstractHelper
 
         // If the manifest is not provided in metadata, point to the manifest
         // created from Omeka files only when the Iiif Server is installed.
-        $iiifServerIsActive = $view->getHelperPluginManager()->has('iiifManifest');
+        $iiifServerIsActive = $this->hasIiifServer();
 
         // Prepare the url of the manifest for a dynamic collection.
         if (is_array($resource)) {
@@ -189,6 +189,7 @@ class Mirador extends AbstractHelper
                 : $view->setting('locale'));
 
         $isCollection = false;
+        $data = [];
         $location = '';
         if ($isExternal) {
             $site = $view->site();
@@ -200,6 +201,7 @@ class Mirador extends AbstractHelper
                     'manifestUri' => $urlManifest,
                     'location' => $location,
                 ]];
+                $data = $this->appendConfigData($data);
                 $config += [
                     'data' => $data,
                     'windowObjects' => [['loadedManifest' => $urlManifest]],
@@ -217,6 +219,9 @@ class Mirador extends AbstractHelper
                     'collectionUri' => $urlManifest,
                     'location' => $location,
                 ]];
+                if ($resourceName === 'item_sets') {
+                    $data = $this->appendConfigData($data);
+                }
                 $config += [
                     'data' => $data,
                     'openManifestsPage' => true,
@@ -245,6 +250,52 @@ class Mirador extends AbstractHelper
         return $view->partial('common/helper/mirador', [
             'config' => $config,
         ]);
+    }
+
+    protected function appendConfigData(array $data)
+    {
+        $view = $this->view;
+
+        $number = $view->siteSetting('mirador_preselected_items');
+        if (empty($number)) {
+            return $data;
+        }
+
+        switch ($this->resource->resourceName()) {
+            case 'items':
+                $itemSets = $this->resource->itemSets();
+                if (!$itemSets) {
+                    return $data;
+                }
+                $collection = reset($itemSets);
+                break;
+            case 'item_sets':
+                $collection = $this->resource;
+                break;
+        }
+
+        $site = $view->vars('site');
+        $location = $site ? $site->title() : '';
+
+        $baseManifest = $view->url('iiifserver_presentation_item_redirect', ['id' => '0']);
+        $baseManifest = trim($baseManifest, '0');
+
+        // The view api doesn't support "returnScalar", so use the api manager.
+        $api = $this->resource->getServiceLocator()->get('Omeka\ApiManager');
+        $ids = $api->search('items', ['item_set_id' => $collection->id(), 'limit' => $number, 'sort_by' => 'dcterms:title', 'sort_order' => 'asc'], ['returnScalar' => 'id'])->getContent();
+        foreach ($ids as $id) {
+            $data[] = [
+                'manifestUri' => $baseManifest . $id . '/manifest',
+                'location' => $location,
+            ];
+        }
+
+        return $data;
+    }
+
+    protected function hasIiifServer()
+    {
+        return $this->getView()->getHelperPluginManager()->has('iiifManifest');
     }
 
     /**

@@ -115,6 +115,20 @@ class SiteSettingsFieldset extends Fieldset
                 'id' => 'mirador_config_collection',
             ],
         ]);
+
+        $this->add([
+            'name' => 'mirador_preselected_items',
+            'type' => Element\Number::class,
+            'options' => [
+                'label' => 'Preselect manifests from the same collection', // @translate
+                'info' => 'Set a number of items to preselect. IiifServer should be enabled.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'mirador_preselected_items',
+                'min' => 0,
+                'max' => 999,
+            ],
+        ]);
     }
 
     /**

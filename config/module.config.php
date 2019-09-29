@@ -71,6 +71,7 @@ return [
             'mirador_plugins' => [],
             'mirador_config_item' => null,
             'mirador_config_collection' => null,
+            'mirador_preselected_items' => 0,
         ],
     ],
 ];
