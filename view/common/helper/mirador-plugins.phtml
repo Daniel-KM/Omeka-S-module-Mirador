@@ -7,16 +7,17 @@
 $headLink = $this->plugin('headLink');
 $headScript = $this->plugin('headScript');
 $assetUrl = $this->plugin('assetUrl');
-foreach ($plugins as $plugin) switch ($plugin) {
+foreach ($plugins as $plugin) switch ($plugin):
     case 'canvas-link':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/canvas-link/canvasLink.css', 'Mirador'));
         $headScript->appendFile($assetUrl('vendor/mirador-plugins/canvas-link/canvasLink.js', 'Mirador'));
         break;
     case 'crosslink':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/crosslink/css/main.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/annotations.js', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/crosslink.js', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/app.js', 'Mirador'));
+        $headScript
+            ->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/annotations.js', 'Mirador'))
+            ->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/crosslink.js', 'Mirador'))
+            ->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/app.js', 'Mirador'));
         break;
     case 'disable-zoom':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/disable-zoom/MiradorDisableZoom.min.css', 'Mirador'));
@@ -95,4 +96,4 @@ foreach ($plugins as $plugin) switch ($plugin) {
     case 'view-from-url':
         $headScript->appendFile($assetUrl('vendor/mirador-plugins/view-from-url/viewFromUrl.js', 'Mirador'));
         break;
-}
+endswitch;
