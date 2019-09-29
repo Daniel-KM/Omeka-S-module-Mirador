@@ -192,6 +192,10 @@ class Mirador extends AbstractHelper
                     'windowObjects' => [['loadedManifest' => $urlManifest]],
                 ];
                 $siteConfig = $view->siteSetting('mirador_config_item', '{}');
+                // TODO Site settings are not checked in page site settings.
+                if (json_decode($siteConfig, true) === null) {
+                    $view->logger()->err('Site settings for Mirador config of items is not a valid json.'); // @translate
+                }
                 break;
             case 'item_sets':
             case 'multiple':
@@ -201,6 +205,9 @@ class Mirador extends AbstractHelper
                     'openManifestsPage' => true,
                 ];
                 $siteConfig = $view->siteSetting('mirador_config_collection', '{}');
+                if (json_decode($siteConfig, true) === null) {
+                    $view->logger()->err('Site settings for Mirador config of collections is not a valid json.'); // @translate
+                }
                 break;
         }
 
