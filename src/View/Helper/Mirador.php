@@ -14,6 +14,11 @@ class Mirador extends AbstractHelper
     protected $currentTheme;
 
     /**
+     * @var AbstractResourceEntityRepresentation|AbstractResourceEntityRepresentation[] $resource
+     */
+    protected $resource;
+
+    /**
      * Construct the helper.
      *
      * @param Theme|null $currentTheme
@@ -37,6 +42,7 @@ class Mirador extends AbstractHelper
         if (empty($resource)) {
             return '';
         }
+        $this->resource = $resource;
 
         $view = $this->getView();
 
@@ -75,7 +81,7 @@ class Mirador extends AbstractHelper
             if ($urlManifest) {
                 // Manage the case where the url is saved as an uri or a text.
                 $urlManifest = $urlManifest->uri() ?: $urlManifest->value();
-                return $this->render($urlManifest, $options, $resourceName);
+                return $this->render($urlManifest, $options, $resourceName, true);
             }
         }
 
@@ -149,9 +155,10 @@ class Mirador extends AbstractHelper
      * @param string $urlManifest
      * @param array $options
      * @param string $resourceName
+     * @param bool $isExternal If the manifest is managed by Omeka or not.
      * @return string Html code.
      */
-    protected function render($urlManifest, array $options = [], $resourceName = null)
+    protected function render($urlManifest, array $options = [], $resourceName = null, $isExternal = false)
     {
         static $id = 0;
 
@@ -182,13 +189,19 @@ class Mirador extends AbstractHelper
                 : $view->setting('locale'));
 
         $isCollection = false;
+        $location = '';
+        if ($isExternal) {
+            $site = $view->site();
+            $location = $site ? $site->title() : '';
+        }
         switch ($resourceName) {
             case 'items':
+                $data = [[
+                    'manifestUri' => $urlManifest,
+                    'location' => $location,
+                ]];
                 $config += [
-                    'data' => [[
-                        'manifestUri' => $urlManifest,
-                        //'location' => "My Repository",
-                    ]],
+                    'data' => $data,
                     'windowObjects' => [['loadedManifest' => $urlManifest]],
                 ];
                 $siteConfig = $view->siteSetting('mirador_config_item', '{}');
@@ -200,8 +213,12 @@ class Mirador extends AbstractHelper
             case 'item_sets':
             case 'multiple':
                 $isCollection = true;
+                $data =  [[
+                    'collectionUri' => $urlManifest,
+                    'location' => $location,
+                ]];
                 $config += [
-                    'data' => [['collectionUri' => $urlManifest]],
+                    'data' => $data,
                     'openManifestsPage' => true,
                 ];
                 $siteConfig = $view->siteSetting('mirador_config_collection', '{}');
