@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-11 00:00+0100\n"
+"POT-Creation-Date: 2019-10-14 00:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgstr ""
 #: src/Form/ConfigForm.php:16
 msgid ""
 "The property supplying the manifest URL for the viewer, for example "
-"\"dcterms:hasFormat\"."
+"\"dcterms:hasFormat\" or \"dcterms:isFormatOf\"."
 msgstr ""
 
 #: src/Form/ConfigForm.php:23
@@ -114,4 +114,20 @@ msgstr ""
 
 #: src/Form/SiteSettingsFieldset.php:111
 msgid "Mirador json config (collection)"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:123
+msgid "Preselect manifests from the same collection"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:124
+msgid "Set a number of items to preselect. IiifServer should be enabled."
+msgstr ""
+
+#: src/View/Helper/Mirador.php:212
+msgid "Site settings for Mirador config of items is not a valid json."
+msgstr ""
+
+#: src/View/Helper/Mirador.php:231
+msgid "Site settings for Mirador config of collections is not a valid json."
 msgstr ""
