@@ -1,5 +1,8 @@
 /* Mirador custom and fixes for common Omeka themes */
 @media screen {
+    #user-bar .show {
+        display: inline-block !important;
+    }
     .mirador {
         display: block;
         width: 90%;
