@@ -215,7 +215,7 @@ class Mirador extends AbstractHelper
             case 'item_sets':
             case 'multiple':
                 $isCollection = true;
-                $data =  [[
+                $data = [[
                     'collectionUri' => $urlManifest,
                     'location' => $location,
                 ]];
