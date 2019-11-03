@@ -9,13 +9,11 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 }
 
 use Generic\AbstractModule;
-use Mirador\Form\ConfigForm;
 use Omeka\Module\Exception\ModuleCannotInstallException;
 use Omeka\Module\Manager as ModuleManager;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\MvcEvent;
-use Zend\View\Renderer\PhpRenderer;
 
 class Module extends AbstractModule
 {
@@ -62,6 +60,17 @@ class Module extends AbstractModule
         );
 
         $sharedEventManager->attach(
+            \Omeka\Form\SettingForm::class,
+            'form.add_elements',
+            [$this, 'handleMainSettings']
+        );
+        $sharedEventManager->attach(
+            \Omeka\Form\SettingForm::class,
+            'form.add_input_filters',
+            [$this, 'handleMainSettingsFilters']
+        );
+
+        $sharedEventManager->attach(
             \Omeka\Form\SiteSettingsForm::class,
             'form.add_elements',
             [$this, 'handleSiteSettings']
@@ -73,29 +82,31 @@ class Module extends AbstractModule
         );
     }
 
-    public function getConfigForm(PhpRenderer $renderer)
+    public function handleMainSettings(Event $event)
     {
-        $services = $this->getServiceLocator();
+        parent::handleMainSettings($event);
 
-        $settings = $services->get('Omeka\Settings');
-        $data = $this->prepareDataToPopulate($settings, 'config');
+        $form = $event->getTarget();
 
-        $view = $renderer;
-        $html = '<p>';
-        $html .= $this->iiifServerIsActive()
-            ? $view->translate('The IIIF Server is active, so when no url is set, the viewer will use the standard routes.') // @translate
-            : ($view->translate('The IIIF Server is not active, so when no url is set, the viewer won’t be displayed.') // @translate
-                . ' ' . $view->translate('Furthermore, the Mirador Viewer can’t display lists of items.')); // @translate
-        $html .= '</p>';
-        $html .= '<p>'
-            . $view->translate('The viewer itself can be basically configured in settings of each site, or in the theme.') // @translate
-            . '</p>';
+        $translator = $this->getServiceLocator()->get('MvcTranslator');
+        $message = $this->iiifServerIsActive()
+            ? $translator->translate('The IIIF Server is active, so when no url is set, the viewer will use the standard routes.') // @translate;
+            : $translator->translate('The IIIF Server is not active, so when no url is set, the viewer won’t be displayed. Furthermore, the viewer won’t display lists of items.'); // @translate
 
-        $form = $services->get('FormElementManager')->get(ConfigForm::class);
-        $form->init();
-        $form->setData($data);
-        $html .= $renderer->formCollection($form);
-        return $html;
+        /** @var \Omeka\Form\Element\PropertySelect $element */
+        $element = $form->get('mirador')->get('mirador_manifest_property');
+        $element->setOption('info', $translator->translate($element->getOption('info')) . ' ' . $message);
+    }
+
+    public function handleMainSettingsFilters(Event $event)
+    {
+        $event->getParam('inputFilter')
+            ->get('mirador')
+            ->add([
+                'name' => 'mirador_manifest_property',
+                'required' => false,
+            ])
+        ;
     }
 
     public function handleSiteSettingsFilters(Event $event)

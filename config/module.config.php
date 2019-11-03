@@ -24,7 +24,7 @@ return [
     ],
     'form_elements' => [
         'invokables' => [
-            Form\ConfigForm::class => Form\ConfigForm::class,
+            Form\SettingsFieldset::class => Form\SettingsFieldset::class,
         ],
         'factories' => [
             Form\SiteSettingsFieldset::class => Service\Form\SiteSettingsFieldsetFactory::class,
@@ -60,7 +60,7 @@ return [
         ],
     ],
     'mirador' => [
-        'config' => [
+        'settings' => [
             'mirador_manifest_property' => '',
         ],
         'site_settings' => [
