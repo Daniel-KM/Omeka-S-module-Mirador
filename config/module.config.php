@@ -64,10 +64,6 @@ return [
             'mirador_manifest_property' => '',
         ],
         'site_settings' => [
-            'mirador_append_item_set_show' => true,
-            'mirador_append_item_show' => true,
-            'mirador_append_item_set_browse' => false,
-            'mirador_append_item_browse' => false,
             'mirador_plugins' => [],
             'mirador_config_item' => null,
             'mirador_config_collection' => null,

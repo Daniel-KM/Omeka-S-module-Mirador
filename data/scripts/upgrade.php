@@ -29,3 +29,11 @@ WHERE id IN ('mirador_class', 'mirador_style', 'mirador_locale');
 SQL;
     $connection->exec($sql);
 }
+
+if (version_compare($oldVersion, '3.1.3', '<')) {
+    $sql = <<<'SQL'
+DELETE FROM site_setting
+WHERE id IN ("mirador_append_item_set_show", "mirador_append_item_show", "mirador_append_item_set_browse", "mirador_append_item_browse");
+SQL;
+    $connection->exec($sql);
+}

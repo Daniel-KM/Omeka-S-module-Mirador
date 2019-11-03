@@ -200,20 +200,13 @@ class Module extends AbstractModule
 
     public function handleSiteSettingsFilters(Event $event)
     {
-        $inputFilter = $event->getParam('inputFilter');
-        $miradorFilter = $inputFilter->get('mirador');
-        $miradorFilter->add([
-            'name' => 'mirador_append_item_set_browse',
-            'required' => false,
-        ]);
-        $miradorFilter->add([
-            'name' => 'mirador_append_item_browse',
-            'required' => false,
-        ]);
-        $miradorFilter->add([
-            'name' => 'mirador_plugins',
-            'required' => false,
-        ]);
+        $event->getParam('inputFilter')
+            ->get('mirador')
+            ->add([
+                'name' => 'mirador_plugins',
+                'required' => false,
+            ])
+        ;
     }
 
     /**
@@ -249,23 +242,12 @@ class Module extends AbstractModule
     {
         $view = $event->getTarget();
         $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $siteSettings = $services->get('Omeka\Settings\Site');
         // Note: there is no item-set show, but a special case for items browse.
-        $isItemSetShow = (bool) $services->get('Application')->getMvcEvent()->getRouteMatch()->getParam('item-set-id');
+        $isItemSetShow = (bool) $services->get('Application')
+            ->getMvcEvent()->getRouteMatch()->getParam('item-set-id');
         if ($isItemSetShow) {
-            if ($siteSettings->get(
-                'mirador_append_item_set_show',
-                $config['mirador']['site_settings']['mirador_append_item_set_show']
-            )) {
-                echo $view->mirador($view->itemSet);
-            }
-        } elseif ($this->iiifServerIsActive()
-            && $siteSettings->get(
-                'mirador_append_item_browse',
-                $config['mirador']['site_settings']['mirador_append_item_browse']
-            )
-        ) {
+            echo $view->mirador($view->itemSet);
+        } elseif ($this->iiifServerIsActive()) {
             echo $view->mirador($view->items);
         }
     }
@@ -277,29 +259,13 @@ class Module extends AbstractModule
         }
 
         $view = $event->getTarget();
-        $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $siteSettings = $services->get('Omeka\Settings\Site');
-        if ($siteSettings->get(
-            'mirador_append_item_set_browse',
-            $config['mirador']['site_settings']['mirador_append_item_set_browse']
-        )) {
-            echo $view->mirador($view->itemSets);
-        }
+        echo $view->mirador($view->itemSets);
     }
 
     public function handleViewShowAfterItem(Event $event)
     {
         $view = $event->getTarget();
-        $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $siteSettings = $services->get('Omeka\Settings\Site');
-        if ($siteSettings->get(
-            'mirador_append_item_show',
-            $config['mirador']['site_settings']['mirador_append_item_show']
-        )) {
-            echo $view->mirador($view->item);
-        }
+        echo $view->mirador($view->item);
     }
 
     protected function iiifServerIsActive()
