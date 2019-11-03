@@ -10,90 +10,90 @@ $assetUrl = $this->plugin('assetUrl');
 foreach ($plugins as $plugin) switch ($plugin):
     case 'canvas-link':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/canvas-link/canvasLink.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/canvas-link/canvasLink.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/canvas-link/canvasLink.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'crosslink':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/crosslink/css/main.css', 'Mirador'));
         $headScript
-            ->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/annotations.js', 'Mirador'))
-            ->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/crosslink.js', 'Mirador'))
-            ->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/app.js', 'Mirador'));
+            ->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/annotations.js', 'Mirador'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/crosslink.js', 'Mirador'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($assetUrl('vendor/mirador-plugins/crosslink/js/app.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'disable-zoom':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/disable-zoom/MiradorDisableZoom.min.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/disable-zoom/MiradorDisableZoom.min.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/disable-zoom/MiradorDisableZoom.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'download-menu/':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/download-menu/downloadMenu.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/download-menu/downloadMenu.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/download-menu/downloadMenu.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'dragndrop-link':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/dragndrop-link/dragndrop-link.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/dragndrop-link/dragndrop-link.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/dragndrop-link/dragndrop-link.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'from-the-page':
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/from-the-page/mirador-plugin-FromThePage.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/from-the-page/mirador-plugin-FromThePage.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'from-the-page-collection':
         $headScript->appendFile($assetUrl('vendor/mirador-plugins/from-the-page/data/collections_FtP.js', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/from-the-page/mirador-plugin-FromThePage.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/from-the-page/mirador-plugin-FromThePage.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'geojson':
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/geojson/mirador_plugin_geojson.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/geojson/mirador_plugin_geojson.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'image-cropper':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/image-cropper/imageCropper.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/image-cropper/imageCropper.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/image-cropper/imageCropper.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'jump-to-page':
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/jump-to-page/jump_to_page.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/jump-to-page/jump_to_page.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'keyboard-navigation':
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/keyboard-navigation/keyboardNavigation.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/keyboard-navigation/keyboardNavigation.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'ldn':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/ldn/ldn-plugin.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/ldn/ldn-plugin.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/ldn/ldn-plugin.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'manifest-button':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/manifest-button/manifestButton.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/manifest-button/manifestButton.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/manifest-button/manifestButton.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'metadata-panel':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/metadata-panel/metadataPanel.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/metadata-panel/metadataPanel.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/metadata-panel/metadataPanel.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'metadata-tab':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/metadata-tab/metadataTab.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/metadata-tab/metadataTab.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/metadata-tab/metadataTab.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'multi-page-navigation':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/multi-page-navigation/multiPageNavigation.css', 'Mirador'));
         $headScript->appendFile($assetUrl('vendor/mirador-plugins/multi-page-navigation/multiPageNavigation.js', 'Mirador'));
         break;
     case 'physical-ruler':
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/physical-ruler/physicalRuler.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/physical-ruler/physicalRuler.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'piwik-tracking':
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/piwik-tracking/piwikTracking.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/piwik-tracking/piwikTracking.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'ruler':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/ruler/MiradorRuler.min.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/ruler/MiradorRuler.min.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/ruler/MiradorRuler.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'share-buttons':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/share-buttons/shareButtons.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/share-buttons/shareButtons.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/share-buttons/shareButtons.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'share-workspace':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/share-workspace/MiradorShareWorkspace.min.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/share-workspace/MiradorShareWorkspace.min.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/share-workspace/MiradorShareWorkspace.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'sync-windows':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-plugins/sync-windows/MiradorSyncWindows.min.css', 'Mirador'));
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/sync-windows/MiradorSyncWindows.min.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/sync-windows/MiradorSyncWindows.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
     case 'view-from-url':
-        $headScript->appendFile($assetUrl('vendor/mirador-plugins/view-from-url/viewFromUrl.js', 'Mirador'));
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/view-from-url/viewFromUrl.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
 endswitch;
