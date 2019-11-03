@@ -20,6 +20,8 @@ It’s an alternative to the [Universal Viewer] or the lighter [Diva Viewer].
 Installation
 ------------
 
+First, install the two optional modules [Generic] and [Blocks Disposition].
+
 The module uses an external js library [Mirador], so use the release zip to
 install it, or use and init the source.
 
@@ -118,8 +120,8 @@ available by Mirador.
 The viewer is always available at `http://www.example.com/item-set/{item-set id}/mirador`
 and `http://www.example.com/item/{item id}/mirador`. Furthermore, it is
 automatically embedded in "item-set/{id}" and "item/{id}" show and/or browse
-pages. This can be disabled in the settings of the site. Finally, a block layout
-is available to add the viewer in any standard page.
+pages. This can be disabled via the module [Blocks Disposition] for each site.
+Finally, a block layout is available to add the viewer in any standard page.
 
 To embed Mirador somewhere else, just use the helper:
 
@@ -249,6 +251,7 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [wiki]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
 [api]: https://github.com/ProjectMirador/mirador/wiki/Complete-Configuration-API
 [tutorial]: http://projectmirador.org/docs/docs/getting-started.html
+[Blocks Disposition]: https://github.com/Daniel-KM/Omeka-S-module-BlocksDisposition
 [Crosslink]: https://github.com/ArchiveLabs/mirador-crosslink
 [dbmdz]: https://github.com/dbmdz/mirador-plugins
 [Disable-zoom]: https://github.com/UCLALibrary/mirador-disable-zoom
