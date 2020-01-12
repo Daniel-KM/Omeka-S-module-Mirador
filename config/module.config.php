@@ -32,6 +32,25 @@ return [
     ],
     'router' => [
         'routes' => [
+            'site' => [
+                'child_routes' => [
+                    'resource-id-mirador' => [
+                        'type' => \Zend\Router\Http\Segment::class,
+                        'options' => [
+                            'route' => '/:resourcename/:id/mirador',
+                            'constraints' => [
+                                'resourcename' => 'item|item\-set',
+                                'id' => '\d+',
+                            ],
+                            'defaults' => [
+                                '__NAMESPACE__' => 'Mirador\Controller',
+                                'controller' => 'Player',
+                                'action' => 'play',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
             'mirador_player' => [
                 'type' => \Zend\Router\Http\Segment::class,
                 'options' => [
