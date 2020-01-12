@@ -15,7 +15,9 @@ class PlayerController extends AbstractActionController
      */
     public function indexAction()
     {
-        $this->forward('play');
+        $params = $this->params()->fromRoute();
+        $params['action'] = 'play';
+        return $this->forward()->dispatch(__CLASS__, $params);
     }
 
     public function playAction()
@@ -50,7 +52,6 @@ class PlayerController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setVariable('resource', $resource);
-
         return $view;
     }
 }
