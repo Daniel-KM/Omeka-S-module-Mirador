@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-04 00:00+0100\n"
+"POT-Creation-Date: 2020-01-13 00:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,20 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: Module.php:37
-msgid "The Mirador library should be installed."
+#, php-format
+msgid "The library \"%s\" should be installed."
 msgstr ""
 
-#: Module.php:38
+#: Module.php:40
 msgid "See module’s installation documentation."
 msgstr ""
 
-#: Module.php:94
+#: Module.php:95
 msgid ""
 "The IIIF Server is active, so when no url is set, the viewer will use the "
 "standard routes."
 msgstr ""
 
-#: Module.php:95
+#: Module.php:96
 msgid ""
 "The IIIF Server is not active, so when no url is set, the viewer won’t be "
 "displayed. Furthermore, the viewer won’t display lists of items."
