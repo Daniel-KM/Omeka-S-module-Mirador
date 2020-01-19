@@ -192,7 +192,7 @@ class Mirador extends AbstractHelper
         $data = [];
         $location = '';
         if ($isExternal) {
-            $site = $view->site();
+            $site = $view->site;
             $location = $site ? $site->title() : '';
         }
         switch ($resourceName) {
