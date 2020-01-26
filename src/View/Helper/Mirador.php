@@ -169,8 +169,11 @@ class Mirador extends AbstractHelper
         $view->headScript()
             ->appendFile($view->assetUrl('vendor/mirador/mirador.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
 
+        $isSite = $view->params()->fromRoute('__SITE__');
+        $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+
         $view->partial('common/helper/mirador-plugins', [
-            'plugins' => $view->siteSetting('mirador_plugins', []),
+            'plugins' => $setting('mirador_plugins', []),
         ]);
 
         $view->headLink()
@@ -184,9 +187,7 @@ class Mirador extends AbstractHelper
         // TODO Manage locale in Mirador.
         $config['locale'] = $view->identity()
             ? $view->userSetting('locale')
-            : ($view->params()->fromRoute('__SITE__')
-                ? $view->siteSetting('locale')
-                : $view->setting('locale'));
+            : $setting('locale');
 
         $isCollection = false;
         $data = [];
@@ -206,7 +207,7 @@ class Mirador extends AbstractHelper
                     'data' => $data,
                     'windowObjects' => [['loadedManifest' => $urlManifest]],
                 ];
-                $siteConfig = $view->siteSetting('mirador_config_item', '{}');
+                $siteConfig = $setting('mirador_config_item', '{}') ?: '{}';
                 // TODO Site settings are not checked in page site settings.
                 if (json_decode($siteConfig, true) === null) {
                     $view->logger()->err('Site settings for Mirador config of items is not a valid json.'); // @translate
@@ -226,7 +227,7 @@ class Mirador extends AbstractHelper
                     'data' => $data,
                     'openManifestsPage' => true,
                 ];
-                $siteConfig = $view->siteSetting('mirador_config_collection', '{}');
+                $siteConfig = $setting('mirador_config_collection', '{}') ?: '{}';
                 if (json_decode($siteConfig, true) === null) {
                     $view->logger()->err('Site settings for Mirador config of collections is not a valid json.'); // @translate
                 }
@@ -256,7 +257,10 @@ class Mirador extends AbstractHelper
     {
         $view = $this->view;
 
-        $number = $view->siteSetting('mirador_preselected_items');
+        $isSite = $view->params()->fromRoute('__SITE__');
+        $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+
+        $number = $setting('mirador_preselected_items');
         if (empty($number)) {
             return $data;
         }
