@@ -99,14 +99,14 @@ class Mirador extends AbstractHelper
                     // return $view->translate('This item has no files and is not displayable.');
                     return '';
                 }
-                $route = 'iiifserver_presentation_item';
+                $route = 'iiifserver/manifest';
                 break;
             case 'item_sets':
                 if ($resource->itemCount() == 0) {
                     // return $view->translate('This collection has no item and is not displayable.');
                     return '';
                 }
-                $route = 'iiifserver_presentation_collection';
+                $route = 'iiifserver/collection';
                 break;
         }
 
@@ -281,7 +281,7 @@ class Mirador extends AbstractHelper
         $site = $view->vars('site');
         $location = $site ? $site->title() : '';
 
-        $baseManifest = $view->url('iiifserver_presentation_item_redirect', ['id' => '0']);
+        $baseManifest = $view->url('iiifserver/manifest-id', ['id' => '0']);
         $baseManifest = trim($baseManifest, '0');
 
         // The view api doesn't support "returnScalar", so use the api manager.
