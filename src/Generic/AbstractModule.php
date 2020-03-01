@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright Daniel Berthereau, 2018-2019
+ * Copyright Daniel Berthereau, 2018-2020
  *
  * This software is governed by the CeCILL license under French law and abiding
  * by the rules of distribution of free software.  You can use, modify and/ or
@@ -168,7 +168,17 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
 
     public function handleUserSettings(Event $event)
     {
-        $this->handleAnySettings($event, 'user_settings');
+        $services = $this->getServiceLocator();
+        /** @var \Omeka\Mvc\Status $status */
+        $status = $services->get('Omeka\Status');
+        if ($status->isAdminRequest()) {
+            /** @var \Zend\Router\Http\RouteMatch $routeMatch */
+            $routeMatch = $services->get('Application')->getMvcEvent()->getRouteMatch();
+            if (!in_array($routeMatch->getParam('controller'), ['Omeka\Controller\Admin\User', 'user'])) {
+                return;
+            }
+            $this->handleAnySettings($event, 'user_settings');
+        }
     }
 
     /**
@@ -250,6 +260,8 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
     /**
      * Set, delete or update settings of all sites.
      *
+     * @todo Replace by a single query (for install, uninstall, main, setting, user).
+     *
      * @param string $process
      * @param array $values Values to use when process is update, by site id.
      */
@@ -278,6 +290,8 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
 
     /**
      * Set, delete or update settings of all users.
+     *
+     * @todo Replace by a single query (for install, uninstall, main, setting, user).
      *
      * @param string $process
      * @param array $values Values to use when process is update, by user id.
@@ -380,23 +394,21 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
                 $id = $site()->id();
                 break;
             case 'user_settings':
-                /** @var \Zend\Router\RouteMatch $routeMatch */
-                $routeMatch = $event->getRouteMatch();
-                if ($routeMatch->getMatchedRouteName() !== 'admin/site/slug/action'
-                    || $routeMatch->getParam('controller') !== 'user'
-                    || !$routeMatch->getParam('id')
-                ) {
-                    return;
-                }
+                /** @var \Zend\Router\Http\RouteMatch $routeMatch */
+                $routeMatch = $services->get('Application')->getMvcEvent()->getRouteMatch();
                 $id = $routeMatch->getParam('id');
                 break;
         }
 
-        $this->initDataToPopulate($settings, $settingsType, $id);
-
-        $data = $this->prepareDataToPopulate($settings, $settingsType);
-        if (is_null($data)) {
-            return;
+        // Allow to use a form without an id, for example to create a user.
+        if ($settingsType !== 'settings' && !$id) {
+            $data = [];
+        } else {
+            $this->initDataToPopulate($settings, $settingsType, $id);
+            $data = $this->prepareDataToPopulate($settings, $settingsType);
+            if (is_null($data)) {
+                return;
+            }
         }
 
         // Simplify config of settings.
@@ -405,11 +417,23 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
 
         $space = strtolower(static::NAMESPACE);
 
+        /** @var \Zend\Form\Form $form */
         $fieldset = $services->get('FormElementManager')->get($settingFieldsets[$settingsType]);
         $fieldset->setName($space);
         $form = $event->getTarget();
-        $form->add($fieldset);
-        $form->get($space)->populateValues($data);
+        // The user view is managed differently.
+        if ($settingsType === 'user_settings') {
+            // This process allows to save first level elements automatically.
+            // @see \Omeka\Controller\Admin\UserController::editAction()
+            $formFieldset = $form->get('user-settings');
+            foreach ($fieldset->getElements() as $element) {
+                $formFieldset->add($element);
+            }
+            $formFieldset->populateValues($data);
+        } else {
+            $form->add($fieldset);
+            $form->get($space)->populateValues($data);
+        }
     }
 
     /**
@@ -621,9 +645,7 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
      */
     public function stringToList($string)
     {
-        return array_filter(array_map('trim', explode("\n", $this->fixEndOfLine($string))), function ($v) {
-            return (bool) strlen($v);
-        });
+        return array_filter(array_map('trim', explode("\n", $this->fixEndOfLine($string))), 'strlen');
     }
 
     /**
