@@ -7,7 +7,8 @@ via the [IIIF] standard. Common plugins are included.
 
 [Mirador] is an open-source, web based, multi-window image viewing platform with
 the ability to zoom, display, compare and annotate images from around the world.
-It's configurable and fully extensible via plugins.
+It's configurable and fully extensible via plugins. The version 2.7 and 3.0 are
+available.
 
 It uses the resources of any [IIIF] compliant server. The full specification of
 the "International Image Interoperability Framework" standard is supported
@@ -38,12 +39,14 @@ the module to `Mirador`, and go to the root module, and run:
 
 ```
     composer install
+    npm install
 ```
 
 The next times:
 
 ```
     composer update
+    npm update
 ```
 
 Then install it like any other Omeka module.
@@ -71,6 +74,8 @@ The other ones can be set differently for each site:
 - via the theme of the site: copy file `view/common/helper/mirador.phtml` in
   your theme and customize it;
 - via the theme of the site and the assets (`asset/vendor/mirador`).
+
+#### Mirador 2.7
 
 The parameters used to config the viewer can be found in the [wiki], in the
 details of the [api] and in the examples of the [tutorial].
@@ -111,6 +116,10 @@ setting because it uses placeholders, so it should be adapted if used in theme
 in order to take the default parameters in account. The keys `id` and `data` are
 automatically filled, but may be overridden too.
 
+#### Mirador 3.0
+
+The parameters used to config the viewer can be found in in the [recipes] and in
+the details of the file [settings.js].
 
 ### Display
 
@@ -147,6 +156,8 @@ Some plugins require json options to work. Some plugins may not work with the
 integrated version of Mirador. Cross compatibility and options has not been
 checked, so add them one by one and only the needed ones.
 
+#### Plugins for Mirador 2
+
 - [Crosslink]
 - [DBMDZ]: Plugins of the Digital Library / Munich Digitization Centre at the Bavarian State Library
 - [Disable-zoom]
@@ -160,12 +171,18 @@ checked, so add them one by one and only the needed ones.
 - [Sync windows]
 - [UCD]: Plugins of the University College Dublin
 
-To add and manage a new plugin automatically, fill the file `data/plugins/plugins.php`
-and the file `view/common/helper/mirador-plugins.phtml`.
+To add and manage a new plugin automatically, fill the file `data/plugins/plugins-mirador-2.php`
+and the file `view/common/helper/mirador-2-plugins.phtml`.
+
+#### Plugins for Mirador 3
+
+There is no plugin currently.
 
 
-List of images in fullscreen
-----------------------------
+List of images in fullscreen in Mirador 2
+-----------------------------------------
+
+This fix is needed only for Mirador 2.
 
 The standard Mirador doesn’t allow to have the bottom sidebar (list of images)
 in fullscreen, so it’s hard to browse. It’s not a bug, it’s a [feature].
@@ -251,6 +268,8 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [wiki]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
 [api]: https://github.com/ProjectMirador/mirador/wiki/Complete-Configuration-API
 [tutorial]: http://projectmirador.org/docs/docs/getting-started.html
+[recipes]: https://github.com/ProjectMirador/mirador/wiki/M3-Configuration-Recipes
+[settings.js]: https://github.com/ProjectMirador/mirador/blob/master/src/config/settings.js
 [Blocks Disposition]: https://github.com/Daniel-KM/Omeka-S-module-BlocksDisposition
 [Crosslink]: https://github.com/ArchiveLabs/mirador-crosslink
 [dbmdz]: https://github.com/dbmdz/mirador-plugins
