@@ -9,9 +9,7 @@
 $config['id'] =  isset($config['id']) ? $config['id'] : 'mirador';
 $configJson = json_encode($config, 448);
 $script = <<<JS
-$(function() {
-    Mirador($configJson);
-});
+var miradorConfig = $configJson;
 JS;
 $this->headScript()->appendScript($script);
 

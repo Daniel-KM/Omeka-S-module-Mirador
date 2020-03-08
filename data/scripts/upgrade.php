@@ -37,3 +37,12 @@ WHERE id IN ("mirador_append_item_set_show", "mirador_append_item_show", "mirado
 SQL;
     $connection->exec($sql);
 }
+
+if (version_compare($oldVersion, '3.1.7', '<')) {
+    $siteSettings = $serviceLocator->get('Omeka\Settings\Site');
+    $sites = $api->search('sites')->getContent();
+    foreach ($sites as $site) {
+        $siteSettings->setTargetId($site->id());
+        $siteSettings->set('mirador_version', '2');
+    }
+}

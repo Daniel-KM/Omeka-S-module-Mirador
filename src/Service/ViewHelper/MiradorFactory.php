@@ -16,9 +16,9 @@ class MiradorFactory implements FactoryInterface
      *
      * @return Mirador
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $currentTheme = $serviceLocator->get('Omeka\Site\ThemeManager')
+        $currentTheme = $services->get('Omeka\Site\ThemeManager')
             ->getCurrentTheme();
         return new Mirador($currentTheme);
     }

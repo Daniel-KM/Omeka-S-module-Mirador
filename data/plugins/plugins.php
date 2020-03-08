@@ -9,27 +9,4 @@
  */
 
  return [
-    'canvas-link' => 'Canvas link',
-    'crosslink' => 'Cross link',
-    'disable-zoom' => 'Disable zoom',
-    'download-menu' => 'Download menu',
-    'dragndrop-link' => 'Drag-n-drop link',
-    'from-the-page' => 'From the page',
-    'from-the-page-collection' => 'From the page (collection)',
-    'geojson' => 'Geojson',
-    'image-cropper' => 'Image cropper',
-    'jump-to-page' => 'Jump to page',
-    'keyboard-navigation' => 'Keyboard navigation',
-    'ldn' => 'LDN',
-    'manifest-button' => 'Manifest button',
-    'metadata-panel' => 'Metadata panel',
-    'metadata-tab' => 'Metadata tab',
-    'multi-page-navigation' => 'Multi-page navigation',
-    'physical-ruler' => 'Physical ruler',
-    'piwik-tracking' => 'Piwik tracking',
-    'ruler' => 'Ruler',
-    'share-buttons' => 'Share buttons',
-    'share-workspace' => 'Share workspace',
-    'sync-windows' => 'Sync windows',
-    'view-from-url' => 'View from url',
 ];

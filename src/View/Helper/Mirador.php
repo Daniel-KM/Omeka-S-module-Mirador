@@ -14,6 +14,11 @@ class Mirador extends AbstractHelper
     protected $currentTheme;
 
     /**
+     * @var string "2" or "3"
+     */
+    protected $version;
+
+    /**
      * @var AbstractResourceEntityRepresentation|AbstractResourceEntityRepresentation[] $resource
      */
     protected $resource;
@@ -161,30 +166,136 @@ class Mirador extends AbstractHelper
 
         $view = $this->view;
 
-        $view->headLink()
-            ->appendStylesheet($view->assetUrl('vendor/mirador/css/mirador-combined.min.css', 'Mirador'));
-        $view->headScript()
-            ->appendFile($view->assetUrl('vendor/mirador/mirador.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
-
         $isSite = $view->params()->fromRoute('__SITE__');
         $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+        $this->version = $setting('mirador_version', '3');
+        if ($this->version === '2') {
+            return $this->renderMirador2($urlManifest, $options, $resourceName, $isExternal);
+        }
+
+        $assetUrl = $view->plugin('assetUrl');
+        // No css in Mirador 3.
+        $view->headScript()
+            ->appendFile($assetUrl('vendor/mirador/mirador.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($assetUrl('js/mirador.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
 
         $view->partial('common/helper/mirador-plugins', [
             'plugins' => $setting('mirador_plugins', []),
         ]);
 
         $view->headLink()
-            ->appendStylesheet($view->assetUrl('css/mirador.css', 'Mirador'));
+            ->appendStylesheet($assetUrl('css/mirador.css', 'Mirador'));
 
         $config = [
             'id' => 'mirador-' . ++$id,
-            'buildPath' => $view->assetUrl('vendor/mirador/', 'Mirador', false, false),
+        ];
+
+        $config['language'] = $view->identity()
+            ? str_replace('_', '-', $view->userSetting('locale'))
+            : str_replace('_', '-', $setting('locale'));
+
+        $isCollection = false;
+        $data = [];
+        $location = '';
+        if ($isExternal) {
+            $site = $view->site;
+            $location = $site ? $site->title() : '';
+        }
+        switch ($resourceName) {
+            case 'items':
+                $data = [
+                    'windows' => [[
+                        'manifestId' => $urlManifest,
+                    ]],
+                ];
+                $data = $this->appendConfigData($data);
+                $config += $data;
+                $siteConfig = $setting('mirador_config_item', '{}') ?: '{}';
+                // TODO Site settings are not checked in page site settings.
+                if (json_decode($siteConfig, true) === null) {
+                    $view->logger()->err('Site settings for Mirador config of items is not a valid json.'); // @translate
+                }
+                break;
+            case 'item_sets':
+            case 'multiple':
+                $isCollection = true;
+                $data = [
+                    'windows' => [[
+                        'manifestId' => $urlManifest,
+                    ]],
+                ];
+                if ($resourceName === 'item_sets') {
+                    $data = $this->appendConfigData($data);
+                }
+                $config += $data;
+                $siteConfig = $setting('mirador_config_collection', '{}') ?: '{}';
+                if (json_decode($siteConfig, true) === null) {
+                    $view->logger()->err('Site settings for Mirador config of collections is not a valid json.'); // @translate
+                }
+                break;
+        }
+
+        /*
+        $placeholders = [
+            '__manifestUri__' => json_encode($urlManifest),
+            '__canvasID__' => json_encode(
+                $isCollection ? null : (substr($urlManifest, 0, -8) . 'canvas/p1')
+            ),
+        ];
+        $siteConfig = str_replace(array_keys($placeholders), array_values($placeholders), $siteConfig);
+        */
+        $siteConfig = json_decode($siteConfig, true) ?: [];
+
+        // Since only id, buildPath and data are set, it is possible to use
+        // array_merge, array_replace or "+" operator.
+        // In javascript, use "jQuery.extend(true, config, siteOptions, options)".
+        $config = array_replace_recursive($config, $siteConfig, $options);
+
+        return $view->partial('common/helper/mirador', [
+            'config' => $config,
+        ]);
+    }
+
+    /**
+     * Render a mirador viewer for a url, according to options.
+     *
+     * @param string $urlManifest
+     * @param array $options
+     * @param string $resourceName
+     * @param bool $isExternal If the manifest is managed by Omeka or not.
+     * @return string Html code.
+     */
+    protected function renderMirador2($urlManifest, array $options = [], $resourceName = null, $isExternal = false)
+    {
+        static $id = 0;
+
+        $view = $this->view;
+        $isSite = $view->params()->fromRoute('__SITE__');
+        $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+        $assetUrl = $view->plugin('assetUrl');
+
+        $view->headLink()
+            ->appendStylesheet($assetUrl('vendor/mirador-2/css/mirador-combined.min.css', 'Mirador'));
+        $view->headScript()
+            ->appendFile($assetUrl('vendor/mirador-2/mirador.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($assetUrl('js/mirador-2.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
+
+        $view->partial('common/helper/mirador-2-plugins', [
+            'plugins' => $setting('mirador_plugins', []),
+        ]);
+
+        $view->headLink()
+            ->appendStylesheet($assetUrl('css/mirador.css', 'Mirador'));
+
+        $config = [
+            'id' => 'mirador-' . ++$id,
+            'buildPath' => $assetUrl('vendor/mirador/', 'Mirador', false, false),
         ];
 
         // TODO Manage locale in Mirador.
         $config['locale'] = $view->identity()
-            ? $view->userSetting('locale')
-            : $setting('locale');
+            ? substr($view->userSetting('locale'), 0, 2)
+            : substr($setting('locale'), 0, 2);
 
         $isCollection = false;
         $data = [];
@@ -265,7 +376,7 @@ class Mirador extends AbstractHelper
         switch ($this->resource->resourceName()) {
             case 'items':
                 $itemSets = $this->resource->itemSets();
-                if (!$itemSets) {
+                if (!count($itemSets)) {
                     return $data;
                 }
                 $collection = reset($itemSets);
@@ -278,17 +389,24 @@ class Mirador extends AbstractHelper
         $site = $view->vars('site');
         $location = $site ? $site->title() : '';
 
+        // Allows to get the url quickly.
         $baseManifest = $view->url('iiifserver/manifest-id', ['id' => '0']);
         $baseManifest = trim($baseManifest, '0');
 
         // The view api doesn't support "returnScalar", so use the api manager.
         $api = $this->resource->getServiceLocator()->get('Omeka\ApiManager');
         $ids = $api->search('items', ['item_set_id' => $collection->id(), 'limit' => $number, 'sort_by' => 'dcterms:title', 'sort_order' => 'asc'], ['returnScalar' => 'id'])->getContent();
-        foreach ($ids as $id) {
-            $data[] = [
-                'manifestUri' => $baseManifest . $id . '/manifest',
-                'location' => $location,
-            ];
+        if ($this->version === '2') {
+            foreach ($ids as $id) {
+                $data[] = [
+                    'manifestUri' => $baseManifest . $id . '/manifest',
+                    'location' => $location,
+                ];
+            }
+        } else {
+            foreach ($ids as $id) {
+                $data['manifests'][] = $baseManifest . $id . '/manifest';
+            }
         }
 
         return $data;
