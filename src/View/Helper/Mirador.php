@@ -93,10 +93,23 @@ class Mirador extends AbstractHelper
         switch ($resourceName) {
             case 'items':
                 // Currently, an item without files is unprocessable.
-                if (count($resource->media()) == 0) {
-                    // return $view->translate('This item has no files and is not displayable.');
+                $medias = $resource->media();
+                if (!count($medias)) {
                     return '';
                 }
+
+                // Display the viewer only when at least one media is an image.
+                $hasImage = false;
+                foreach ($medias as $media) {
+                    if (strtok($media->mediaType(), '/') === 'image') {
+                        $hasImage = true;
+                        break;
+                    }
+                }
+                if (!$hasImage) {
+                    return '';
+                }
+
                 $route = 'iiifserver/manifest';
                 break;
             case 'item_sets':
