@@ -83,7 +83,7 @@ return [
             'mirador_manifest_property' => '',
         ],
         'site_settings' => [
-            'mirador_version' => '3',
+            'mirador_version' => '2',
             'mirador_plugins' => [],
             'mirador_config_item' => null,
             'mirador_config_collection' => null,
