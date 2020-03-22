@@ -38,15 +38,18 @@ If the module was installed from the source, rename the name of the folder of
 the module to `Mirador`, and go to the root module, and run:
 
 ```
+    # Install mirador 2.7.0 in asset/vendor/mirador-2.
     composer install
+    # Install mirador 3.0 in asset/vendor/mirador.
     npm install
+    gulp
 ```
 
-The next times:
-
+The next times, update with:
 ```
     composer update
     npm update
+    gulp
 ```
 
 Then install it like any other Omeka module.
