@@ -233,7 +233,7 @@ class Mirador extends AbstractHelper
                 $siteConfig = $setting('mirador_config_item', '{}') ?: '{}';
                 // TODO Site settings are not checked in page site settings.
                 if (json_decode($siteConfig, true) === null) {
-                    $view->logger()->err('Site settings for Mirador config of items is not a valid json.'); // @translate
+                    $view->logger()->err('Settings for Mirador config of items is not a valid json.'); // @translate
                 }
                 break;
             case 'item_sets':
@@ -250,7 +250,7 @@ class Mirador extends AbstractHelper
                 $config += $data;
                 $siteConfig = $setting('mirador_config_collection', '{}') ?: '{}';
                 if (json_decode($siteConfig, true) === null) {
-                    $view->logger()->err('Site settings for Mirador config of collections is not a valid json.'); // @translate
+                    $view->logger()->err('Settings for Mirador config of collections is not a valid json.'); // @translate
                 }
                 break;
         }
@@ -338,7 +338,7 @@ class Mirador extends AbstractHelper
                 $siteConfig = $setting('mirador_config_item', '{}') ?: '{}';
                 // TODO Site settings are not checked in page site settings.
                 if (json_decode($siteConfig, true) === null) {
-                    $view->logger()->err('Site settings for Mirador config of items is not a valid json.'); // @translate
+                    $view->logger()->err('Settings for Mirador config of items is not a valid json.'); // @translate
                 }
                 break;
             case 'item_sets':
@@ -357,7 +357,7 @@ class Mirador extends AbstractHelper
                 ];
                 $siteConfig = $setting('mirador_config_collection', '{}') ?: '{}';
                 if (json_decode($siteConfig, true) === null) {
-                    $view->logger()->err('Site settings for Mirador config of collections is not a valid json.'); // @translate
+                    $view->logger()->err('Settings for Mirador config of collections is not a valid json.'); // @translate
                 }
                 break;
         }
