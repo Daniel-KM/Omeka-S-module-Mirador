@@ -314,8 +314,9 @@ class Mirador extends AbstractHelper
 
         // TODO Manage locale in Mirador.
         $config['locale'] = $view->identity()
-            ? substr($view->userSetting('locale'), 0, 2)
-            : substr($setting('locale'), 0, 2);
+            ? $view->userSetting('locale')
+            : $setting('locale');
+        $config['locale'] = substr($config['locale'], 0, 2);
 
         $isCollection = false;
         $data = [];
