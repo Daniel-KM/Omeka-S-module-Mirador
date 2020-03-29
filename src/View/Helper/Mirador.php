@@ -309,7 +309,7 @@ class Mirador extends AbstractHelper
 
         $config = [
             'id' => 'mirador-' . ++$id,
-            'buildPath' => $assetUrl('vendor/mirador/', 'Mirador', false, false),
+            'buildPath' => $assetUrl('vendor/mirador-2/', 'Mirador', false, false),
         ];
 
         // TODO Manage locale in Mirador.
