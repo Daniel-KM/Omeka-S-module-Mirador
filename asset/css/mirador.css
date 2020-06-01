@@ -17,4 +17,10 @@
     .mirador-viewer .manifest-info .window-manifest-title {
         line-height: initial;
     }
+    @media (min-width: 1200px) {
+        .modal-dialog {
+            width: 1440px;
+            margin: 30px auto;
+        }
+    }
 }
