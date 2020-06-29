@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57ecc3e2d8e2795dcb926b886daa1ae1",
+    "content-hash": "23ac690ec0b91d48adb99d4150b51663",
     "packages": [
         {
             "name": "2sc1815j/mirador-dragndrop-link-plugin",
@@ -80,16 +80,16 @@
         },
         {
             "name": "slowprog/composer-copy-file",
-            "version": "0.3.1",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slowprog/CopyFile.git",
-                "reference": "5a82ba4613948f70b2d4b041c13c1c9259fc6477"
+                "reference": "b046b9d31219ee5f279d27dcbb5810c6e9cc1871"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slowprog/CopyFile/zipball/5a82ba4613948f70b2d4b041c13c1c9259fc6477",
-                "reference": "5a82ba4613948f70b2d4b041c13c1c9259fc6477",
+                "url": "https://api.github.com/repos/slowprog/CopyFile/zipball/b046b9d31219ee5f279d27dcbb5810c6e9cc1871",
+                "reference": "b046b9d31219ee5f279d27dcbb5810c6e9cc1871",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
             "keywords": [
                 "copy file"
             ],
-            "time": "2019-01-10T05:06:10+00:00"
+            "time": "2020-06-16T22:49:57+00:00"
         },
         {
             "name": "sul-dlss/mirador-jump-to-page",
@@ -179,5 +179,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

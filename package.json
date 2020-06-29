@@ -8,7 +8,7 @@
     "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador.git"
   },
   "dependencies": {
-    "mirador": "3.0.0-beta.5"
+    "mirador": "^3.0.0-rc.1"
   },
   "devDependencies": {
     "del": "^3.0.0",
