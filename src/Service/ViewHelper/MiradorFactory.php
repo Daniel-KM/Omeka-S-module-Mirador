@@ -21,7 +21,7 @@ class MiradorFactory implements FactoryInterface
         $currentTheme = $services->get('Omeka\Site\ThemeManager')
             ->getCurrentTheme();
         $module = $services->get('Omeka\ModuleManager')->getModule('IiifServer');
-        $isOldIiifServer = $module && version_compare($module->getIni('version'), '3.6.0', '<');
+        $isOldIiifServer = $module && version_compare($module->getIni('version'), '3.5.99', '<');
         return new Mirador($currentTheme, $isOldIiifServer);
     }
 }

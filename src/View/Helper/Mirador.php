@@ -61,6 +61,7 @@ class Mirador extends AbstractHelper
         // If the manifest is not provided in metadata, point to the manifest
         // created from Omeka files only when the Iiif Server is installed.
         $iiifServerIsActive = $this->hasIiifServer();
+        $version = $view->setting('iiifserver_manifest_version', '2');
 
         // Prepare the url of the manifest for a dynamic collection.
         if (is_array($resource)) {
@@ -70,20 +71,17 @@ class Mirador extends AbstractHelper
 
             $identifiers = $this->buildIdentifierForList($resource);
             if ($this->isOldIiifServer) {
-                $route = 'iiifserver_presentation_collection_list';
                 $identifiers = count($identifiers) <= 1 ? reset($identifiers) . ',' : implode(',', $identifiers);
-                $urlManifest = $view->url($route,
+                $urlManifest = $view->url(
+                    'iiifserver_presentation_collection_list',
                     ['id' => $identifiers],
                     ['force_canonical' => true]
                 );
             } else {
-                $route = 'iiifserver/set';
-                $urlManifest = $view->url($route,
-                    [],
-                    [
-                        'query' => ['id' => $identifiers],
-                        'force_canonical' => true,
-                    ]
+                $urlManifest = $view->url(
+                    'iiifserver/set',
+                    ['version' => $version, 'id' => implode(',', $identifiers)],
+                    ['force_canonical' => true]
                 );
             }
             $urlManifest = $view->iiifForceBaseUrlIfRequired($urlManifest);
@@ -146,9 +144,17 @@ class Mirador extends AbstractHelper
                 break;
         }
 
+        $plugins = $this->view->getHelperPluginManager();
+        if ($plugins->has('iiifCleanIdentifiers')) {
+            $helper = $plugins->get('iiifCleanIdentifiers');
+            $identifier = $helper($resource->id());
+        } else {
+            $identifier = $resource->id();
+        }
+
         $urlManifest = $view->url(
             $route,
-            ['id' => $resource->id()],
+            ['version' => $version, 'id' => $identifier],
             ['force_canonical' => true]
         );
         $urlManifest = $view->iiifForceBaseUrlIfRequired($urlManifest);
@@ -159,13 +165,16 @@ class Mirador extends AbstractHelper
     /**
      * Helper to list all resource ids.
      *
-     * @todo Use IiifServer\View\Helper\IiifCollectionList::buildIdentifierForList()
-     *
      * @param array $resources
      * @return string
      */
     protected function buildIdentifierForList(array $resources)
     {
+        $plugins = $this->view->getHelperPluginManager();
+        if ($plugins->has('iiifCleanIdentifiers')) {
+            $helper = $plugins->get('iiifCleanIdentifiers');
+            return $helper($resources);
+        }
         return array_map(function($v) {
             return $v->id();
         }, $resources);
