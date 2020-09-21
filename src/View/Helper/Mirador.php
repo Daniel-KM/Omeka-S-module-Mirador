@@ -361,7 +361,7 @@ class Mirador extends AbstractHelper
         $location = $site ? $site->title() : '';
 
         // Allows to get the url quickly.
-        $baseManifest = $view->url($this->isOldIiifServer ? 'iiifserver_presentation_item_redirect' : 'iifserver/manifest-id', ['id' => '0'], ['force_canonical' => true]);
+        $baseManifest = $view->url($this->isOldIiifServer ? 'iiifserver_presentation_item_redirect' : 'iiifserver/manifest-id', ['id' => '0'], ['force_canonical' => true]);
         $baseManifest = rtrim($baseManifest, '0');
 
         // The view api doesn't support "returnScalar", so use the api manager.
