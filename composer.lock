@@ -80,16 +80,16 @@
         },
         {
             "name": "slowprog/composer-copy-file",
-            "version": "0.3.2",
+            "version": "0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slowprog/CopyFile.git",
-                "reference": "b046b9d31219ee5f279d27dcbb5810c6e9cc1871"
+                "reference": "b02d55f7587577f29d355f0ce7b697f66dffc0af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slowprog/CopyFile/zipball/b046b9d31219ee5f279d27dcbb5810c6e9cc1871",
-                "reference": "b046b9d31219ee5f279d27dcbb5810c6e9cc1871",
+                "url": "https://api.github.com/repos/slowprog/CopyFile/zipball/b02d55f7587577f29d355f0ce7b697f66dffc0af",
+                "reference": "b02d55f7587577f29d355f0ce7b697f66dffc0af",
                 "shasum": ""
             },
             "require": {
@@ -124,7 +124,7 @@
             "keywords": [
                 "copy file"
             ],
-            "time": "2020-06-16T22:49:57+00:00"
+            "time": "2020-07-02T14:44:41+00:00"
         },
         {
             "name": "sul-dlss/mirador-jump-to-page",
