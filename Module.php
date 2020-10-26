@@ -77,11 +77,6 @@ class Module extends AbstractModule
             'form.add_elements',
             [$this, 'handleSiteSettings']
         );
-        $sharedEventManager->attach(
-            \Omeka\Form\SiteSettingsForm::class,
-            'form.add_input_filters',
-            [$this, 'handleSiteSettingsFilters']
-        );
     }
 
     public function handleMainSettings(Event $event): void
@@ -106,17 +101,6 @@ class Module extends AbstractModule
             ->get('mirador')
             ->add([
                 'name' => 'mirador_manifest_property',
-                'required' => false,
-            ])
-        ;
-    }
-
-    public function handleSiteSettingsFilters(Event $event): void
-    {
-        $event->getParam('inputFilter')
-            ->get('mirador')
-            ->add([
-                'name' => 'mirador_plugins',
                 'required' => false,
             ])
         ;

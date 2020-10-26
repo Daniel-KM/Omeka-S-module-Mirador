@@ -24,10 +24,14 @@ return [
     ],
     'form_elements' => [
         'invokables' => [
+            'OptionalSelect' => Form\Element\OptionalSelect::class,
             Form\SettingsFieldset::class => Form\SettingsFieldset::class,
         ],
         'factories' => [
             Form\SiteSettingsFieldset::class => Service\Form\SiteSettingsFieldsetFactory::class,
+        ],
+        'aliases' => [
+            Form\Element\OptionalSelect::class => 'OptionalSelect',
         ],
     ],
     'router' => [

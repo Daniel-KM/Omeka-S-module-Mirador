@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
+
 namespace Mirador\Form;
 
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
+use Mirador\Form\Element\OptionalSelect;
 
 class SiteSettingsFieldset extends Fieldset
 {
@@ -33,13 +35,14 @@ class SiteSettingsFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'mirador_plugins',
-                'type' => Element\Select::class,
+                'type' => OptionalSelect::class,
                 'options' => [
                     'label' => 'Mirador plugins',
                     'info' => 'Read the doc. Some plugins require json options to work. Cross compatibility has not been checked, so add them one by one and only the needed ones.', // @translate
                     'documentation' => 'https://github.com/daniel-km/omeka-s-module-mirador#plugins',
                     'value_options' => $this->getPlugins(),
                     'empty_option' => '',
+                    'use_hidden_element' => true,
                 ],
                 'attributes' => [
                     'id' => 'mirador_plugins',

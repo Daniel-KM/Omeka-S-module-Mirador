@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Mirador\Form;
 
 use Laminas\Form\Fieldset;
@@ -19,6 +20,7 @@ class SettingsFieldset extends Fieldset
                     'info' => 'The property supplying the manifest URL for the viewer, for example "dcterms:hasFormat" or "dcterms:isFormatOf".', // @translate
                     'empty_option' => '',
                     'term_as_value' => true,
+                    'use_hidden_element' => true,
                 ],
                 'attributes' => [
                     'id' => 'mirador_manifest_property',
