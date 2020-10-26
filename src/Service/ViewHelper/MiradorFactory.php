@@ -4,7 +4,7 @@ namespace Mirador\Service\ViewHelper;
 
 use Interop\Container\ContainerInterface;
 use Mirador\View\Helper\Mirador;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Service factory for the Mirador view helper.

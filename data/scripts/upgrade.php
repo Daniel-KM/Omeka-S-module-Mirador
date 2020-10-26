@@ -3,7 +3,7 @@ namespace Mirador;
 
 /**
  * @var Module $this
- * @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+ * @var \Laminas\ServiceManager\ServiceLocatorInterface $serviceLocator
  * @var string $oldVersion
  * @var string $newVersion
  */

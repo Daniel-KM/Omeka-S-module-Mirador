@@ -4,7 +4,7 @@ namespace Mirador\View\Helper;
 
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Site\Theme\Theme;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 class Mirador extends AbstractHelper
 {

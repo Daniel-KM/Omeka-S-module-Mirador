@@ -3,7 +3,7 @@ namespace Mirador\Service\Form;
 
 use Interop\Container\ContainerInterface;
 use Mirador\Form\SiteSettingsFieldset;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class SiteSettingsFieldsetFactory implements FactoryInterface
 {

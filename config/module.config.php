@@ -35,7 +35,7 @@ return [
             'site' => [
                 'child_routes' => [
                     'resource-id-mirador' => [
-                        'type' => \Zend\Router\Http\Segment::class,
+                        'type' => \Laminas\Router\Http\Segment::class,
                         'options' => [
                             'route' => '/:resourcename/:id/mirador',
                             'constraints' => [
@@ -52,7 +52,7 @@ return [
                 ],
             ],
             'mirador_player' => [
-                'type' => \Zend\Router\Http\Segment::class,
+                'type' => \Laminas\Router\Http\Segment::class,
                 'options' => [
                     'route' => '/:resourcename/:id/mirador',
                     'constraints' => [
