@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Mirador\Service\ViewHelper;
 
 use Interop\Container\ContainerInterface;
-use Mirador\View\Helper\Mirador;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Mirador\View\Helper\Mirador;
 
 /**
  * Service factory for the Mirador view helper.

@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Mirador\Controller;
 
-use Omeka\Mvc\Exception\NotFoundException;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
+use Omeka\Mvc\Exception\NotFoundException;
 
 class PlayerController extends AbstractActionController
 {

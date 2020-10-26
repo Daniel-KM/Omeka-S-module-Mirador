@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 namespace Mirador\Form;
 
-use Omeka\Form\Element\PropertySelect;
 use Laminas\Form\Fieldset;
+use Omeka\Form\Element\PropertySelect;
 
 class SettingsFieldset extends Fieldset
 {
     protected $label = 'Mirador Viewer'; // @translate
 
-    public function init()
+    public function init(): void
     {
         $this
             ->add([

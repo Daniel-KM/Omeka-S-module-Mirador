@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * List of js plugins that can be dynamically added to Mirador viewer.
  *
