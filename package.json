@@ -5,7 +5,7 @@
   "description": "Mirador (module for Omeka S)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador.git"
+    "url": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador.git"
   },
   "dependencies": {
     "mirador": "^3.0.0-rc.6"

@@ -42,7 +42,7 @@
         "name": "daniel-km/mirador-plugin-metadata-tab",
         "version": "1.0.0",
         "dist": {
-          "url": "https://github.com/Daniel-KM/Mirador-plugin-MetadataTab/archive/master.zip",
+          "url": "https://gitlab.com/Daniel-KM/Mirador-plugin-MetadataTab/archive/master.zip",
           "type": "zip"
         }
       }

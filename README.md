@@ -216,13 +216,13 @@ your archives regularly so you can roll back if needed.
 Troubleshooting
 ---------------
 
-See online issues on the [module issues] page on GitHub.
+See online issues on the [module issues] page on GitLab.
 
 
 License
 -------
 
-This module is published under the [CeCILL v2.1] licence, compatible with
+This module is published under the [CeCILL v2.1] license, compatible with
 [GNU/GPL] and approved by [FSF] and [OSI].
 
 In consideration of access to the source code and the rights to copy, modify and
@@ -260,16 +260,16 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Schola Cantorum Basiliensis].
 
 
-[Mirador Viewer]: https://github.com/Daniel-KM/Omeka-S-module-Mirador
+[Mirador Viewer]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador
 [Mirador]: https://projectmirador.org
 [Omeka S]: https://omeka.org/s
 [Omeka]: https://omeka.org
-[IIIF Server]: https://github.com/Daniel-KM/Omeka-S-module-IiifServer
+[IIIF Server]: https://gitlab.com/Daniel-KM/Omeka-S-module-IiifServer
 [IIIF]: http://iiif.io
 [IIPImage]: http://iipimage.sourceforge.net
-[Universal Viewer]: https://github.com/Daniel-KM/Omeka-S-module-UniversalViewer
-[Diva Viewer]: https://github.com/Daniel-KM/Omeka-S-module-Diva
-[`Mirador.zip`]: https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases
+[Universal Viewer]: https://gitlab.com/Daniel-KM/Omeka-S-module-UniversalViewer
+[Diva Viewer]: https://gitlab.com/Daniel-KM/Omeka-S-module-Diva
+[`Mirador.zip`]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases
 [iiif specifications]: http://iiif.io/api/
 [jQuery extend]: https://api.jquery.com/jQuery.extend
 [wiki]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
@@ -277,7 +277,7 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [tutorial]: http://projectmirador.org/docs/docs/getting-started.html
 [recipes]: https://github.com/ProjectMirador/mirador/wiki/M3-Configuration-Recipes
 [settings.js]: https://github.com/ProjectMirador/mirador/blob/master/src/config/settings.js
-[Blocks Disposition]: https://github.com/Daniel-KM/Omeka-S-module-BlocksDisposition
+[Blocks Disposition]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlocksDisposition
 [Crosslink]: https://github.com/ArchiveLabs/mirador-crosslink
 [dbmdz]: https://github.com/dbmdz/mirador-plugins
 [Disable-zoom]: https://github.com/UCLALibrary/mirador-disable-zoom
@@ -285,14 +285,14 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [jump-to-page]: https://github.com/sul-dlss/mirador-jump-to-page
 [ldn]: https://github.com/jeffreycwitt/mirador-ldn-plugin
 [Metadata]: https://github.com/jazahn/mirador-metadata
-[Metadata Tab]: https://github.com/Daniel-KM/Mirador-plugin-MetadataTab
+[Metadata Tab]: https://gitlab.com/Daniel-KM/Mirador-plugin-MetadataTab
 [Ruler]: https://github.com/UCLALibrary/mirador-ruler
 [Share workspace]: https://github.com/UCLALibrary/mirador-share-workspace
 [Sync windows]: https://github.com/UCLALibrary/mirador-sync-windows
 [ucd]: https://github.com/jbhoward-dublin/mirador-plugins-ucd
 [Zen mode]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides#zen-mode
 [feature]: https://github.com/ProjectMirador/mirador/pull/1235
-[module issues]: https://github.com/Daniel-KM/Omeka-S-module-Mirador/issues
+[module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [FSF]: https://www.fsf.org
@@ -301,4 +301,4 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Fachhochschule Nordwestschweiz]: https://www.fhnw.ch
 [Schola Cantorum Basiliensis]: https://www.fhnw.ch/en/about-fhnw/schools/music/schola-cantorum-basiliensis
 [GitLab]: https://gitlab.com/Daniel-KM
-[Daniel-KM]: https://github.com/Daniel-KM "Daniel Berthereau"
+[Daniel-KM]: https://gitlab.com/Daniel-KM "Daniel Berthereau"
