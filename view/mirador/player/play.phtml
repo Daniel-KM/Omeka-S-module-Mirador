@@ -4,14 +4,44 @@
  * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
  */
 
-$this->htmlElement('body')->appendAttribute('class', 'mirador play');
+$this->htmlElement('body')->appendAttribute('class', 'play fullscreen');
 $title = $resource->displayTitle();
 $creator = $resource->value('dcterms:creator', ['type' => 'literal']);
 if ($creator) {
     $title .= ' - ' . $creator;
 }
 
-echo $this->pageTitle($title);
-?>
+// No echo: add title to meta.
+$this->pageTitle($title);
 
-<?php echo $this->mirador($resource);
+$this->htmlElement('html')
+    ->setAttribute('lang', $this->lang());
+$this->headMeta()
+    ->setCharset('utf-8')
+    ->appendName('viewport', 'width=device-width, initial-scale=1');
+$this->headTitle()
+    ->setSeparator(' · ')
+    ->append($this->setting('installation_title', 'Omeka S'));
+// jQuery may be needed for some versions of the viewer or for plugins.
+$this->headScript()
+    ->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'), 'text/javascript', ['defer' => 'defer']);
+
+// The viewer should be loaded before the head to include the laminas header (css, js…).
+$viewer = $this->mirador($resource);
+
+$this->trigger('view.layout');
+
+?>
+<?= $this->doctype() ?>
+<?= $this->htmlElement('html') ?>
+    <head>
+        <?= $this->headMeta() ?>
+        <?= $this->headTitle() ?>
+        <?= $this->headLink() ?>
+        <?= $this->headStyle() ?>
+        <?= $this->headScript() ?>
+    </head>
+    <?= $this->htmlElement('body') ?>
+        <?= $viewer ?>
+    </body>
+</html>

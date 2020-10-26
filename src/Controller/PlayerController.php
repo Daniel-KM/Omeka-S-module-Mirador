@@ -50,8 +50,10 @@ class PlayerController extends AbstractActionController
             throw new NotFoundException;
         }
 
-        $view = new ViewModel;
-        $view->setVariable('resource', $resource);
-        return $view;
+        $view = new ViewModel([
+            'resource' => $resource,
+        ]);
+        return $view
+            ->setTerminal(true);
     }
 }
