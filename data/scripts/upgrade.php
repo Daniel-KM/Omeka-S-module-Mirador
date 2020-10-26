@@ -46,3 +46,7 @@ if (version_compare($oldVersion, '3.1.7', '<')) {
         $siteSettings->set('mirador_version', '2');
     }
 }
+
+if (version_compare($oldVersion, '3.3.7.3', '<')) {
+    $settings->delete('mirador_manifest_property');
+}
