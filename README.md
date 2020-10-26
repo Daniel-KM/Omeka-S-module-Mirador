@@ -1,6 +1,9 @@
 Mirador Viewer (module for Omeka S)
 ===================================
 
+> __New versions of this module and support for Omeka S version 3.0 and above
+> are available on [GitLab], which seems to respect users and privacy better.__
+
 [Mirador Viewer] is a module for [Omeka S] that integrates [Mirador], an
 advanced online viewer for images, so it can display books, images, maps, etc.
 via the [IIIF] standard. Common plugins are included.
@@ -297,4 +300,5 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Apache 2]: http://www.apache.org/licenses/LICENSE-2.0
 [Fachhochschule Nordwestschweiz]: https://www.fhnw.ch
 [Schola Cantorum Basiliensis]: https://www.fhnw.ch/en/about-fhnw/schools/music/schola-cantorum-basiliensis
+[GitLab]: https://gitlab.com/Daniel-KM
 [Daniel-KM]: https://github.com/Daniel-KM "Daniel Berthereau"
