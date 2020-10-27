@@ -31,9 +31,8 @@ install it, or use and init the source.
 
 * From the zip
 
-Download the last release [`Mirador.zip`] from the list of releases (the
-master does not contain the dependency), and uncompress it in the `modules`
-directory.
+Download the last release [Mirador.zip] from the list of releases (the master
+does not contain the dependency), and uncompress it in the `modules` directory.
 
 * From the source and for development:
 
@@ -45,14 +44,6 @@ the module to `Mirador`, and go to the root module, and run:
 composer install --no-dev
 # Install mirador 3.0 in asset/vendor/mirador.
 npm install
-gulp
-```
-
-The next times, update with:
-
-```sh
-composer update --no-dev
-npm update
 gulp
 ```
 
