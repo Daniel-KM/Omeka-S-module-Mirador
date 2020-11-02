@@ -96,7 +96,7 @@ class Mirador extends AbstractHelper
                 // Display the viewer only when at least one media is an image.
                 $hasImage = false;
                 foreach ($medias as $media) {
-                    if ($media->ingester() === 'iiif' || strtok($media->mediaType(), '/') === 'image') {
+                    if ($media->ingester() === 'iiif' || strtok((string) $media->mediaType(), '/') === 'image') {
                         $hasImage = true;
                         break;
                     }
@@ -132,7 +132,7 @@ class Mirador extends AbstractHelper
 
         $view = $this->view;
 
-        $isSite = $view->params()->fromRoute('__SITE__');
+        $isSite = $view->status()->isSiteRequest();
         $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
         $this->version = $setting('mirador_version', '3');
         if ($this->version === '2') {
