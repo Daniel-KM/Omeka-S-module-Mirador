@@ -24,9 +24,10 @@ return [
     ],
     'form_elements' => [
         'invokables' => [
-            'OptionalSelect' => Form\Element\OptionalSelect::class,
+            Form\Element\OptionalSelect::class => Form\Element\OptionalSelect::class,
         ],
         'factories' => [
+            Form\SettingsFieldset::class => Service\Form\SettingsFieldsetFactory::class,
             Form\SiteSettingsFieldset::class => Service\Form\SiteSettingsFieldsetFactory::class,
         ],
     ],
@@ -61,6 +62,7 @@ return [
                     ],
                     'defaults' => [
                         '__NAMESPACE__' => 'Mirador\Controller',
+                        '__SITE__' => true,
                         'controller' => 'Player',
                         'action' => 'play',
                     ],
@@ -79,8 +81,15 @@ return [
         ],
     ],
     'mirador' => [
+        'settings' => [
+            'mirador_version' => '3',
+            'mirador_plugins' => [],
+            'mirador_config_item' => null,
+            'mirador_config_collection' => null,
+            'mirador_preselected_items' => 0,
+        ],
         'site_settings' => [
-            'mirador_version' => '2',
+            'mirador_version' => '3',
             'mirador_plugins' => [],
             'mirador_config_item' => null,
             'mirador_config_collection' => null,
