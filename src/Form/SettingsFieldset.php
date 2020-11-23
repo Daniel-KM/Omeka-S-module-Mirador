@@ -8,7 +8,7 @@ use Mirador\Form\Element\OptionalSelect;
 
 class SettingsFieldset extends Fieldset
 {
-    protected $label = 'Mirador Viewer'; // @translate
+    protected $label = 'Mirador IIIF Viewer'; // @translate
 
     /**
      * @var array

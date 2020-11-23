@@ -5,8 +5,7 @@
  *
  * @link https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
  */
-
-$config['id'] =  isset($config['id']) ? $config['id'] : 'mirador';
+$config['id'] = $config['id'] ?? 'mirador';
 $configJson = json_encode($config, 448);
 $script = <<<JS
 var miradorConfig = $configJson;
