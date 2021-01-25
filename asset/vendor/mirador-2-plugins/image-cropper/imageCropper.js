@@ -207,13 +207,6 @@ var ImageCropper = {
     var windowBottomLeft = tiledImage.imageToWindowCoordinates(new OpenSeadragon.Point(
       0, this.imageDimensions[windowId].height
     ));
-    // Fix cropper resize issue when not in full screen
-    let scrollTop = document.body.scrollTop || document.querySelector('#mirador-1').offsetTop;
-    if (!Mirador.fullscreenElement()){
-      windowTopLeft.y = windowTopLeft.y - scrollTop;
-      windowTopRight.y = windowTopRight.y - scrollTop;
-      windowBottomLeft.y = windowBottomLeft.y - scrollTop;
-    }
     return {
       'topLeft': windowTopLeft,
       'topRight': windowTopRight,
@@ -436,15 +429,12 @@ var ImageCropper = {
     var this_ = this;
     var currentPositions;
     var offsets = {};
-    var body = document.querySelector('body');
 
     var origFunc = Mirador.ImageView.prototype.listenForActions;
     Mirador.ImageView.prototype.listenForActions = function(){
       origFunc.apply(this);
-      this.element.on('mousedown pointerdown touchstart', '.cropping-overlay > .resize-frame', function(evt){
-        if(evt.which === 1 || evt.which === 0){
-          body.style.overflow = 'hidden';
-          body.style.position = 'fixed';
+      this.element.on('mousedown', '.cropping-overlay > .resize-frame', function(evt){
+        if(evt.which === 1){
           this_.dragging = true;
           currentPositions = this_.calculatePositions($(this).parent(), evt);
           offsets.canvas = $(this).closest('.mirador-osd').offset();
@@ -453,11 +443,9 @@ var ImageCropper = {
             'y': currentPositions.mouse.top - currentPositions.element.top
           };
         }
-      }).on('mousemove pointermove touchmove', '.mirador-osd', function(evt){
+      }).on('mousemove', '.mirador-osd', function(evt){
         if(this_.dragging){
           evt.preventDefault();
-          body.style.removeProperty('overflow');
-          body.style.removeProperty('fixed');
           currentPositions = this_.calculatePositions(this.croppingOverlay, evt);
           var currentTiledImage = this.canvases[this.canvasID].getVisibleImages()[0].osdTiledImage;
           this_.changeOverlayPosition(
@@ -465,7 +453,7 @@ var ImageCropper = {
             evt.currentTarget, currentTiledImage, this.windowId
           );
         }
-      }.bind(this)).on('mouseup pointerup touchend', '.cropping-overlay > .resize-frame', function(){
+      }.bind(this)).on('mouseup', '.cropping-overlay > .resize-frame', function(){
         this_.dragging = false;
       });
     };
@@ -540,25 +528,20 @@ var ImageCropper = {
     var typeOfResizeElement;
     var currentMousePosition;
     var offsets = {};
-    var body = document.querySelector('body');
 
     var origFunc = Mirador.ImageView.prototype.listenForActions;
     Mirador.ImageView.prototype.listenForActions = function(){
       origFunc.apply(this);
-      this.element.on('mousedown pointerdown touchstart', '.resize-anchor, .resize-bar', function(evt){
-        if(evt.which === 1 || evt.which === 0){
-          body.style.overflow = 'hidden';
-          body.style.position = 'fixed';
+      this.element.on('mousedown', '.resize-anchor, .resize-bar', function(evt){
+        if(evt.which === 1){
           typeOfResizeElement = evt.target.className.split(' ').pop();
           this_.resizing = true;
           offsets.canvas = $(this).closest('.mirador-osd').offset();
           offsets.element = $(this).parent().offset();
         }
-      }).on('mousemove pointermove touchmove', '.mirador-osd', function(evt){
+      }).on('mousemove', '.mirador-osd', function(evt){
         if(this_.resizing){
           evt.preventDefault();
-          body.style.removeProperty('overflow');
-          body.style.removeProperty('fixed');
           currentMousePosition = this_.calculatePositions(this.croppingOverlay, evt).mouse;
           var currentTiledImage = this.canvases[this.canvasID].getVisibleImages()[0].osdTiledImage;
           this_.changeOverlayDimensions(
@@ -566,7 +549,7 @@ var ImageCropper = {
             this.croppingOverlay, currentTiledImage, this.windowId
           );
         }
-      }.bind(this)).on('mouseup pointerup touchend', '.mirador-osd', function(){
+      }.bind(this)).on('mouseup', '.mirador-osd', function(){
         this_.resizing = false;
       });
     };
