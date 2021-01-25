@@ -4,7 +4,6 @@ namespace Mirador\Controller;
 
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
-use Omeka\Mvc\Exception\NotFoundException;
 
 class PlayerController extends AbstractActionController
 {
@@ -22,34 +21,9 @@ class PlayerController extends AbstractActionController
 
     public function playAction()
     {
+        // The exception is thrown automatically.
         $id = $this->params('id');
-        if (empty($id)) {
-            throw new NotFoundException;
-        }
-
-        // Map iiif resources with Omeka Classic and Omeka S records.
-        $matchingResources = [
-            'item' => 'items',
-            'items' => 'items',
-            'item-set' => 'item_sets',
-            'item-sets' => 'item_sets',
-            'item_set' => 'item_sets',
-            'item_sets' => 'item_sets',
-            'collection' => 'item_sets',
-            'collections' => 'item_sets',
-        ];
-        $resourceName = $this->params('resourcename');
-        if (!isset($matchingResources[$resourceName])) {
-            throw new NotFoundException;
-        }
-        $resourceName = $matchingResources[$resourceName];
-
-        $response = $this->api()->read($resourceName, $id);
-        $resource = $response->getContent();
-        if (empty($resource)) {
-            throw new NotFoundException;
-        }
-
+        $resource = $this->api()->read('resources', $id)->getContent();
         $view = new ViewModel([
             'resource' => $resource,
         ]);
