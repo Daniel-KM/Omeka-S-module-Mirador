@@ -6,13 +6,17 @@
  * block page. It allows to include automatically the css and the js assets too.
  * The files themselves are included via `view/common/helper/mirador-plugins.phtml`.
  * The options should be set via the json textarea or via the theme.
+ *
+ * Note:
+ * Currently, with Mirador 3, plugins should be included and compiled with the
+ * bundle, so they are not available separately, but hidden.
  */
 
- return [
-     'annotations' => 'Annotations',
-     'dl' => 'Download files',
-     'image-tools' => 'Image tools',
-     // 'ruler' => 'Ruler',
-     'share' => 'Share',
-     'textoverlay' => 'Text overlay',
+return [
+    'annotations' => 'Annotations',
+    'dl' => 'Download files',
+    'image-tools' => 'Image tools',
+    'ruler' => 'Ruler',
+    'share' => 'Share',
+    'textoverlay' => 'Text overlay',
 ];

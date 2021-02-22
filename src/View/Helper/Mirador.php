@@ -142,11 +142,12 @@ class Mirador extends AbstractHelper
         $assetUrl = $view->plugin('assetUrl');
         // No css in Mirador 3.
         $view->headScript()
-            ->appendFile($assetUrl('vendor/mirador/mirador.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($assetUrl('vendor/mirador/mirador-pack.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer'])
             ->appendFile($assetUrl('js/mirador.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
 
+        $miradorPlugins = $setting('mirador_plugins', []);
         $view->partial('common/helper/mirador-plugins', [
-            'plugins' => $setting('mirador_plugins', []),
+            'plugins' => $miradorPlugins,
         ]);
 
         $view->headLink()
@@ -154,6 +155,7 @@ class Mirador extends AbstractHelper
 
         $config = [
             'id' => 'mirador-' . ++$id,
+            'globalMiradorPlugins' => $miradorPlugins,
         ];
 
         $config['language'] = $view->identity()

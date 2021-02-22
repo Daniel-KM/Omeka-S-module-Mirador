@@ -8,19 +8,7 @@
     "url": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador.git"
   },
   "dependencies": {
-    "mirador": "^3.0.0",
-    "mirador-annotations": "^0.3.1",
-    "mirador-dl-plugin": "^0.13.0",
-    "mirador-image-tools": "^0.10.0",
-    "mirador-ruler-plugin": "^0.1.0",
-    "mirador-share-plugin": "^0.10.0",
-    "mirador-textoverlay": "^0.3.2"
-  },
-  "devDependencies": {
-    "del": "^3.0.0",
     "gulp": "^4.0.2",
-    "gulp-if": "^2.0.2",
-    "gulp-rename": "^1.4.0",
-    "gulp-uglify": "^3.0.2"
+    "gulp-concat": "^2.6.1"
   }
 }
