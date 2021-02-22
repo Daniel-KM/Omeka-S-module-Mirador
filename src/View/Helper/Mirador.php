@@ -157,8 +157,8 @@ class Mirador extends AbstractHelper
         ];
 
         $config['language'] = $view->identity()
-            ? str_replace('_', '-', $view->userSetting('locale'))
-            : str_replace('_', '-', $setting('locale'));
+            ? str_replace('_', '-', (string) $view->userSetting('locale'))
+            : str_replace('_', '-', (string) $setting('locale'));
 
         $isCollection = false;
         $data = [];
@@ -260,8 +260,8 @@ class Mirador extends AbstractHelper
 
         // TODO Manage locale in Mirador.
         $config['locale'] = $view->identity()
-            ? $view->userSetting('locale')
-            : $setting('locale');
+            ? (string) $view->userSetting('locale')
+            : (string) $setting('locale');
         $config['locale'] = substr($config['locale'], 0, 2);
 
         $isCollection = false;
