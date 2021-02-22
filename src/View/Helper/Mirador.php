@@ -139,13 +139,27 @@ class Mirador extends AbstractHelper
             return $this->renderMirador2($urlManifest, $options, $resourceName, $isExternal);
         }
 
+        // No css in Mirador 3: this is a webpack + google roboto.
         $assetUrl = $view->plugin('assetUrl');
-        // No css in Mirador 3.
-        $view->headScript()
-            ->appendFile($assetUrl('vendor/mirador/mirador-pack.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer'])
+        $headScript = $view->headScript();
+        $miradorPlugins = $setting('mirador_plugins', []);
+
+        // Optimize the size of the bundle.
+        if (empty($miradorPlugins)) {
+            // Vanilla Mirador.
+            $miradorVendorJs = 'vendor/mirador/mirador.min.js';
+        } elseif (in_array('annotations', $miradorPlugins)) {
+            // Heavy Mirador: include Annotation plugin and all others ones.
+            $miradorVendorJs = 'vendor/mirador/mirador-bundle.min.js';
+        } else {
+            // Common or small plugins.
+            $miradorVendorJs = 'vendor/mirador/mirador-pack.min.js';
+        }
+
+        $headScript
+            ->appendFile($assetUrl($miradorVendorJs, 'Mirador'), 'text/javascript', ['defer' => 'defer'])
             ->appendFile($assetUrl('js/mirador.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
 
-        $miradorPlugins = $setting('mirador_plugins', []);
         $view->partial('common/helper/mirador-plugins', [
             'plugins' => $miradorPlugins,
         ]);
