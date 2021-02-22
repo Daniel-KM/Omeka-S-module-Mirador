@@ -121,6 +121,17 @@ class SettingsFieldset extends Fieldset
                     'id' => 'mirador_config_collection',
                 ],
             ])
+            ->add([
+                'name' => 'mirador_annotation_endpoint',
+                'type' => Element\Url::class,
+                'options' => [
+                    'label' => 'Endpoint to store annotations externally', // @translate
+                    'info' => 'This option is used only if the plugin Annotations is enabled, and useful only with an external annotation server.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'mirador_annotation_endpoint',
+                ],
+            ])
 
             ->add([
                 'name' => 'mirador_preselected_items',

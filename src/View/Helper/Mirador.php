@@ -145,10 +145,11 @@ class Mirador extends AbstractHelper
         $miradorPlugins = $setting('mirador_plugins', []);
 
         // Optimize the size of the bundle.
+        $internalConfig = '';
+        $annotationEndpoint = null;
         if (empty($miradorPlugins)) {
             // Vanilla Mirador.
             $miradorVendorJs = 'vendor/mirador/mirador.min.js';
-            $internalConfig = '';
         } elseif (in_array('annotations', $miradorPlugins)) {
             // Heavy Mirador: include Annotation plugin and all others ones.
             $miradorVendorJs = 'vendor/mirador/mirador-bundle.min.js';
@@ -163,10 +164,10 @@ class Mirador extends AbstractHelper
     },
 }
 JS;
+            $annotationEndpoint = $setting('mirador_annotation_endpoint');
         } else {
             // Common or small plugins.
             $miradorVendorJs = 'vendor/mirador/mirador-pack.min.js';
-            $internalConfig = '';
         }
 
         $headScript
@@ -258,6 +259,7 @@ JS;
         return $view->partial('common/helper/mirador', [
             'config' => $configJson,
             'viewerId' => $viewerId,
+            'annotationEndpoint' => $annotationEndpoint,
         ]);
     }
 

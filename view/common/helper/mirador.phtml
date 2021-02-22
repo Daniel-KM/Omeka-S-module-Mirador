@@ -3,6 +3,7 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var string $config
  * @var string $viewerId The viewer id should be the same than "id" inside config.
+ * @var string $annotationEndpoint Specific option to store annotations on an external server.
  *
  * @link https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
  */
@@ -11,6 +12,9 @@ $script = <<<JS
 var miradorConfig = $config;
 window.globalMiradorPlugins = miradorConfig.globalMiradorPlugins;
 JS;
+if (!empty($annotationEndpoint)):
+    $script .= "\nvar annotationEndpoint = " . json_encode($annotationEndpoint, 320) . ';';
+endif;
 $this->headScript()->appendScript($script);
 ?>
 

@@ -121,6 +121,7 @@ return [
             'mirador_plugins_2' => [],
             'mirador_config_item_2' => null,
             'mirador_config_collection_2' => null,
+            'mirador_annotation_endpoint' => '',
             'mirador_preselected_items' => 0,
         ],
         'site_settings' => [
@@ -131,6 +132,7 @@ return [
             'mirador_plugins_2' => [],
             'mirador_config_item_2' => null,
             'mirador_config_collection_2' => null,
+            'mirador_annotation_endpoint' => '',
             'mirador_preselected_items' => 0,
         ],
     ],
