@@ -11,6 +11,30 @@ const bundle = [
         'source': 'node_modules/mirador/dist/**',
         'dest': 'asset/vendor/mirador',
     },
+    {
+        'source': 'node_modules/mirador-annotations/umd/mirador-annotations.min.js',
+        'dest': 'asset/vendor/mirador-plugins/annotations',
+    },
+    {
+        'source': 'node_modules/mirador-dl-plugin/umd/mirador-dl-plugin.min.js',
+        'dest': 'asset/vendor/mirador-plugins/dl',
+    },
+    {
+        'source': 'node_modules/mirador-image-tools/umd/mirador-image-tools.min.js',
+        'dest': 'asset/vendor/mirador-plugins/image-tools',
+    },
+    {
+        'source': 'node_modules/mirador-ruler-plugin/dist/**',
+        'dest': 'asset/vendor/mirador-plugins/ruler',
+    },
+    {
+        'source': 'node_modules/mirador-share-plugin/umd/mirador-share-plugin.min.js',
+        'dest': 'asset/vendor/mirador-plugins/share',
+    },
+    {
+        'source': 'node_modules/mirador-textoverlay/umd/mirador-textoverlay.min.js',
+        'dest': 'asset/vendor/mirador-plugins/textoverlay',
+    },
 ];
 
 gulp.task('clean', function(done) {

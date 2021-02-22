@@ -4,7 +4,7 @@
  *
  * It is used to have a multiple select field in the site settings page or in a
  * block page. It allows to include automatically the css and the js assets too.
- * The files themselves are included via `view/common/helper/mirador-plugins.phtml`.
+ * The files themselves are included via `view/common/helper/mirador-2-plugins.phtml`.
  * The options should be set via the json textarea or via the theme.
  */
 

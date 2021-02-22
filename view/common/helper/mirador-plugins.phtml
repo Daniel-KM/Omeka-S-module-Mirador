@@ -4,4 +4,27 @@
  * @var array $plugins
  */
 
-// There is currently no integrated plugins for Mirador 3.
+// $headLink = $this->plugin('headLink');
+$headScript = $this->plugin('headScript');
+$assetUrl = $this->plugin('assetUrl');
+foreach ($plugins as $plugin) switch ($plugin):
+    case 'annotations':
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/annotations/mirador-annotations.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
+        break;
+    case 'dl':
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/dl/mirador-dl-plugin.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
+        break;
+    case 'image-tools':
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/image-tools/mirador-image-tools.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
+        break;
+    case 'ruler':
+        // TODO Compile the js first.
+        // $headScript->appendFile($assetUrl('vendor/mirador-plugins/ruler/', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
+        break;
+    case 'share':
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/share/mirador-share-plugin.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
+        break;
+    case 'textoverlay':
+        $headScript->appendFile($assetUrl('vendor/mirador-plugins/textoverlay/mirador-textoverlay.min.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
+        break;
+endswitch;

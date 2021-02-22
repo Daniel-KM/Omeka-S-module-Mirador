@@ -15,6 +15,11 @@ class SiteSettingsFieldset extends Fieldset
      */
     protected $plugins = [];
 
+    /**
+     * @var array
+     */
+    protected $plugins2 = [];
+
     public function init(): void
     {
         $this
@@ -25,7 +30,7 @@ class SiteSettingsFieldset extends Fieldset
                     'label' => 'Mirador version', // @translate
                     'info' => 'The two viewers use different options, so you need to change them too when the version is modified.', // @translated
                     'value_options' => [
-                        '2' => '2.7', // @translate
+                        '2' => '2.7 (deprecated)', // @translate
                         '3' => '3.0 and above', // @translate
                     ],
                 ],
@@ -34,11 +39,29 @@ class SiteSettingsFieldset extends Fieldset
                 ],
             ])
             ->add([
+                'name' => 'mirador_plugins_2',
+                'type' => OptionalSelect::class,
+                'options' => [
+                    'label' => 'Mirador plugins for v2',
+                    'info' => 'Some plugins require json options to work. Cross compatibility has not been checked, so add them one by one and only the needed ones.', // @translate
+                    'documentation' => 'https://github.com/daniel-km/omeka-s-module-mirador#plugins',
+                    'value_options' => $this->getPlugins2(),
+                    'empty_option' => '',
+                    'use_hidden_element' => true,
+                ],
+                'attributes' => [
+                    'id' => 'mirador_plugins_2',
+                    'class' => 'chosen-select',
+                    'multiple' => true,
+                    'data-placeholder' => 'Select plugins…', // @translate
+                ],
+            ])
+            ->add([
                 'name' => 'mirador_plugins',
                 'type' => OptionalSelect::class,
                 'options' => [
-                    'label' => 'Mirador plugins',
-                    'info' => 'Read the doc. Some plugins require json options to work. Cross compatibility has not been checked, so add them one by one and only the needed ones.', // @translate
+                    'label' => 'Mirador plugins for v3',
+                    'info' => 'Some plugins require json options to work. Cross compatibility has not been checked, so add them one by one and only the needed ones.', // @translate
                     'documentation' => 'https://github.com/daniel-km/omeka-s-module-mirador#plugins',
                     'value_options' => $this->getPlugins(),
                     'empty_option' => '',
@@ -93,20 +116,25 @@ class SiteSettingsFieldset extends Fieldset
         ;
     }
 
-    /**
-     * @param array $plugins
-     */
-    public function setPlugins(array $plugins)
+    public function setPlugins(array $plugins): self
     {
         $this->plugins = $plugins;
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getPlugins()
+    public function getPlugins(): array
     {
         return $this->plugins;
+    }
+
+    public function setPlugins2(array $plugins): self
+    {
+        $this->plugins2 = $plugins;
+        return $this;
+    }
+
+    public function getPlugins2(): array
+    {
+        return $this->plugins2;
     }
 }

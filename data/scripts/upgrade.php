@@ -3,13 +3,10 @@ namespace Mirador;
 
 /**
  * @var Module $this
- * @var \Laminas\ServiceManager\ServiceLocatorInterface $serviceLocator
+ * @var \Laminas\ServiceManager\ServiceLocatorInterface $services
  * @var string $oldVersion
  * @var string $newVersion
- */
-$services = $serviceLocator;
-
-/**
+ *
  * @var \Omeka\Settings\Settings $settings
  * @var \Doctrine\DBAL\Connection $connection
  * @var array $config
@@ -39,7 +36,7 @@ SQL;
 }
 
 if (version_compare($oldVersion, '3.1.7', '<')) {
-    $siteSettings = $serviceLocator->get('Omeka\Settings\Site');
+    $siteSettings = $services->get('Omeka\Settings\Site');
     $sites = $api->search('sites')->getContent();
     foreach ($sites as $site) {
         $siteSettings->setTargetId($site->id());
@@ -49,4 +46,16 @@ if (version_compare($oldVersion, '3.1.7', '<')) {
 
 if (version_compare($oldVersion, '3.3.7.3', '<')) {
     $settings->delete('mirador_manifest_property');
+}
+
+if (version_compare($oldVersion, '3.3.7.9', '<')) {
+    $settings->set('mirador_plugins_2', $settings->get('mirador_plugins', []));
+    $settings->set('mirador_plugins', []);
+    $siteSettings = $services->get('Omeka\Settings\Site');
+    $sites = $api->search('sites')->getContent();
+    foreach ($sites as $site) {
+        $siteSettings->setTargetId($site->id());
+        $siteSettings->set('mirador_plugins_2', $siteSettings->get('mirador_plugins', []));
+        $siteSettings->set('mirador_plugins', []);
+    }
 }

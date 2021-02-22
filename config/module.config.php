@@ -116,6 +116,7 @@ return [
         'settings' => [
             'mirador_version' => '3',
             'mirador_plugins' => [],
+            'mirador_plugins_2' => [],
             'mirador_config_item' => null,
             'mirador_config_collection' => null,
             'mirador_preselected_items' => 0,
@@ -123,6 +124,7 @@ return [
         'site_settings' => [
             'mirador_version' => '3',
             'mirador_plugins' => [],
+            'mirador_plugins_2' => [],
             'mirador_config_item' => null,
             'mirador_config_collection' => null,
             'mirador_preselected_items' => 0,

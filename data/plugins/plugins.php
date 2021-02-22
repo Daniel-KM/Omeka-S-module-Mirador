@@ -9,4 +9,10 @@
  */
 
  return [
+     'annotations' => 'Annotations',
+     'dl' => 'Download files',
+     'image-tools' => 'Image tools',
+     // 'ruler' => 'Ruler',
+     'share' => 'Share',
+     'textoverlay' => 'Text overlay',
 ];
