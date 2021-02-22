@@ -147,7 +147,7 @@
       "type": "package",
       "package": {
         "name": "projectmirador/mirador-integration",
-        "version": "0.0.0",
+        "version": "0.0.1",
         "dist": {
           "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/master/Mirador-integration-Omeka-master.zip",
           "type": "zip"
@@ -169,9 +169,7 @@
     "ucla-library/mirador-disable-zoom": "*",
     "ucla-library/mirador-ruler": "*",
     "ucla-library/mirador-share-workspace": "*",
-    "ucla-library/mirador-sync-windows": "*"
-  },
-  "require-dev": {
+    "ucla-library/mirador-sync-windows": "*",
     "projectmirador/mirador-integration": "*"
   },
   "scripts": {

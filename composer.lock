@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52ece550fe8037bb492a1b75d3131ed2",
+    "content-hash": "b8eb8e69f8421e814fddf9ffe8fdf7bf",
     "packages": [
         {
             "name": "2sc1815j/mirador-dragndrop-link-plugin",
@@ -75,6 +75,15 @@
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.7.0/build.zip"
+            },
+            "type": "library"
+        },
+        {
+            "name": "projectmirador/mirador-integration",
+            "version": "0.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/master/Mirador-integration-Omeka-master.zip"
             },
             "type": "library"
         },
@@ -176,17 +185,7 @@
             "type": "library"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "projectmirador/mirador-integration",
-            "version": "0.0.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/master/Mirador-integration-Omeka-master.zip"
-            },
-            "type": "library"
-        }
-    ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
