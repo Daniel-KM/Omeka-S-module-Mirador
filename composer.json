@@ -142,6 +142,17 @@
           "type": "zip"
         }
       }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "projectmirador/mirador-integration",
+        "version": "0.0.0",
+        "dist": {
+          "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/master/Mirador-integration-Omeka-master.zip",
+          "type": "zip"
+        }
+      }
     }
   ],
   "require": {
@@ -159,6 +170,9 @@
     "ucla-library/mirador-ruler": "*",
     "ucla-library/mirador-share-workspace": "*",
     "ucla-library/mirador-sync-windows": "*"
+  },
+  "require-dev": {
+    "projectmirador/mirador-integration": "*"
   },
   "scripts": {
     "post-install-cmd": [
