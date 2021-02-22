@@ -51,11 +51,19 @@ if (version_compare($oldVersion, '3.3.7.3', '<')) {
 if (version_compare($oldVersion, '3.3.7.9', '<')) {
     $settings->set('mirador_plugins_2', $settings->get('mirador_plugins', []));
     $settings->set('mirador_plugins', []);
+    $settings->set('mirador_config_item_2', $settings->get('mirador_config_item', null));
+    $settings->set('mirador_config_item', null);
+    $settings->set('mirador_config_collection_2', $settings->get('mirador_config_collection', null));
+    $settings->set('mirador_config_collection', null);
     $siteSettings = $services->get('Omeka\Settings\Site');
     $sites = $api->search('sites')->getContent();
     foreach ($sites as $site) {
         $siteSettings->setTargetId($site->id());
         $siteSettings->set('mirador_plugins_2', $siteSettings->get('mirador_plugins', []));
         $siteSettings->set('mirador_plugins', []);
+        $siteSettings->set('mirador_config_item_2', $siteSettings->get('mirador_config_item', null));
+        $siteSettings->set('mirador_config_item', null);
+        $siteSettings->set('mirador_config_collection_2', $siteSettings->get('mirador_config_collection', null));
+        $siteSettings->set('mirador_config_collection', null);
     }
 }

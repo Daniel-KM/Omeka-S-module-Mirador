@@ -48,7 +48,9 @@ gulp.task('bundle-usual', gulp.series(
     },
 ));
 
-gulp.task('init', gulp.series('npm-install', 'vanilla', 'bundle-full', 'bundle-usual'));
+gulp.task('install', gulp.series('npm-install', 'vanilla', 'bundle-full', 'bundle-usual'));
+
+gulp.task('update', gulp.series('install'));
 
 gulp.task('init-vanilla', gulp.series('npm-install', 'vanilla'));
 
@@ -56,4 +58,4 @@ gulp.task('init-bundle-full', gulp.series('npm-install', 'bundle-full'));
 
 gulp.task('init-bundle-usual', gulp.series('npm-install', 'bundle-usual'));
 
-gulp.task('default', gulp.series('init'));
+gulp.task('default', gulp.series('install'));

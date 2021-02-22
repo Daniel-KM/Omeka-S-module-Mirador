@@ -148,12 +148,25 @@ class Mirador extends AbstractHelper
         if (empty($miradorPlugins)) {
             // Vanilla Mirador.
             $miradorVendorJs = 'vendor/mirador/mirador.min.js';
+            $internalConfig = '';
         } elseif (in_array('annotations', $miradorPlugins)) {
             // Heavy Mirador: include Annotation plugin and all others ones.
             $miradorVendorJs = 'vendor/mirador/mirador-bundle.min.js';
+            $internalConfig = <<<'JS'
+{
+    annotation: {
+        adapter: (canvasId) => window.miradorAnnotationServerAdapter(canvasId),
+    },
+    window: {
+        defaultSideBarPanel: 'annotations',
+        sideBarOpenByDefault: false,
+    },
+}
+JS;
         } else {
             // Common or small plugins.
             $miradorVendorJs = 'vendor/mirador/mirador-pack.min.js';
+            $internalConfig = '';
         }
 
         $headScript
@@ -167,8 +180,9 @@ class Mirador extends AbstractHelper
         $view->headLink()
             ->appendStylesheet($assetUrl('css/mirador.css', 'Mirador'));
 
+        $viewerId = 'mirador-' . ++$id;
         $config = [
-            'id' => 'mirador-' . ++$id,
+            'id' => $viewerId,
             'globalMiradorPlugins' => $miradorPlugins,
         ];
 
@@ -188,15 +202,13 @@ class Mirador extends AbstractHelper
                 $data = [
                     'windows' => [[
                         'manifestId' => $urlManifest,
+                        'loadedManifest' => $urlManifest,
                     ]],
                 ];
                 $data = $this->appendConfigData($data);
                 $config += $data;
+                // TODO Site settings are not checked in page site settings (security only for v3).
                 $siteConfig = $setting('mirador_config_item', '{}') ?: '{}';
-                // TODO Site settings are not checked in page site settings.
-                if (json_decode($siteConfig, true) === null) {
-                    $view->logger()->err('Settings for Mirador config of items is not a valid json.'); // @translate
-                }
                 break;
             case 'item_sets':
             case 'multiple':
@@ -204,6 +216,7 @@ class Mirador extends AbstractHelper
                 $data = [
                     'windows' => [[
                         'manifestId' => $urlManifest,
+                        'loadedManifest' => $urlManifest,
                     ]],
                 ];
                 if ($resourceName === 'item_sets') {
@@ -211,30 +224,40 @@ class Mirador extends AbstractHelper
                 }
                 $config += $data;
                 $siteConfig = $setting('mirador_config_collection', '{}') ?: '{}';
-                if (json_decode($siteConfig, true) === null) {
-                    $view->logger()->err('Settings for Mirador config of collections is not a valid json.'); // @translate
-                }
                 break;
         }
 
-        /*
-        $placeholders = [
-            '__manifestUri__' => json_encode($urlManifest),
-            '__canvasID__' => json_encode(
-                $isCollection ? null : (substr($urlManifest, 0, -8) . 'canvas/p1')
-            ),
-        ];
-        $siteConfig = str_replace(array_keys($placeholders), array_values($placeholders), $siteConfig);
-        */
-        $siteConfig = json_decode($siteConfig, true) ?: [];
+        // This is js, not json, so no need to check quotes, commas, etc.
+        // $config = array_replace_recursive($config, $siteConfig, $options);
+        $siteConfig = trim($siteConfig);
+        if ($internalConfig) {
+            if ($siteConfig && trim($siteConfig) !== '{}') {
+                $siteConfig = mb_substr($internalConfig, 0, -1) . ",\n" . mb_substr($siteConfig, 1);
+            } else {
+                $siteConfig = $internalConfig;
+            }
+        }
 
-        // Since only id, buildPath and data are set, it is possible to use
-        // array_merge, array_replace or "+" operator.
-        // In javascript, use "jQuery.extend(true, config, siteOptions, options)".
-        $config = array_replace_recursive($config, $siteConfig, $options);
+        if ($siteConfig && trim($siteConfig) !== '{}') {
+            if ($options) {
+                $configJson = mb_substr(json_encode($config, 448), 0, -1)
+                    . ",\n    "
+                    . trim(mb_substr($siteConfig, 1, -1), ", \n\t\r")
+                    . ",\n"
+                    . mb_substr(json_encode($options, 448), 1);
+            } else {
+                $configJson = mb_substr(json_encode($config, 448), 0, -2)
+                    . ",\n    "
+                    . trim(mb_substr($siteConfig, 1));
+            }
+        } else {
+            $config = array_replace_recursive($config, $options);
+            $configJson = json_encode($config, 448);
+        }
 
         return $view->partial('common/helper/mirador', [
-            'config' => $config,
+            'config' => $configJson,
+            'viewerId' => $viewerId,
         ]);
     }
 
@@ -263,14 +286,15 @@ class Mirador extends AbstractHelper
             ->appendFile($assetUrl('js/mirador-2.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
 
         $view->partial('common/helper/mirador-2-plugins', [
-            'plugins' => $setting('mirador_plugins', []),
+            'plugins' => $setting('mirador_plugins_2', []),
         ]);
 
         $view->headLink()
             ->appendStylesheet($assetUrl('css/mirador.css', 'Mirador'));
 
+        $viewerId = 'mirador-' . ++$id;
         $config = [
-            'id' => 'mirador-' . ++$id,
+            'id' => $viewerId,
             'buildPath' => $assetUrl('vendor/mirador-2/', 'Mirador', false, false),
         ];
 
@@ -298,7 +322,7 @@ class Mirador extends AbstractHelper
                     'data' => $data,
                     'windowObjects' => [['loadedManifest' => $urlManifest]],
                 ];
-                $siteConfig = $setting('mirador_config_item', '{}') ?: '{}';
+                $siteConfig = $setting('mirador_config_item_2', '{}') ?: '{}';
                 // TODO Site settings are not checked in page site settings.
                 if (json_decode($siteConfig, true) === null) {
                     $view->logger()->err('Settings for Mirador config of items is not a valid json.'); // @translate
@@ -318,7 +342,7 @@ class Mirador extends AbstractHelper
                     'data' => $data,
                     'openManifestsPage' => true,
                 ];
-                $siteConfig = $setting('mirador_config_collection', '{}') ?: '{}';
+                $siteConfig = $setting('mirador_config_collection_2', '{}') ?: '{}';
                 if (json_decode($siteConfig, true) === null) {
                     $view->logger()->err('Settings for Mirador config of collections is not a valid json.'); // @translate
                 }
@@ -340,7 +364,8 @@ class Mirador extends AbstractHelper
         $config = array_replace_recursive($config, $siteConfig, $options);
 
         return $view->partial('common/helper/mirador', [
-            'config' => $config,
+            'config' => json_encode($config, 448),
+            'viewerId' => $viewerId,
         ]);
     }
 
