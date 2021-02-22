@@ -61,30 +61,28 @@ composer install --no-dev
   but may not be used.
 
   So, to simplify installation of Mirador 3 and plugins and to keep it as small
-  as possible, this module provides three versions: vanilla Mirador, Mirador
+  as possible, Mirador is managed as a separate repository [Mirador integration Omeka].
+
+  This repository provides three versions of Mirador: vanilla Mirador, Mirador
   with common plugins, Mirador with all plugins. The choice is transparent
   inside Omeka and the appropriate bundle is included according to the selected
   plugins in main settings or in site settings.
 
-  Installation of Mirador 3 requires npm, that should be available for the
-  development (it can be removed for production, just as directories "vendor",
-  "node_modules" and "mirador-integration").
+  Development of a specific version of Mirador 3 requires npm. If you want to
+  remove plugins or to include new plugins from the bundle,  update the files
+  [vendor/projectmirador/mirador-integration/package.json] and [vendor/projectmirador/mirador-integration/src/index.js].
+  See more information in the [included package]. You may have to fork the
+  repository and to set it in package.json. The file gulpfile.js inside the
+  present module is used only as a shortcut to it.
+
+  See [official documentation about Mirador plugins].
 
 ```sh
-# Install mirador 3 and plugins in asset/vendor/mirador
+# Compile the three versions of Mirador 3 and copy them in asseet/vendor/mirador.
+cd Mirador-integration-Omeka
 npm install
-cd vendor/projectmirador/mirador-integration
-npm install
-npm run webpack
-cd ..
 gulp
 ```
-
-  If you want to remove plugins or to include new plugins from the bundle,
-  update the files [vendor/projectmirador/mirador-integration/package.json] and [vendor/projectmirador/mirador-integration/src/index.js].
-  See more information in the [included package].
-
-Then install it like any other Omeka module.
 
 * Access to IIIF images
 
@@ -218,7 +216,9 @@ for Mirador v2, `data/plugins/plugins-mirador-2.php` and `view/common/helper/mir
 
 #### Plugins for Mirador 3
 
-- [Annotations]: Note: only one backend is supported, Annotot
+- [Annotations]: Note: only two backends are supported currently, local storage
+  (inside browser persistent cache; it **requires a `https` site** for security),
+  and [Annotot] (requires its endpoint).
 - [Download]
 - [Image Tools]
 - [Ruler]
@@ -242,6 +242,12 @@ rpl 'toggleFullScreen:function(){OpenSeadragon.isFullScreen()?(this.element.find
 
 If wanted, you can fix this feature in the Mirador 2.7.0 source file too:
 comment lines 42779, 42780, 42783, and 42784.
+
+
+TODO
+----
+
+- [ ] Support module [Annotate] as backend for annotations.
 
 
 Warning
@@ -324,10 +330,16 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Generic]: https://gitlab.com/Daniel-KM/Omeka-S-module-Generic
 [Blocks Disposition]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlocksDisposition
 [react]: https://reactjs.org
+[Mirador integration Omeka]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka
 [List of images in fullscreen]: #list-of-images-in-fullscreen-in-mirador-2
 [vendor/projectmirador/mirador-integration/package.json]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/blob/master/package.json
 [vendor/projectmirador/mirador-integration/src/index.js]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/blob/master/src/index.js
 [included package]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka
+[official documentation about Mirador plugins]: https://github.com/ProjectMirador/mirador/wiki/Mirador-3-plugins
+[Annotate]: https://gitlab.com/Daniel-KM/Omeka-S-module-Annotate
+[Annotot]: https://rubygems.org/gems/annotot
+[included repository]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/blob/master/mirador-integration/README.md
+[official documentation about Mirador plugins]: https://github.com/ProjectMirador/mirador/wiki/Mirador-3-plugins
 [Crosslink]: https://github.com/ArchiveLabs/mirador-crosslink
 [dbmdz]: https://github.com/dbmdz/mirador-plugins
 [Disable-zoom]: https://github.com/UCLALibrary/mirador-disable-zoom
