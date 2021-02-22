@@ -16,8 +16,9 @@ available.
 
 It uses the resources of any [IIIF] compliant server. The full specification of
 the "International Image Interoperability Framework" standard is supported
-(level 2). If you don’t have an [IIPImage] server, Omeka S can be one! Just
-install the module [IIIF Server].
+(level 2). If you don’t have an IIIF-compatible image server, like [Cantaloupe]
+or [IIP Image] server, Omeka S can be one! Just install the modules [IIIF Server]
+and [Image Server].
 
 It’s an alternative to the [Universal Viewer] or the lighter [Diva Viewer].
 
@@ -25,10 +26,13 @@ It’s an alternative to the [Universal Viewer] or the lighter [Diva Viewer].
 Installation
 ------------
 
-First, install the two optional modules [Generic] and [Blocks Disposition].
+See general end user documentation for [installing a module].
 
-The module uses an external js library [Mirador], so use the release zip to
-install it, or use and init the source.
+First, if wanted, install the two optional modules [Generic] and [Blocks Disposition].
+
+The module uses multiple external js library, [Mirador] itself and its plugins,
+in version 2.7 or 3, so use the release zip to install it, or use and init the
+source.
 
 * From the zip
 
@@ -38,24 +42,60 @@ does not contain the dependency), and uncompress it in the `modules` directory.
 * From the source and for development:
 
 If the module was installed from the source, rename the name of the folder of
-the module to `Mirador`, and go to the root module, and run:
+the module to `Mirador`, and go to the root module. Mirador 2 and Mirador 3 are
+installed separately, so you can skip the one or the other if you are sure to
+not use it. No check is done inside Omeka.
+
+  - Install Mirador 2
 
 ```sh
-# Install mirador 2.7.0 in asset/vendor/mirador-2.
+# Install mirador 2.7.0 in asset/vendor/mirador-2 and plugins in asset/vendor/mirador-2-plugins.
 composer install --no-dev
-# Install mirador 3.0 in asset/vendor/mirador.
+```
+
+  - Install Mirador 3
+
+  Mirador 3 is based on [react], a js framework managed by facebook, so a
+  complex install is required to manage it and plugins should be compiled and
+  minified with Mirador itself. Furthermore, the plugin [Annotations] is heavy,
+  but may not be used.
+
+  So, to simplify installation of Mirador 3 and plugins and to keep it as small
+  as possible, this module provides three versions: vanilla Mirador, Mirador
+  with common plugins, Mirador with all plugins. The choice is transparent
+  inside Omeka and the appropriate bundle is included according to the selected
+  plugins in main settings or in site settings.
+
+  Installation of Mirador 3 requires npm, that should be available for the
+  development (it can be removed for production, just as directories "vendor",
+  "node_modules" and "mirador-integration").
+
+```sh
+# Install mirador 3 and plugins in asset/vendor/mirador
 npm install
+cd vendor/projectmirador/mirador-integration
+npm install
+npm run webpack
+cd ..
 gulp
 ```
 
+  If you want to remove plugins or to include new plugins from the bundle,
+  update the files [vendor/projectmirador/mirador-integration/package.json] and [vendor/projectmirador/mirador-integration/src/index.js].
+  See more information in the [included package].
+
 Then install it like any other Omeka module.
 
-If you don’t have an IIIF Server, install the module [IIIF Server].
+* Access to IIIF images
+
+Mirador is based on IIIF, so an image server compliant with this protocol is
+required to use it. So, install the module [IIIF Server] if needed.
 
 If you need to display big images (bigger than 1 to 10 MB according to your
-server and your network), use an external image server, or create tiles with [IIIF Server].
-The tiling means that big images like maps and deep paintings, and any other
-images, are converted into tiles in order to load and zoom them instantly.
+server, your network, and your users), use an external image server, or create
+tiles with [Image Server]. The tiling means that big images like maps and deep
+paintings, and any other images, are converted into tiles in order to load and
+zoom them instantly.
 
 
 Usage
@@ -74,7 +114,7 @@ The other ones can be set differently for each site:
   your theme and customize it;
 - via the theme of the site and the assets (`asset/vendor/mirador`).
 
-#### Mirador 2.7
+#### Mirador 2.7 (deprecated)
 
 The parameters used to config the viewer can be found in the [wiki], in the
 details of the [api] and in the examples of the [tutorial].
@@ -114,6 +154,8 @@ This config is for item, not for collection. This example is for the site
 setting because it uses placeholders, so it should be adapted if used in theme
 in order to take the default parameters in account. The keys `id` and `data` are
 automatically filled, but may be overridden too.
+
+See below for a fix to get the [list of images in fullscreen].
 
 #### Mirador 3.0
 
@@ -155,6 +197,10 @@ Some plugins require json options to work. Some plugins may not work with the
 integrated version of Mirador. Cross compatibility and options has not been
 checked, so add them one by one and only the needed ones.
 
+To add and manage a new plugin automatically, fill the file `data/plugins/plugins.php`
+and the file `view/common/helper/mirador-plugins.phtml` and the respective ones
+for Mirador v2, `data/plugins/plugins-mirador-2.php` and `view/common/helper/mirador-2-plugins.phtml`.
+
 #### Plugins for Mirador 2
 
 - [Crosslink]
@@ -165,17 +211,19 @@ checked, so add them one by one and only the needed ones.
 - [LDN]
 - [Metadata]
 - [Metadata Tab]
-- [Ruler]
+- [Ruler v2]
 - [Share workspace]
 - [Sync windows]
 - [UCD]: Plugins of the University College Dublin
 
-To add and manage a new plugin automatically, fill the file `data/plugins/plugins-mirador-2.php`
-and the file `view/common/helper/mirador-2-plugins.phtml`.
-
 #### Plugins for Mirador 3
 
-There is no plugin currently.
+- [Annotations]: Note: only one backend is supported, Annotot
+- [Download]
+- [Image Tools]
+- [Ruler]
+- [Share]
+- [Text overlay]
 
 
 List of images in fullscreen in Mirador 2
@@ -233,8 +281,9 @@ and, more generally, to use and operate it in the same conditions of security.
 This Agreement may be freely reproduced and published, provided it is not
 altered, and that no provisions are either added or removed herefrom.
 
-[Mirador] is published under the [Apache 2] licence.
+[Mirador] is published under the [Apache 2] license.
 Each Mirador plugin has a license. See each repository for more information.
+
 
 Copyright
 ---------
@@ -257,11 +306,13 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Omeka S]: https://omeka.org/s
 [Omeka]: https://omeka.org
 [IIIF Server]: https://gitlab.com/Daniel-KM/Omeka-S-module-IiifServer
+[Image Server]: https://gitlab.com/Daniel-KM/Omeka-S-module-ImageServer
 [IIIF]: http://iiif.io
-[IIPImage]: http://iipimage.sourceforge.net
+[Cantaloupe]: https://cantaloupe-project.github.io
+[IIP Image]: http://iipimage.sourceforge.net
 [Universal Viewer]: https://gitlab.com/Daniel-KM/Omeka-S-module-UniversalViewer
 [Diva Viewer]: https://gitlab.com/Daniel-KM/Omeka-S-module-Diva
-[`Mirador.zip`]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases
+[Mirador.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases
 [iiif specifications]: http://iiif.io/api/
 [jQuery extend]: https://api.jquery.com/jQuery.extend
 [wiki]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
@@ -269,7 +320,14 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [tutorial]: http://projectmirador.org/docs/docs/getting-started.html
 [recipes]: https://github.com/ProjectMirador/mirador/wiki/M3-Configuration-Recipes
 [settings.js]: https://github.com/ProjectMirador/mirador/blob/master/src/config/settings.js
+[Installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
+[Generic]: https://gitlab.com/Daniel-KM/Omeka-S-module-Generic
 [Blocks Disposition]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlocksDisposition
+[react]: https://reactjs.org
+[List of images in fullscreen]: #list-of-images-in-fullscreen-in-mirador-2
+[vendor/projectmirador/mirador-integration/package.json]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/blob/master/package.json
+[vendor/projectmirador/mirador-integration/src/index.js]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/blob/master/src/index.js
+[included package]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka
 [Crosslink]: https://github.com/ArchiveLabs/mirador-crosslink
 [dbmdz]: https://github.com/dbmdz/mirador-plugins
 [Disable-zoom]: https://github.com/UCLALibrary/mirador-disable-zoom
@@ -278,10 +336,16 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [ldn]: https://github.com/jeffreycwitt/mirador-ldn-plugin
 [Metadata]: https://github.com/jazahn/mirador-metadata
 [Metadata Tab]: https://gitlab.com/Daniel-KM/Mirador-plugin-MetadataTab
-[Ruler]: https://github.com/UCLALibrary/mirador-ruler
+[Ruler v2]: https://github.com/UCLALibrary/mirador-ruler
 [Share workspace]: https://github.com/UCLALibrary/mirador-share-workspace
 [Sync windows]: https://github.com/UCLALibrary/mirador-sync-windows
 [ucd]: https://github.com/jbhoward-dublin/mirador-plugins-ucd
+[Annotations]: https://github.com/ProjectMirador/mirador-annotations
+[Download]: https://github.com/ProjectMirador/mirador-dl-plugin
+[Image Tools]: https://github.com/ProjectMirador/mirador-image-tools
+[Ruler]: https://www.npmjs.com/package/mirador-ruler-plugin
+[Share]: https://github.com/ProjectMirador/mirador-share-plugin
+[Text overlay]: https://www.npmjs.com/package/mirador-textoverlay
 [Zen mode]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides#zen-mode
 [feature]: https://github.com/ProjectMirador/mirador/pull/1235
 [module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/issues
