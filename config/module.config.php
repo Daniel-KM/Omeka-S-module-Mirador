@@ -32,6 +32,7 @@ return [
     'form_elements' => [
         'invokables' => [
             Form\Element\OptionalSelect::class => Form\Element\OptionalSelect::class,
+            Form\Element\OptionalUrl::class => Form\Element\OptionalUrl::class,
         ],
         'factories' => [
             Form\SettingsFieldset::class => Service\Form\SettingsFieldsetFactory::class,
