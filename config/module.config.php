@@ -9,8 +9,22 @@ return [
         ],
     ],
     'view_helpers' => [
+        'invokables' => [
+            'iiifManifestExternal' => View\Helper\IiifManifestExternal::class,
+        ],
         'factories' => [
             'mirador' => Service\ViewHelper\MiradorFactory::class,
+        ],
+    ],
+    'form_elements' => [
+        'invokables' => [
+            Form\ConfigForm::class => Form\ConfigForm::class,
+            Form\Element\OptionalSelect::class => Form\Element\OptionalSelect::class,
+            Form\Element\OptionalUrl::class => Form\Element\OptionalUrl::class,
+        ],
+        'factories' => [
+            Form\SettingsFieldset::class => Service\Form\SettingsFieldsetFactory::class,
+            Form\SiteSettingsFieldset::class => Service\Form\SiteSettingsFieldsetFactory::class,
         ],
     ],
     'block_layouts' => [
@@ -27,16 +41,6 @@ return [
             'Mirador\Controller\Item' => Controller\PlayerController::class,
             'Mirador\Controller\ItemSet' => Controller\PlayerController::class,
             'Mirador\Controller\CleanUrlController' => Controller\PlayerController::class,
-        ],
-    ],
-    'form_elements' => [
-        'invokables' => [
-            Form\Element\OptionalSelect::class => Form\Element\OptionalSelect::class,
-            Form\Element\OptionalUrl::class => Form\Element\OptionalUrl::class,
-        ],
-        'factories' => [
-            Form\SettingsFieldset::class => Service\Form\SettingsFieldsetFactory::class,
-            Form\SiteSettingsFieldset::class => Service\Form\SiteSettingsFieldsetFactory::class,
         ],
     ],
     'router' => [
@@ -114,6 +118,13 @@ return [
         ],
     ],
     'mirador' => [
+        'config' => [
+            // By exception, the name of this property is the same than
+            // module iiif server (and other iiif viewer).
+            // This option allows to use this module independantly, but for
+            // consistency, the same name is used.
+            'iiifserver_manifest_external_property' => 'dcterms:hasFormat',
+        ],
         'settings' => [
             'mirador_version' => '3',
             'mirador_plugins' => [],
