@@ -87,7 +87,7 @@ gulp
 * Access to IIIF images
 
 Mirador is based on IIIF, so an image server compliant with this protocol is
-required to use it. So, install the module [IIIF Server] if needed.
+required to use it. So, install the module [Image Server] if needed.
 
 If you need to display big images (bigger than 1 to 10 MB according to your
 server, your network, and your users), use an external image server, or create
@@ -101,7 +101,9 @@ Usage
 
 ### Configuration
 
-Only one option can be set in the main config (the manifest property, if any).
+The url of the manifest of the items should be set inside the property specified
+in the config form of the module. If you don’t have an IIIF Server, install the
+module [IIIF Server].
 
 The other ones can be set differently for each site:
 
@@ -163,7 +165,8 @@ the details of the file [settings.js].
 ### Display
 
 If the [IIIF Server] is installed, all resources of Omeka S are automatically
-available by Mirador.
+available by the viewer, else the url of the manifest should be set in the
+configured property.
 
 The viewer is always available at `http://www.example.com/item-set/{item-set id}/mirador`
 and `http://www.example.com/item/{item id}/mirador`. Furthermore, it is
