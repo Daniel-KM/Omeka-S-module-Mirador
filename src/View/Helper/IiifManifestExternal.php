@@ -12,22 +12,47 @@ use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 class IiifManifestExternal extends AbstractHelper
 {
     /**
-     * Get the external manifest of a resource.
+     * Get the external manifest url or the collection url of a resource.
+     *
+     * A dynamic collection manifest can be created only when the module IiifServer
+     * is available.
      */
-    public function __invoke(AbstractResourceEntityRepresentation $resource): ?string
+    public function __invoke(AbstractResourceEntityRepresentation $resource, $useCollection = false): ?string
     {
-        $manifestProperty = $this->view->setting('iiifserver_manifest_external_property');
+        $view = $this->getView();
+        $plugins = $view->getHelperPluginManager();
+        $manifestProperty = $plugins->get('setting')->__invoke('iiifserver_manifest_external_property');
+        if (empty($manifestProperty)) {
+            return null;
+        }
+
+        $urls = [];
+
         // Manage the case where the url is saved as an uri or a text and the
         // case where the property contains other values that are not url.
-        foreach ($resource->value($manifestProperty, ['all' => true]) as $urlManifest) {
-            if ($urlManifest->type() === 'uri') {
-                return $urlManifest->uri();
+        foreach ($resource->value($manifestProperty, ['all' => true]) as $value) {
+            if ($value->type() === 'uri') {
+                $urls[] = $value->uri();
+                continue;
             }
-            $urlManifest = (string) $urlManifest;
+            $urlManifest = (string) $value;
             if (filter_var($urlManifest, FILTER_VALIDATE_URL)) {
-                return $urlManifest;
+                $urls[] = $urlManifest;
             }
         }
-        return null;
+
+        if (!count($urls)) {
+            return null;
+        }
+
+        if (!$useCollection || count($urls) === 1 || !$plugins->has('iiifCollection')) {
+            return reset($urls);
+        }
+
+        // The external manifest is a dynamic url with the current resource id,
+        // even if it is not an item set.
+        return $plugins->get('url')->__invoke('iiifserver/collection', ['id' => $resource->id()], [
+            'force_canonical' => true,
+        ], true);
     }
 }

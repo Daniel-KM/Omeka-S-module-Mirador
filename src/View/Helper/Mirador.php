@@ -73,7 +73,7 @@ class Mirador extends AbstractHelper
         }
 
         // Determine the url of the manifest from a field in the metadata.
-        $externalManifest = $view->iiifManifestExternal($resource);
+        $externalManifest = $view->iiifManifestExternal($resource, $iiifServerIsActive);
         if ($externalManifest) {
             return $this->render($externalManifest, $options, $resourceName, true);
         }
