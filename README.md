@@ -78,9 +78,10 @@ composer install --no-dev
   See [official documentation about Mirador plugins].
 
 ```sh
-# Compile the three versions of Mirador 3 and copy them in asseet/vendor/mirador.
-cd Mirador-integration-Omeka
+# Compile the three versions of Mirador 3 and copy them in asset/vendor/mirador.
+cd vendor/projectmirador/mirador-integration
 npm install
+cd ../../..
 gulp
 ```
 
