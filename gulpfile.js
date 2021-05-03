@@ -23,7 +23,7 @@ gulp.task('vanilla', gulp.series(
                 'vendor/projectmirador/mirador-integration/node_modules/mirador/dist/mirador.min.js.LICENSE.txt',
             ])
             .pipe(gulp.dest('asset/vendor/mirador'));
-    },
+    }
 ));
 
 gulp.task('bundle-full', gulp.series(
@@ -34,7 +34,7 @@ gulp.task('bundle-full', gulp.series(
         return gulp.src('vendor/projectmirador/mirador-integration/webpack/dist/*.js')
             .pipe(concat('mirador-bundle.min.js'))
             .pipe(gulp.dest('asset/vendor/mirador/'));
-    },
+    }
 ));
 
 gulp.task('bundle-usual', gulp.series(
@@ -45,7 +45,7 @@ gulp.task('bundle-usual', gulp.series(
         return gulp.src('vendor/projectmirador/mirador-integration/webpack/dist/*.js')
             .pipe(concat('mirador-pack.min.js'))
             .pipe(gulp.dest('asset/vendor/mirador/'));
-    },
+    }
 ));
 
 gulp.task('install', gulp.series('npm-install', 'vanilla', 'bundle-full', 'bundle-usual'));
