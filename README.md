@@ -75,6 +75,13 @@ composer install --no-dev
   repository and to set it in package.json. The file gulpfile.js inside the
   present module is used only as a shortcut to it.
 
+  If gulp is not installed globally, you can use it locally, so use first:
+
+```sh
+npm install gulp-cli
+npm run gulp
+```
+
   See [official documentation about Mirador plugins].
 
 ```sh
