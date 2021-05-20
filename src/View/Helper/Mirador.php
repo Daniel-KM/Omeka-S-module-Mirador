@@ -145,7 +145,7 @@ class Mirador extends AbstractHelper
         $miradorPlugins = $setting('mirador_plugins', []);
 
         // Optimize the size of the bundle.
-        $internalConfig = '';
+        $internalConfig = false;
         $annotationEndpoint = null;
         if (empty($miradorPlugins)) {
             // Vanilla Mirador.
@@ -153,17 +153,7 @@ class Mirador extends AbstractHelper
         } elseif (in_array('annotations', $miradorPlugins)) {
             // Heavy Mirador: include Annotation plugin and all others ones.
             $miradorVendorJs = 'vendor/mirador/mirador-bundle.min.js';
-            $internalConfig = <<<'JS'
-{
-    annotation: {
-        adapter: (canvasId) => window.miradorAnnotationServerAdapter(canvasId),
-    },
-    window: {
-        defaultSideBarPanel: 'annotations',
-        sideBarOpenByDefault: false,
-    },
-}
-JS;
+            $internalConfig = true;
             $annotationEndpoint = $setting('mirador_annotation_endpoint');
         } else {
             // Common or small plugins.
@@ -231,15 +221,41 @@ JS;
         // This is js, not json, so no need to check quotes, commas, etc.
         // $config = array_replace_recursive($config, $siteConfig, $options);
         $siteConfig = trim($siteConfig);
+
         if ($internalConfig) {
-            if ($siteConfig && trim($siteConfig) !== '{}') {
-                $siteConfig = mb_substr($internalConfig, 0, -1) . ",\n" . mb_substr($siteConfig, 1);
+            if ($siteConfig && $siteConfig !== '{}') {
+                // The admin may forget to wrap config.
+                if (mb_substr($siteConfig, 0, 1) !== '{') {
+                    $siteConfig = "{\n" . $siteConfig . "\n}";
+                }
+                $internalConfigAnnotation = <<<'JS'
+annotation: {
+        adapter: (canvasId) => window.miradorAnnotationServerAdapter(canvasId),
+    }
+JS;
+                $internalConfigWindow = <<<'JS'
+window: {
+        defaultSideBarPanel: 'annotations',
+        sideBarOpenByDefault: false,
+    }
+JS;
+                $hasAnnotation = strpos($siteConfig, 'annotation:') || strpos($siteConfig, '"annotation":') || strpos($siteConfig, "'annotation':");
+                $hasWindow = strpos($siteConfig, 'window:') || strpos($siteConfig, '"window":') || strpos($siteConfig, "'window':");
+                if ($hasAnnotation && $hasWindow) {
+                    // Nothing to do.
+                } elseif ($hasAnnotation) {
+                    $siteConfig = "{\n$internalConfigWindow,\n" . mb_substr($siteConfig, 1);
+                } elseif ($hasWindow) {
+                    $siteConfig = "{\n$internalConfigAnnotation,\n" . mb_substr($siteConfig, 1);
+                } else {
+                    $siteConfig = "{\n$internalConfigAnnotation,\n$internalConfigWindow,\n" . mb_substr($siteConfig, 1);
+                }
             } else {
-                $siteConfig = $internalConfig;
+                $siteConfig = "{\n$internalConfigAnnotation,\n$internalConfigWindow,\n}";
             }
         }
 
-        if ($siteConfig && trim($siteConfig) !== '{}') {
+        if ($siteConfig && $siteConfig !== '{}') {
             if ($options) {
                 $configJson = mb_substr(json_encode($config, 448), 0, -1)
                     . ",\n    "
