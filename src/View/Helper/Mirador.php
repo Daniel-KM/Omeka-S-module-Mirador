@@ -50,6 +50,9 @@ class Mirador extends AbstractHelper
         $this->resource = $resource;
 
         $view = $this->getView();
+        $isSite = $view->status()->isSiteRequest();
+        $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+        $this->version = $setting('mirador_version', '3');
 
         // If the manifest is not provided in metadata, point to the manifest
         // created from Omeka files only when the Iiif Server is installed.
@@ -93,15 +96,29 @@ class Mirador extends AbstractHelper
                     // return $view->translate('This item has no files and is not displayable.');
                     return '';
                 }
-                // Display the viewer only when at least one media is an image.
-                $hasImage = false;
-                foreach ($medias as $media) {
-                    if ($media->ingester() === 'iiif' || strtok((string) $media->mediaType(), '/') === 'image') {
-                        $hasImage = true;
-                        break;
+                // Display the viewer only when at least one media is managed.
+                $hasManagedMedia = false;
+                if ($this->version === '2') {
+                    foreach ($medias as $media) {
+                        if ($media->ingester() === 'iiif'
+                            || substr((string) $media->mediaType(), 0, 5) === 'image'
+                        ) {
+                            $hasManagedMedia = true;
+                            break;
+                        }
+                    }
+                } else {
+                    foreach ($medias as $media) {
+                        if ($media->ingester() === 'iiif'
+                            || in_array(substr((string) $media->mediaType(), 0, 5), ['image', 'audio', 'video'])
+                        ) {
+                            $hasManagedMedia = true;
+                            break;
+                        }
                     }
                 }
-                if (!$hasImage) {
+
+                if (!$hasManagedMedia) {
                     return '';
                 }
                 break;
@@ -130,14 +147,14 @@ class Mirador extends AbstractHelper
     {
         static $id = 0;
 
+        if ($this->version === '2') {
+            return $this->renderMirador2($urlManifest, $options, $resourceName, $isExternal);
+        }
+
         $view = $this->view;
 
         $isSite = $view->status()->isSiteRequest();
         $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
-        $this->version = $setting('mirador_version', '3');
-        if ($this->version === '2') {
-            return $this->renderMirador2($urlManifest, $options, $resourceName, $isExternal);
-        }
 
         // No css in Mirador 3: this is a webpack + google roboto.
         $assetUrl = $view->plugin('assetUrl');
