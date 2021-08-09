@@ -1,5 +1,9 @@
 <?php declare(strict_types=1);
+
 namespace Mirador;
+
+use Omeka\Mvc\Controller\Plugin\Messenger;
+use Omeka\Stdlib\Message;
 
 /**
  * @var Module $this
@@ -66,4 +70,22 @@ if (version_compare($oldVersion, '3.3.7.9', '<')) {
         $siteSettings->set('mirador_config_collection_2', $siteSettings->get('mirador_config_collection', null));
         $siteSettings->set('mirador_config_collection', null);
     }
+}
+
+if (version_compare($oldVersion, '3.3.7.13', '<')) {
+    $module = $services->get('Omeka\ModuleManager')->getModule('IiifServer');
+    if ($module && version_compare($module->getIni('version') ?? '', '3.6.5.3', '<')) {
+        $translator = $services->get('MvcTranslator');
+        $message = new \Omeka\Stdlib\Message(
+            $translator->translate('This module requires the module "%s", version %s or above.'), // @translate
+            'IiifServer', '3.6.5.3'
+        );
+        throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+    }
+
+    $messenger = new Messenger();
+    $message = new Message(
+        'The module supports audio and video for Mirador v3.' // @translate
+    );
+    $messenger->addSuccess($message);
 }
