@@ -240,22 +240,22 @@ class Mirador extends AbstractHelper
         $siteConfig = trim($siteConfig);
 
         if ($internalConfig) {
+            $internalConfigAnnotation = <<<'JS'
+annotation: {
+    adapter: (canvasId) => window.miradorAnnotationServerAdapter(canvasId),
+}
+JS;
+            $internalConfigWindow = <<<'JS'
+window: {
+    defaultSideBarPanel: 'annotations',
+    sideBarOpenByDefault: false,
+}
+JS;
             if ($siteConfig && $siteConfig !== '{}') {
                 // The admin may forget to wrap config.
                 if (mb_substr($siteConfig, 0, 1) !== '{') {
                     $siteConfig = "{\n" . $siteConfig . "\n}";
                 }
-                $internalConfigAnnotation = <<<'JS'
-annotation: {
-        adapter: (canvasId) => window.miradorAnnotationServerAdapter(canvasId),
-    }
-JS;
-                $internalConfigWindow = <<<'JS'
-window: {
-        defaultSideBarPanel: 'annotations',
-        sideBarOpenByDefault: false,
-    }
-JS;
                 $hasAnnotation = strpos($siteConfig, 'annotation:') || strpos($siteConfig, '"annotation":') || strpos($siteConfig, "'annotation':");
                 $hasWindow = strpos($siteConfig, 'window:') || strpos($siteConfig, '"window":') || strpos($siteConfig, "'window':");
                 if ($hasAnnotation && $hasWindow) {
