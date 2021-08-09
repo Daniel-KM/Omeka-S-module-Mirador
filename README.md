@@ -6,8 +6,9 @@ Mirador Viewer (module for Omeka S)
 > than the previous repository.__
 
 [Mirador Viewer] is a module for [Omeka S] that integrates [Mirador], an
-advanced online viewer for images, so it can display books, images, maps, etc.
-via the [IIIF] standard. Common plugins are included.
+advanced online viewer for images (version 2), audio and video (version 3), so
+it can display books, images, maps, etc. via the [IIIF] standard. Common plugins
+are included.
 
 [Mirador] is an open-source, web based, multi-window image viewing platform with
 the ability to zoom, display, compare and annotate images from around the world.
@@ -185,18 +186,17 @@ Finally, a block layout is available to add the viewer in any standard page.
 To embed Mirador somewhere else, just use the helper:
 
 ```php
-    // Display the viewer with the specified item set.
-    echo $this->mirador($itemSet);
+// Display the viewer with the specified item set.
+echo $this->mirador($itemSet);
 
-    // Display the viewer with the specified item and specified options.
-    // The options for Mirador are directly passed to the partial, so they are
-    // available in the theme and set for the viewer.
-    echo $this->mirador($item, $options);
+// Display the viewer with the specified item and specified options.
+// The options for Mirador are directly passed to the partial, so they are
+// available in the theme and set for the viewer.
+echo $this->mirador($item, $options);
 
-    // Display multiple resources (items and/or item sets).
-    echo $this->mirador($resources);
+// Display multiple resources (items and/or item sets).
+echo $this->mirador($resources);
 ```
-
 
 ### Plugins
 
