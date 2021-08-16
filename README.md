@@ -79,6 +79,9 @@ composer install --no-dev
   If gulp is not installed globally, you can use it locally, so use first:
 
 ```sh
+# To clean previous development.
+# rm -rf vendor && rm -rf asset/vendor
+# composer install --no-dev
 npm install gulp-cli
 npm run gulp
 ```
