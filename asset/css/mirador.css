@@ -4,35 +4,35 @@
         display: inline-block !important;
     }
     .mirador {
-        display: block;
-        width: 90%;
-        height: 600px;
-        margin: 1em 5%;
-        position: relative;
+        display: block !default; 
+        width: 90% !default;
+        height: 600px !default;
+        margin: 1em 5% !default;
+        position: relative !default;
     }
     body .mirador-container {
-        font-size: initial;
-        line-height: initial;
+        font-size: initial !default;
+        line-height: initial !default;
     }
     .mirador-viewer .manifest-info .window-manifest-title {
-        line-height: initial;
+        line-height: initial !default;
     }
     @media (min-width: 1200px) {
         .modal-dialog {
-            width: 1440px;
-            margin: 30px auto;
+            width: 1440px !default;
+            margin: 30px auto !default;
         }
     }
 }
 .play.fullscreen,
 .play.fullscreen > .mirador {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
+    position: absolute !default;
+    top: 0 !default;
+    bottom: 0 !default;
+    left: 0 !default;
+    right: 0 !default;
+    margin: 0 !default;
+    padding: 0 !default;
+    height: 100% !default;
+    width: 100% !default;
 }
