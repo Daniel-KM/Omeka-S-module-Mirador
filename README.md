@@ -174,6 +174,56 @@ See below for a fix to get the [list of images in fullscreen].
 The parameters used to config the viewer can be found in in the [recipes] and in
 the details of the file [settings.js].
 
+***Warning***: The config should be json, not js, so use double quotes, remove
+comments and trailing comma, etc. Check your json on a site such [jsonformatter.org].
+
+For example, this params can be set to display an item in Zen mode, in French,
+with upper menu bar:
+
+```json
+{
+    "language": "fr",
+    "window": {
+        "allowClose": false,
+        "allowFullscreen": true,
+        "allowMaximize": false,
+        "allowTopMenuButton": true,
+        "allowWindowSideBar": true,
+        "sideBarPanel": "info",
+        "defaultSideBarPanel": "attribution",
+        "sideBarOpenByDefault": false,
+        "defaultView": "single",
+        "forceDrawAnnotations": false,
+        "hideWindowTitle": true,
+        "highlightAllAnnotations": false,
+        "showLocalePicker": true,
+        "sideBarOpen": false,
+        "switchCanvasOnSearch": true,
+        "panels": {
+            "info": true,
+            "attribution": true,
+            "canvas": true,
+            "annotations": true,
+            "search": true,
+            "layers": true
+        }
+    },
+    "thumbnailNavigation": {
+        "defaultPosition": "off",
+        "displaySettings": true
+    },
+    "workspace": {
+        "showZoomControls": true,
+        "type": "mosaic",
+        "allowNewWindows": false,
+        "isWorkspaceAddVisible": false
+    },
+    "workspaceControlPanel": {
+        "enabled": false
+    }
+}
+```
+
 ### Display
 
 If the [IIIF Server] is installed, all resources of Omeka S are automatically
@@ -349,6 +399,7 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [vendor/projectmirador/mirador-integration/package.json]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/blob/master/package.json
 [vendor/projectmirador/mirador-integration/src/index.js]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/blob/master/src/index.js
 [included package]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka
+[jsonformatter.org]: https://jsonformatter.org
 [official documentation about Mirador plugins]: https://github.com/ProjectMirador/mirador/wiki/Mirador-3-plugins
 [Annotate]: https://gitlab.com/Daniel-KM/Omeka-S-module-Annotate
 [Annotot]: https://rubygems.org/gems/annotot
