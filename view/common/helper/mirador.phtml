@@ -8,9 +8,13 @@
  * @link https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
  */
 
+// Manage multiple Mirador viewers (via blocks in a site page).
 $script = <<<JS
-var miradorConfig = $config;
-window.globalMiradorPlugins = miradorConfig.globalMiradorPlugins;
+if (typeof miradors === 'undefined') {
+    miradors = {};
+}
+miradors['$viewerId'] = $config;
+window.globalMiradorPlugins = miradors['$viewerId'].globalMiradorPlugins;
 JS;
 if (!empty($annotationEndpoint)):
     $script .= "\nvar annotationEndpoint = " . json_encode($annotationEndpoint, 320) . ';';

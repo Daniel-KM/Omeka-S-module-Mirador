@@ -7,5 +7,7 @@ jQuery(document).ready(async function(){
             }
         }
     }
-    await Mirador.viewer(miradorConfig, plugins);
+    await Object.keys(miradors).forEach(viewerId => {
+        miradors[viewerId] = Mirador.viewer(miradors[viewerId], plugins);
+    });
 });
