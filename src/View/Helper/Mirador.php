@@ -185,8 +185,10 @@ class Mirador extends AbstractHelper
             'plugins' => $miradorPlugins,
         ]);
 
-        $view->headLink()
-            ->appendStylesheet($assetUrl('css/mirador.css', 'Mirador'));
+        if (!$setting('mirador_skip_default_css', false)) {
+            $view->headLink()
+                ->appendStylesheet($assetUrl('css/mirador.css', 'Mirador'));
+        }
 
         $viewerId = 'mirador-' . ++$id;
         $config = [
@@ -324,8 +326,10 @@ JS;
             'plugins' => $setting('mirador_plugins_2', []),
         ]);
 
-        $view->headLink()
-            ->appendStylesheet($assetUrl('css/mirador.css', 'Mirador'));
+        if (!$setting('mirador_skip_default_css', false)) {
+            $view->headLink()
+                ->appendStylesheet($assetUrl('css/mirador.css', 'Mirador'));
+        }
 
         $viewerId = 'mirador-' . ++$id;
         $config = [
