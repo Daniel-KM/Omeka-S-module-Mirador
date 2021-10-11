@@ -218,7 +218,7 @@ class Mirador extends AbstractHelper
                 $data = $this->appendConfigData($data);
                 $config += $data;
                 // TODO Site settings are not checked in page site settings (security only for v3).
-                $siteConfig = $setting('mirador_config_item', '{}') ?: '{}';
+                $configSet = $setting('mirador_config_item', '{}') ?: '{}';
                 break;
             case 'item_sets':
             case 'multiple':
@@ -233,13 +233,18 @@ class Mirador extends AbstractHelper
                     $data = $this->appendConfigData($data);
                 }
                 $config += $data;
-                $siteConfig = $setting('mirador_config_collection', '{}') ?: '{}';
+                $configSet = $setting('mirador_config_collection', '{}') ?: '{}';
                 break;
         }
 
         // This is js, not json, so no need to check quotes, commas, etc.
-        // $config = array_replace_recursive($config, $siteConfig, $options);
-        $siteConfig = trim($siteConfig);
+        // $config = array_replace_recursive($config, $configSet, $options);
+        $configSet = trim($configSet);
+
+        // The admin may forget to wrap config.
+        if ($configSet && $configSet !== '{}' && mb_substr($configSet, 0, 1) !== '{') {
+            $configSet = "{\n" . $configSet . "\n}";
+        }
 
         if ($internalConfig) {
             $internalConfigAnnotation = <<<'JS'
@@ -253,38 +258,34 @@ window: {
     sideBarOpenByDefault: false,
 }
 JS;
-            if ($siteConfig && $siteConfig !== '{}') {
-                // The admin may forget to wrap config.
-                if (mb_substr($siteConfig, 0, 1) !== '{') {
-                    $siteConfig = "{\n" . $siteConfig . "\n}";
-                }
-                $hasAnnotation = strpos($siteConfig, 'annotation:') || strpos($siteConfig, '"annotation":') || strpos($siteConfig, "'annotation':");
-                $hasWindow = strpos($siteConfig, 'window:') || strpos($siteConfig, '"window":') || strpos($siteConfig, "'window':");
+            if ($configSet && $configSet !== '{}') {
+                $hasAnnotation = strpos($configSet, 'annotation:') || strpos($configSet, '"annotation":') || strpos($configSet, "'annotation':");
+                $hasWindow = strpos($configSet, 'window:') || strpos($configSet, '"window":') || strpos($configSet, "'window':");
                 if ($hasAnnotation && $hasWindow) {
                     // Nothing to do.
                 } elseif ($hasAnnotation) {
-                    $siteConfig = "{\n$internalConfigWindow,\n" . mb_substr($siteConfig, 1);
+                    $configSet = "{\n$internalConfigWindow,\n" . mb_substr($configSet, 1);
                 } elseif ($hasWindow) {
-                    $siteConfig = "{\n$internalConfigAnnotation,\n" . mb_substr($siteConfig, 1);
+                    $configSet = "{\n$internalConfigAnnotation,\n" . mb_substr($configSet, 1);
                 } else {
-                    $siteConfig = "{\n$internalConfigAnnotation,\n$internalConfigWindow,\n" . mb_substr($siteConfig, 1);
+                    $configSet = "{\n$internalConfigAnnotation,\n$internalConfigWindow,\n" . mb_substr($configSet, 1);
                 }
             } else {
-                $siteConfig = "{\n$internalConfigAnnotation,\n$internalConfigWindow,\n}";
+                $configSet = "{\n$internalConfigAnnotation,\n$internalConfigWindow,\n}";
             }
         }
 
-        if ($siteConfig && $siteConfig !== '{}') {
+        if ($configSet && $configSet !== '{}') {
             if ($options) {
                 $configJson = mb_substr(json_encode($config, 448), 0, -1)
                     . ",\n    "
-                    . trim(mb_substr($siteConfig, 1, -1), ", \n\t\r")
+                    . trim(mb_substr($configSet, 1, -1), ", \n\t\r")
                     . ",\n"
                     . mb_substr(json_encode($options, 448), 1);
             } else {
                 $configJson = mb_substr(json_encode($config, 448), 0, -2)
                     . ",\n    "
-                    . trim(mb_substr($siteConfig, 1));
+                    . trim(mb_substr($configSet, 1));
             }
         } else {
             $config = array_replace_recursive($config, $options);
@@ -361,9 +362,9 @@ JS;
                     'data' => $data,
                     'windowObjects' => [['loadedManifest' => $urlManifest]],
                 ];
-                $siteConfig = $setting('mirador_config_item_2', '{}') ?: '{}';
+                $configSet = $setting('mirador_config_item_2', '{}') ?: '{}';
                 // TODO Site settings are not checked in page site settings.
-                if (json_decode($siteConfig, true) === null) {
+                if (json_decode($configSet, true) === null) {
                     $view->logger()->err('Settings for Mirador config of items is not a valid json.'); // @translate
                 }
                 break;
@@ -381,8 +382,8 @@ JS;
                     'data' => $data,
                     'openManifestsPage' => true,
                 ];
-                $siteConfig = $setting('mirador_config_collection_2', '{}') ?: '{}';
-                if (json_decode($siteConfig, true) === null) {
+                $configSet = $setting('mirador_config_collection_2', '{}') ?: '{}';
+                if (json_decode($configSet, true) === null) {
                     $view->logger()->err('Settings for Mirador config of collections is not a valid json.'); // @translate
                 }
                 break;
@@ -394,13 +395,13 @@ JS;
                 $isCollection ? null : (substr($urlManifest, 0, -8) . 'canvas/p1')
             ),
         ];
-        $siteConfig = str_replace(array_keys($placeholders), array_values($placeholders), $siteConfig);
-        $siteConfig = json_decode($siteConfig, true) ?: [];
+        $configSet = str_replace(array_keys($placeholders), array_values($placeholders), $configSet);
+        $configSet = json_decode($configSet, true) ?: [];
 
         // Since only id, buildPath and data are set, it is possible to use
         // array_merge, array_replace or "+" operator.
         // In javascript, use "jQuery.extend(true, config, siteOptions, options)".
-        $config = array_replace_recursive($config, $siteConfig, $options);
+        $config = array_replace_recursive($config, $configSet, $options);
 
         return $view->partial('common/helper/mirador', [
             'config' => json_encode($config, 448),

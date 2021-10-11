@@ -8,6 +8,8 @@ class SiteSettingsFieldset extends \Mirador\Form\SettingsFieldset
 {
     public function init(): void
     {
+        parent::init();
+
         $this
             ->add([
                 'name' => 'mirador_skip_default_css',
