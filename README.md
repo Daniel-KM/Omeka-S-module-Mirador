@@ -50,6 +50,9 @@ not use it. No check is done inside Omeka.
   - Install Mirador 2
 
 ```sh
+# To clean previous development.
+# rm -rf vendor && rm -rf asset/vendor
+
 # Install mirador 2.7.0 in asset/vendor/mirador-2 and plugins in asset/vendor/mirador-2-plugins.
 composer install --no-dev
 ```
@@ -70,7 +73,7 @@ composer install --no-dev
   plugins in main settings or in site settings.
 
   Development of a specific version of Mirador 3 requires npm. If you want to
-  remove plugins or to include new plugins from the bundle,  update the files
+  remove plugins or to include new plugins from the bundle, update the files
   [vendor/projectmirador/mirador-integration/package.json] and [vendor/projectmirador/mirador-integration/src/index.js].
   See more information in the [included package]. You may have to fork the
   repository and to set it in package.json. The file gulpfile.js inside the
@@ -79,11 +82,8 @@ composer install --no-dev
   If gulp is not installed globally, you can use it locally, so use first:
 
 ```sh
-# To clean previous development.
-# rm -rf vendor && rm -rf asset/vendor
-# composer install --no-dev
+# Install gulp-cli locally if needed.
 npm install gulp-cli
-npm run gulp
 ```
 
   See [official documentation about Mirador plugins].
@@ -98,14 +98,14 @@ gulp
 
 * Access to IIIF images
 
-Mirador is based on IIIF, so an image server compliant with this protocol is
-required to use it. So, install the module [Image Server] if needed.
+Mirador is based on IIIF, so the images should be available through an image
+server compliant with this protocol. So for you own images, you need either
+[Cantaloupe] or [IIP Image] or the module [Image Server].
 
-If you need to display big images (bigger than 1 to 10 MB according to your
-server, your network, and your users), use an external image server, or create
-tiles with [Image Server]. The tiling means that big images like maps and deep
-paintings, and any other images, are converted into tiles in order to load and
-zoom them instantly.
+With [Image Server], if you need to display big images (bigger than 1 to 10 MB
+according to your server, your network, and your users), you need to create
+tiles. The tiling means that big images like maps and deep paintings, and any
+other images, are converted into tiles in order to load and zoom them instantly.
 
 
 Usage
