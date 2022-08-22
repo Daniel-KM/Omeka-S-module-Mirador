@@ -24,6 +24,7 @@ class SettingsFieldset extends Fieldset
     public function init(): void
     {
         $this
+            ->setAttribute('id', 'mirador')
             ->add([
                 'name' => 'mirador_version',
                 'type' => Element\Radio::class,
