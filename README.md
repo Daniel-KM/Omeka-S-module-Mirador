@@ -89,14 +89,14 @@ composer install --no-dev --no-cache
 # Warning: it will remove directory "vendor".
 rm -rf vendor && rm -rf asset/vendor
 composer install --no-dev --no-cache
-
-# Compile the three versions of Mirador 3.
-cd vendor/projectmirador/mirador-integration
+# Compile the three versions of Mirador 3, minify and copy them in asset/vendor/mirador. gulp/gulp-cli can be used too.
+# It will takes somes minutes.
 npm install
-cd ../../..
-# Minify mirador and copy them in asset/vendor/mirador.
-gulp
+npx gulp
 ```
+
+  If it doesn't work, clone the repository [Mirador-integration-Omeka] somewhere,
+  follow its readme, then copy build files inside "asset/vendor/mirador".
 
   Some plugins are not included in the bundle for various reasons, but they are
   listed in the file package.json under key "[unmanaged]".
@@ -318,6 +318,7 @@ TODO
 ----
 
 - [ ] Support module [Annotate] as backend for annotations.
+- [ ] Split Mirador plugins for dynamic lazy load (see https://v4.webpack.js.org/guides/code-splitting/).
 
 
 Warning

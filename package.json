@@ -8,8 +8,6 @@
     "url": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador.git"
   },
   "devDependencies": {
-    "gulp": "^4.0.2",
-    "gulp-cli": "^2.3.0",
     "gulp-concat": "^2.6.1"
   }
 }
