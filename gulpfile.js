@@ -19,10 +19,10 @@ gulp.task('npm-install', function (cb) {
 gulp.task('vanilla', gulp.series(
     function () {
         return gulp.src([
-                'vendor/projectmirador/mirador-integration/node_modules/mirador/dist/mirador.min.js',
-                'vendor/projectmirador/mirador-integration/node_modules/mirador/dist/mirador.min.js.LICENSE.txt',
-            ])
-            .pipe(gulp.dest('asset/vendor/mirador'));
+            'vendor/projectmirador/mirador-integration/node_modules/mirador/dist/mirador.min.js',
+            'vendor/projectmirador/mirador-integration/node_modules/mirador/dist/mirador.min.js.LICENSE.txt',
+        ])
+        .pipe(gulp.dest('asset/vendor/mirador'));
     }
 ));
 
