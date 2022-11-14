@@ -16,6 +16,7 @@ return [
     'annotations' => 'Annotations',
     'dl' => 'Download files',
     'image-tools' => 'Image tools',
+    'ocr-helper' => 'OCR helper',
     // 'ruler' => 'Ruler',
     'share' => 'Share',
     'textoverlay' => 'Text overlay',
