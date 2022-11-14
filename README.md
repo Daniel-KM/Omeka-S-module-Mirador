@@ -50,11 +50,13 @@ not use it. No check is done inside Omeka.
   - Install Mirador 2
 
 ```sh
-# To clean previous development.
-# rm -rf vendor && rm -rf asset/vendor
+# To clean previous development, **even** with --no-cache.
+# Warning: it will remove directory "vendor".
+rm -rf vendor && rm -rf asset/vendor
 
 # Install mirador 2.7.0 in asset/vendor/mirador-2 and plugins in asset/vendor/mirador-2-plugins.
-composer install --no-dev
+# The option "--no-cache" allows to have last versions.
+composer install --no-dev --no-cache
 ```
 
   - Install Mirador 3
@@ -79,22 +81,25 @@ composer install --no-dev
   repository and to set it in package.json. The file gulpfile.js inside the
   present module is used only as a shortcut to it.
 
-  If gulp is not installed globally, you can use it locally, so use first:
-
-```sh
-# Install gulp-cli locally if needed.
-npm install gulp-cli
-```
-
   See [official documentation about Mirador plugins].
 
 ```sh
-# Compile the three versions of Mirador 3 and copy them in asset/vendor/mirador.
+# Install mirador-integration with composer if no done above.
+# To clean previous development, **even** with --no-cache.
+# Warning: it will remove directory "vendor".
+rm -rf vendor && rm -rf asset/vendor
+composer install --no-dev --no-cache
+
+# Compile the three versions of Mirador 3.
 cd vendor/projectmirador/mirador-integration
 npm install
 cd ../../..
+# Minify mirador and copy them in asset/vendor/mirador.
 gulp
 ```
+
+  Some plugins are not included in the bundle for various reasons, but they are
+  listed in the file package.json under key "[unmanaged]".
 
 * Access to IIIF images
 
@@ -285,6 +290,7 @@ for Mirador v2, `data/plugins/plugins-mirador-2.php` and `view/common/helper/mir
   and [Annotot] (requires its endpoint).
 - [Download]
 - [Image Tools]
+- [OCR Helper]
 - [Ruler]
 - [Share]
 - [Text overlay]
@@ -404,7 +410,6 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Annotate]: https://gitlab.com/Daniel-KM/Omeka-S-module-Annotate
 [Annotot]: https://rubygems.org/gems/annotot
 [included repository]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/blob/master/mirador-integration/README.md
-[official documentation about Mirador plugins]: https://github.com/ProjectMirador/mirador/wiki/Mirador-3-plugins
 [Crosslink]: https://github.com/ArchiveLabs/mirador-crosslink
 [dbmdz]: https://github.com/dbmdz/mirador-plugins
 [Disable-zoom]: https://github.com/UCLALibrary/mirador-disable-zoom
@@ -420,6 +425,7 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Annotations]: https://github.com/ProjectMirador/mirador-annotations
 [Download]: https://github.com/ProjectMirador/mirador-dl-plugin
 [Image Tools]: https://github.com/ProjectMirador/mirador-image-tools
+[OCR Helper]: https://www.npmjs.com/package/@4eyes/mirador-ocr-helper
 [Ruler]: https://www.npmjs.com/package/mirador-ruler-plugin
 [Share]: https://github.com/ProjectMirador/mirador-share-plugin
 [Text overlay]: https://www.npmjs.com/package/mirador-textoverlay
