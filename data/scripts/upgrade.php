@@ -22,6 +22,7 @@ $connection = $services->get('Omeka\Connection');
 $config = require dirname(__DIR__, 2) . '/config/module.config.php';
 $plugins = $services->get('ControllerPluginManager');
 $api = $plugins->get('api');
+$messenger = $services->get('ControllerPluginManager')->get('messenger');
 
 if (version_compare($oldVersion, '3.1.0', '<')) {
     $sql = <<<SQL
@@ -83,7 +84,6 @@ if (version_compare($oldVersion, '3.3.7.13', '<')) {
         throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
     }
 
-    $messenger = new Messenger();
     $message = new Message(
         'The module supports audio and video for Mirador v3.' // @translate
     );

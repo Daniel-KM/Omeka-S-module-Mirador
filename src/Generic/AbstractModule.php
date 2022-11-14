@@ -30,6 +30,7 @@ namespace Generic;
 
 use Laminas\EventManager\Event;
 use Laminas\Mvc\Controller\AbstractController;
+use Laminas\Mvc\MvcEvent;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Module\Exception\ModuleCannotInstallException;
@@ -54,6 +55,19 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
     public function getConfig()
     {
         return include $this->modulePath() . '/config/module.config.php';
+    }
+
+    public function onBootstrap(MvcEvent $event)
+    {
+        parent::onBootstrap($event);
+
+        // Check last version of modules.
+        $sharedEventManager = $this->getServiceLocator()->get('SharedEventManager');
+        $sharedEventManager->attach(
+            'Omeka\Controller\Admin\Module',
+            'view.browse.after',
+            [$this, 'checkAddonVersions']
+        );
     }
 
     public function install(ServiceLocatorInterface $services): void
@@ -163,6 +177,26 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
         }
         $installResources->createAllResources(static::NAMESPACE);
         return $this;
+    }
+
+    public function checkAddonVersions(Event $event): void
+    {
+        global $globalCheckAddonVersions;
+
+        if ($globalCheckAddonVersions) {
+            return;
+        }
+        $globalCheckAddonVersions = true;
+
+        $view = $event->getTarget();
+        $hasGenericAsset = basename(dirname(__DIR__)) === 'modules' || file_exists(dirname(__DIR__, 3) . '/Generic/asset/js/check-versions.js');
+        $asset = $hasGenericAsset
+            ? $view->assetUrl('../../Generic/asset/js/check-versions.js', static::NAMESPACE)
+            // Use a cdn to avoid issues with different versions in modules.
+            // Of course, it's simpler to have an up-to-date Generic module.
+            : 'https://cdn.jsdelivr.net/gh/Daniel-KM/Omeka-S-module-Generic@3.3.35/asset/js/check-versions.js';
+        $view->headScript()
+            ->appendFile($asset, 'text/javascript', ['defer' => 'defer']);
     }
 
     public function getConfigForm(PhpRenderer $renderer)
@@ -328,7 +362,7 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
                 $translator->translate('The module removed tables "%s" from a previous broken install.'), // @translate
                 implode('", "', $dropTables)
             );
-            $messenger = new \Omeka\Mvc\Controller\Plugin\Messenger();
+            $messenger = $services->get('ControllerPluginManager')->get('messenger');
             $messenger->addWarning($message);
         }
 
@@ -732,7 +766,7 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
         $translator = $services->get('MvcTranslator');
         if ($version) {
             $message = new \Omeka\Stdlib\Message(
-                $translator->translate('This module requires the module "%s", version %s or above.'), // @translate
+                $translator->translate('This module requires the module "%1$s", version %2$s or above.'), // @translate
                 $moduleName, $version
             );
         } else {
@@ -832,7 +866,7 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
             $translator->translate('The module "%s" was automatically deactivated because the dependencies are unavailable.'), // @translate
             $module
         );
-        $messenger = new \Omeka\Mvc\Controller\Plugin\Messenger();
+        $messenger = $services->get('ControllerPluginManager')->get('messenger');
         $messenger->addWarning($message);
 
         $logger = $services->get('Omeka\Logger');
