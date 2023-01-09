@@ -373,7 +373,7 @@ Widget [Mirador]:
 
 Module Mirador for Omeka S:
 
-* Copyright Daniel Berthereau, 2018-2021
+* Copyright Daniel Berthereau, 2018-2023
 
 First version of this module was built for [Fachhochschule Nordwestschweiz],
 University of Applied Sciences and Arts, Basel Academy of Music, Academy of Music,
@@ -400,7 +400,7 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [tutorial]: http://projectmirador.org/docs/docs/getting-started.html
 [recipes]: https://github.com/ProjectMirador/mirador/wiki/M3-Configuration-Recipes
 [settings.js]: https://github.com/ProjectMirador/mirador/blob/master/src/config/settings.js
-[Installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
+[Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [Generic]: https://gitlab.com/Daniel-KM/Omeka-S-module-Generic
 [Blocks Disposition]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlocksDisposition
 [react]: https://reactjs.org
