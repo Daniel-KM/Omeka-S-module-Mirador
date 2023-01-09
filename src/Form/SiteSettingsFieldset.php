@@ -11,11 +11,11 @@ class SiteSettingsFieldset extends \Mirador\Form\SettingsFieldset
         parent::init();
 
         $this
-            ->setAttribute('id', 'mirador')
             ->add([
                 'name' => 'mirador_skip_default_css',
                 'type' => Element\Checkbox::class,
                 'options' => [
+                    'element_group' => 'player',
                     'label' => 'Skip default css', // @translate
                 ],
                 'attributes' => [
