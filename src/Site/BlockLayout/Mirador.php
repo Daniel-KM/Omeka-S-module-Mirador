@@ -59,6 +59,7 @@ class Mirador extends AbstractBlockLayout
         }
 
         return $view->partial('common/block-layout/mirador', [
+            'block' => $block,
             'attachments' => $attachments,
         ]);
     }

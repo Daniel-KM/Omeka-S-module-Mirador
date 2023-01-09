@@ -292,7 +292,7 @@ JS;
             $configJson = json_encode($config, 448);
         }
 
-        return $view->partial('common/helper/mirador', [
+        return $view->partial('common/mirador', [
             'config' => $configJson,
             'viewerId' => $viewerId,
             'annotationEndpoint' => $annotationEndpoint,
@@ -403,7 +403,7 @@ JS;
         // In javascript, use "jQuery.extend(true, config, siteOptions, options)".
         $config = array_replace_recursive($config, $configSet, $options);
 
-        return $view->partial('common/helper/mirador', [
+        return $view->partial('common/mirador', [
             'config' => json_encode($config, 448),
             'viewerId' => $viewerId,
         ]);

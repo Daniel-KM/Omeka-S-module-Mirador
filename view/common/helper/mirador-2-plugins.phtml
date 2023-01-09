@@ -4,9 +4,11 @@
  * @var array $plugins
  */
 
-$headLink = $this->plugin('headLink');
-$headScript = $this->plugin('headScript');
-$assetUrl = $this->plugin('assetUrl');
+$plugins = $this->getHelperPluginManager();
+$assetUrl = $plugins->get('assetUrl');
+$headLink = $plugins->get('headLink');
+$headScript = $plugins->get('headScript');
+
 foreach ($plugins as $plugin) switch ($plugin):
     case 'canvas-link':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-2-plugins/canvas-link/canvasLink.css', 'Mirador'));
