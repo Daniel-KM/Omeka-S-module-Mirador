@@ -32,6 +32,11 @@ return [
             'mirador' => Site\BlockLayout\Mirador::class,
         ],
     ],
+    'resource_page_block_layouts' => [
+        'invokables' => [
+            'mirador' => Site\ResourcePageBlockLayout\Mirador::class,
+        ],
+    ],
     'controllers' => [
         'invokables' => [
             'Mirador\Controller\Player' => Controller\PlayerController::class,
