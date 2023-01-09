@@ -23,6 +23,8 @@ and [Image Server].
 
 It’s an alternative to the [Universal Viewer] or the lighter [Diva Viewer].
 
+For an example, see [Corpus du Louvre].
+
 
 Installation
 ------------
@@ -382,6 +384,7 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Mirador]: https://projectmirador.org
 [Omeka S]: https://omeka.org/s
 [Omeka]: https://omeka.org
+[Corpus du Louvre]: https://corpus.louvre.fr/
 [IIIF Server]: https://gitlab.com/Daniel-KM/Omeka-S-module-IiifServer
 [Image Server]: https://gitlab.com/Daniel-KM/Omeka-S-module-ImageServer
 [IIIF]: http://iiif.io
