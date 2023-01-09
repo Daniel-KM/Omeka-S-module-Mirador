@@ -99,7 +99,20 @@ class Module extends AbstractModule
 
     public function handleViewShowAfterItem(Event $event): void
     {
+        // In Omeka S v4, if the player is set in the view, don't add it.
         $view = $event->getTarget();
+        if (version_compare(\Omeka\Module::VERSION, '4', '>=')) {
+            $services = $this->getServiceLocator();
+            $currentTheme = $services->get('Omeka\Site\ThemeManager')->getCurrentTheme();
+            $blockLayoutManager = $services->get('Omeka\ResourcePageBlockLayoutManager');
+            $resourcePageBlocks = $blockLayoutManager->getResourcePageBlocks($currentTheme);
+            foreach ($resourcePageBlocks['items'] ?? [] as $blocks) {
+                if (in_array('mirador', $blocks)) {
+                    return;
+                }
+            }
+        }
+
         echo $view->mirador($view->item);
     }
 
