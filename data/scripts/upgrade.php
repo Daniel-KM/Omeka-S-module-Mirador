@@ -2,34 +2,33 @@
 
 namespace Mirador;
 
-use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Stdlib\Message;
 
 /**
  * @var Module $this
  * @var \Laminas\ServiceManager\ServiceLocatorInterface $services
- * @var string $oldVersion
  * @var string $newVersion
+ * @var string $oldVersion
  *
+ * @var \Omeka\Api\Manager $api
  * @var \Omeka\Settings\Settings $settings
  * @var \Doctrine\DBAL\Connection $connection
- * @var array $config
- * @var array $config
- * @var \Omeka\Mvc\Controller\Plugin\Api $api
+ * @var \Doctrine\ORM\EntityManager $entityManager
+ * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
  */
-$settings = $services->get('Omeka\Settings');
-$connection = $services->get('Omeka\Connection');
-$config = require dirname(__DIR__, 2) . '/config/module.config.php';
 $plugins = $services->get('ControllerPluginManager');
 $api = $plugins->get('api');
-$messenger = $services->get('ControllerPluginManager')->get('messenger');
+$settings = $services->get('Omeka\Settings');
+$connection = $services->get('Omeka\Connection');
+$messenger = $plugins->get('messenger');
+$entityManager = $services->get('Omeka\EntityManager');
 
 if (version_compare($oldVersion, '3.1.0', '<')) {
     $sql = <<<SQL
 DELETE FROM site_setting
 WHERE id IN ('mirador_class', 'mirador_style', 'mirador_locale');
 SQL;
-    $connection->exec($sql);
+    $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.1.3', '<')) {
@@ -37,7 +36,7 @@ if (version_compare($oldVersion, '3.1.3', '<')) {
 DELETE FROM site_setting
 WHERE id IN ("mirador_append_item_set_show", "mirador_append_item_show", "mirador_append_item_set_browse", "mirador_append_item_browse");
 SQL;
-    $connection->exec($sql);
+    $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.1.7', '<')) {
