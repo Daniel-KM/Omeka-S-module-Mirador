@@ -321,6 +321,7 @@ TODO
 
 - [ ] Support module [Annotate] as backend for annotations.
 - [ ] Split Mirador plugins for dynamic lazy load (see https://v4.webpack.js.org/guides/code-splitting/).
+- [ ] Remove dependency to IiifServer for block.
 
 
 Warning
