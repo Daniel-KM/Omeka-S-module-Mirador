@@ -12,5 +12,6 @@ foreach ($attachments as $attachment) {
         $resources[] = $item;
     }
 }
+
 // Display the viewer with the specified resources.
-echo $this->mirador($resources);
+echo $this->mirador(count($resources) === 1 ? reset($resources) : $resources);
