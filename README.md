@@ -94,6 +94,7 @@ composer install --no-dev --no-cache
 # Compile the three versions of Mirador 3, minify and copy them in asset/vendor/mirador. gulp/gulp-cli can be used too.
 # It will takes somes minutes.
 npm install
+# if gulp is not installed, run first `npm install gulp`
 npx gulp
 ```
 
