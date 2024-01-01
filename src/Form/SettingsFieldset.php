@@ -60,6 +60,7 @@ class SettingsFieldset extends Fieldset
                     'value_options' => $this->getPlugins2(),
                     'empty_option' => '',
                     'use_hidden_element' => true,
+                    'disable_inarray_validator' => true,
                 ],
                 'attributes' => [
                     'id' => 'mirador_plugins_2',
@@ -105,6 +106,7 @@ class SettingsFieldset extends Fieldset
                     'value_options' => $this->getPlugins(),
                     'empty_option' => '',
                     'use_hidden_element' => true,
+                    'disable_inarray_validator' => true,
                 ],
                 'attributes' => [
                     'id' => 'mirador_plugins',
