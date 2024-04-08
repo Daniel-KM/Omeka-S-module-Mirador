@@ -37,6 +37,11 @@ The module uses multiple external js library, [Mirador] itself and its plugins,
 in version 2.7 or 3, so use the release zip to install it, or use and init the
 source.
 
+There are three versions of Mirador: vanilla Mirador, Mirador with common
+plugins, Mirador with all plugins. The choice is transparent inside Omeka and
+the appropriate bundle is included according to the selected plugins in main
+settings or in site settings.
+
 * From the zip
 
 Download the last release [Mirador.zip] from the list of releases (the master
@@ -44,24 +49,23 @@ does not contain the dependency), and uncompress it in the `modules` directory.
 
 * From the source and for development:
 
-If the module was installed from the source, rename the name of the folder of
-the module to `Mirador`, and go to the root module. Mirador 2 and Mirador 3 are
-installed separately, so you can skip the one or the other if you are sure to
-not use it. No check is done inside Omeka.
+  - Libraries for Mirador
 
-  - Install Mirador 2
+  If the module was installed from the source, rename the name of the folder of
+  the module to `Mirador`, and go to the root module.
+
+  Because compiling old Mirador versions with unmaintained but stable plugins is
+  more complex with the time, the libraries for Mirador are provided through a
+  zip since version 3.4.9.
 
 ```sh
-# To clean previous development, **even** with --no-cache.
-# Warning: it will remove directory "vendor".
-rm -rf vendor && rm -rf asset/vendor
-
-# Install mirador 2.7.0 in asset/vendor/mirador-2 and plugins in asset/vendor/mirador-2-plugins.
-# The option "--no-cache" allows to have last versions.
-composer install --no-dev --no-cache
+composer install --no-dev
 ```
 
-  - Install Mirador 3
+  - Compilation of mirador 3
+
+  This explanation for Mirador 3 is useful only if you want to compile Mirador
+  yourself.
 
   Mirador 3 is based on [react], a js framework managed by facebook, so a
   complex install is required to manage it and plugins should be compiled and
@@ -70,11 +74,6 @@ composer install --no-dev --no-cache
 
   So, to simplify installation of Mirador 3 and plugins and to keep it as small
   as possible, Mirador is managed as a separate repository [Mirador integration Omeka].
-
-  This repository provides three versions of Mirador: vanilla Mirador, Mirador
-  with common plugins, Mirador with all plugins. The choice is transparent
-  inside Omeka and the appropriate bundle is included according to the selected
-  plugins in main settings or in site settings.
 
   Development of a specific version of Mirador 3 requires npm. If you want to
   remove plugins or to include new plugins from the bundle, update the files
@@ -86,12 +85,10 @@ composer install --no-dev --no-cache
   See [official documentation about Mirador plugins].
 
 ```sh
-# Install mirador-integration with composer if no done above.
-# To clean previous development, **even** with --no-cache.
-# Warning: it will remove directory "vendor".
-rm -rf vendor && rm -rf asset/vendor
-composer install --no-dev --no-cache
-# Compile the three versions of Mirador 3, minify and copy them in asset/vendor/mirador. gulp/gulp-cli can be used too.
+# Install mirador-integration with composer, including dev.
+composer install
+# Compile the three versions of Mirador 3, minify and copy them in asset/vendor/mirador.
+# gulp/gulp-cli can be used too.
 # It will takes somes minutes.
 npm install
 # if gulp is not installed, run first `npm install gulp`
@@ -100,9 +97,6 @@ npx gulp
 
   If it doesn't work, clone the repository [Mirador-integration-Omeka] somewhere,
   follow its readme, then copy build files inside "asset/vendor/mirador".
-
-  Some plugins are not included in the bundle for various reasons, but they are
-  listed in the file package.json under key "[unmanaged]".
 
 * Access to IIIF images
 
@@ -375,7 +369,7 @@ Widget [Mirador]:
 
 Module Mirador for Omeka S:
 
-* Copyright Daniel Berthereau, 2018-2023
+* Copyright Daniel Berthereau, 2018-2024
 
 First version of this module was built for [Fachhochschule Nordwestschweiz],
 University of Applied Sciences and Arts, Basel Academy of Music, Academy of Music,
@@ -402,11 +396,12 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [tutorial]: http://projectmirador.org/docs/docs/getting-started.html
 [recipes]: https://github.com/ProjectMirador/mirador/wiki/M3-Configuration-Recipes
 [settings.js]: https://github.com/ProjectMirador/mirador/blob/master/src/config/settings.js
-[Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
+[installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [Generic]: https://gitlab.com/Daniel-KM/Omeka-S-module-Generic
 [Blocks Disposition]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlocksDisposition
 [react]: https://reactjs.org
 [Mirador integration Omeka]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka
+[Mirador-integration-Omeka]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka
 [List of images in fullscreen]: #list-of-images-in-fullscreen-in-mirador-2
 [vendor/projectmirador/mirador-integration/package.json]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/blob/master/package.json
 [vendor/projectmirador/mirador-integration/src/index.js]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/blob/master/src/index.js
