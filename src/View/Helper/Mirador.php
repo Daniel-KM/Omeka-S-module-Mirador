@@ -9,17 +9,26 @@ use Omeka\Site\Theme\Theme;
 class Mirador extends AbstractHelper
 {
     /**
-     * @var Theme The current theme, if any
+     * @var \Omeka\Site\Theme\Theme
+     *
+     * The current theme, if any.
      */
     protected $currentTheme;
 
     /**
-     * @var string "2" or "3" (version of Mirador).
+     * @var bool
+     */
+    protected $isSite;
+
+    /**
+     * @var string
+     *
+     * "2" or "3" (version of Mirador).
      */
     protected $version;
 
     /**
-     * @var AbstractResourceEntityRepresentation|AbstractResourceEntityRepresentation[] $resource
+     * @var AbstractResourceEntityRepresentation|AbstractResourceEntityRepresentation[]
      */
     protected $resource;
 
@@ -50,9 +59,9 @@ class Mirador extends AbstractHelper
         $this->resource = $resource;
 
         $view = $this->getView();
-        $isSite = $view->status()->isSiteRequest();
-        $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
-        $this->version = $setting('mirador_version', '3');
+        $this->isSite = $view->status()->isSiteRequest();
+        $setting = $this->isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+        $this->version = (string) $setting('mirador_version', '3');
 
         // If the manifest is not provided in metadata, point to the manifest
         // created from Omeka files only when the Iiif Server is installed.
@@ -90,6 +99,7 @@ class Mirador extends AbstractHelper
         // Some specific checks.
         switch ($resourceName) {
             case 'items':
+                /** @var \Omeka\Api\Representation\ItemRepresentation $resource */
                 // Currently, an item without files is unprocessable.
                 $medias = $resource->media();
                 if (!count($medias)) {
@@ -123,7 +133,8 @@ class Mirador extends AbstractHelper
                 }
                 break;
             case 'item_sets':
-                if ($resource->itemCount() == 0) {
+                /** @var \Omeka\Api\Representation\ItemSetRepresentation $resource */
+                if (!$resource->itemCount()) {
                     // return $view->translate('This collection has no item and is not displayable.');
                     return '';
                 }
@@ -152,9 +163,7 @@ class Mirador extends AbstractHelper
         }
 
         $view = $this->view;
-
-        $isSite = $view->status()->isSiteRequest();
-        $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+        $setting = $this->isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
 
         // No css in Mirador 3: this is a webpack + google roboto.
         $assetUrl = $view->plugin('assetUrl');
@@ -313,8 +322,7 @@ JS;
         static $id = 0;
 
         $view = $this->view;
-        $isSite = $view->params()->fromRoute('__SITE__');
-        $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+        $setting = $this->isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
         $assetUrl = $view->plugin('assetUrl');
 
         $view->headLink()
@@ -413,8 +421,7 @@ JS;
     {
         $view = $this->view;
 
-        $isSite = $view->params()->fromRoute('__SITE__');
-        $setting = $isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+        $setting = $this->isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
 
         $number = $setting('mirador_preselected_items');
         if (empty($number)) {
@@ -458,29 +465,5 @@ JS;
         }
 
         return $data;
-    }
-
-    /**
-     * Get an asset path for a site from theme or module (fallback).
-     *
-     * @param string $path
-     * @param string $module
-     * @return string|null
-     */
-    protected function assetPath($path, $module = null)
-    {
-        // Check the path in the theme.
-        if ($this->currentTheme) {
-            $filepath = OMEKA_PATH . '/themes/' . $this->currentTheme->getId() . '/asset/' . $path;
-            if (file_exists($filepath)) {
-                return $this->view->assetUrl($path, null, false, false);
-            }
-        }
-
-        // As fallback, get the path in the module (the file must exist).
-        if ($module) {
-            $assetPath = $this->view->assetUrl($path, $module, false, false);
-            return $assetPath;
-        }
     }
 }
