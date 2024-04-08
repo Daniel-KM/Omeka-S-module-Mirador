@@ -4,118 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf9bba3f705e9f8218adaa8bb9ccdd7b",
+    "content-hash": "6c228183d5106d2d78bf194a11c9be13",
     "packages": [
         {
-            "name": "2sc1815j/mirador-dragndrop-link-plugin",
-            "version": "0.0.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/2SC1815J/mirador-dragndrop-link-plugin/archive/master.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "archivelabs/mirador-crosslink-plugin",
-            "version": "0.0.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/ArchiveLabs/mirador-crosslink-plugin/archive/master.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "daniel-km/mirador-plugin-metadata-tab",
-            "version": "1.0.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/Daniel-KM/Mirador-plugin-MetadataTab/archive/master.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "dbmdz/mirador-plugins",
-            "version": "1.0.6.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/dbmdz/mirador-plugins/archive/main.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "jazahn/mirador-metadata",
-            "version": "0.0.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/jazahn/mirador-metadata/archive/master.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "jbhoward-dublin/mirador-plugins-ucd",
-            "version": "0.0.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/jbhoward-dublin/mirador-plugins-ucd/archive/master.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "jeffreycwitt/mirador-ldn-plugin",
-            "version": "0.0.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/jeffreycwitt/mirador-ldn-plugin/archive/master.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "mirador/mirador",
-            "version": "2.7.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.7.0/build.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "projectmirador/mirador-integration",
-            "version": "0.0.2",
-            "dist": {
-                "type": "zip",
-                "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/master/Mirador-integration-Omeka-master.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "slowprog/composer-copy-file",
-            "version": "0.3.3",
+            "name": "composer/installers",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/slowprog/CopyFile.git",
-                "reference": "b02d55f7587577f29d355f0ce7b697f66dffc0af"
+                "url": "https://github.com/composer/installers.git",
+                "reference": "c29dc4b93137acb82734f672c37e029dfbd95b35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slowprog/CopyFile/zipball/b02d55f7587577f29d355f0ce7b697f66dffc0af",
-                "reference": "b02d55f7587577f29d355f0ce7b697f66dffc0af",
+                "url": "https://api.github.com/repos/composer/installers/zipball/c29dc4b93137acb82734f672c37e029dfbd95b35",
+                "reference": "c29dc4b93137acb82734f672c37e029dfbd95b35",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6"
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "mikey179/vfsstream": "~1",
-                "php-mock/php-mock-phpunit": "~1",
-                "phpunit/phpunit": "5.7.27",
-                "symfony/filesystem": "~2.7",
-                "symfony/finder": "~2.7"
+                "composer/composer": "1.6.* || ^2.0",
+                "composer/semver": "^1 || ^3",
+                "phpstan/phpstan": "^0.12.55",
+                "phpstan/phpstan-phpunit": "^0.12.16",
+                "symfony/phpunit-bridge": "^5.3",
+                "symfony/process": "^5"
             },
-            "type": "library",
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Composer\\Installers\\Plugin",
+                "branch-alias": {
+                    "dev-main": "2.x-dev"
+                },
+                "plugin-modifies-install-path": true
+            },
             "autoload": {
                 "psr-4": {
-                    "SlowProg\\CopyFile\\": ""
+                    "Composer\\Installers\\": "src/Composer/Installers"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -124,63 +51,187 @@
             ],
             "authors": [
                 {
-                    "name": "Andrey Tyshev",
-                    "email": "slowprog@gmail.com"
+                    "name": "Kyle Robinson Young",
+                    "email": "kyle@dontkry.com",
+                    "homepage": "https://github.com/shama"
                 }
             ],
-            "description": "Composer script copying your files after install",
-            "homepage": "https://github.com/SlowProg/composer-copy-file",
+            "description": "A multi-framework Composer library installer",
+            "homepage": "https://composer.github.io/installers/",
             "keywords": [
-                "copy file"
+                "Dolibarr",
+                "Eliasis",
+                "Hurad",
+                "ImageCMS",
+                "Kanboard",
+                "Lan Management System",
+                "MODX Evo",
+                "MantisBT",
+                "Mautic",
+                "Maya",
+                "OXID",
+                "Plentymarkets",
+                "Porto",
+                "RadPHP",
+                "SMF",
+                "Starbug",
+                "Thelia",
+                "Whmcs",
+                "WolfCMS",
+                "agl",
+                "annotatecms",
+                "attogram",
+                "bitrix",
+                "cakephp",
+                "chef",
+                "cockpit",
+                "codeigniter",
+                "concrete5",
+                "croogo",
+                "dokuwiki",
+                "drupal",
+                "eZ Platform",
+                "elgg",
+                "expressionengine",
+                "fuelphp",
+                "grav",
+                "installer",
+                "itop",
+                "known",
+                "kohana",
+                "laravel",
+                "lavalite",
+                "lithium",
+                "magento",
+                "majima",
+                "mako",
+                "matomo",
+                "mediawiki",
+                "miaoxing",
+                "modulework",
+                "modx",
+                "moodle",
+                "osclass",
+                "pantheon",
+                "phpbb",
+                "piwik",
+                "ppi",
+                "processwire",
+                "puppet",
+                "pxcms",
+                "reindex",
+                "roundcube",
+                "shopware",
+                "silverstripe",
+                "sydes",
+                "sylius",
+                "tastyigniter",
+                "wordpress",
+                "yawik",
+                "zend",
+                "zikula"
             ],
             "support": {
-                "issues": "https://github.com/slowprog/CopyFile/issues",
-                "source": "https://github.com/slowprog/CopyFile/tree/0.3.3"
+                "issues": "https://github.com/composer/installers/issues",
+                "source": "https://github.com/composer/installers/tree/v2.2.0"
             },
-            "time": "2020-07-02T14:44:41+00:00"
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-08-20T06:45:11+00:00"
         },
         {
-            "name": "sul-dlss/mirador-jump-to-page",
+            "name": "mirador/mirador-2",
+            "version": "2.7.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.7.0/build.zip"
+            },
+            "type": "omeka-addon-asset"
+        },
+        {
+            "name": "mirador/mirador-2-plugins",
             "version": "0.0.1",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sul-dlss/mirador-jump-to-page/archive/master.zip"
+                "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.9/mirador-2-plugins.zip"
             },
-            "type": "library"
+            "type": "omeka-addon-asset"
         },
         {
-            "name": "ucla-library/mirador-disable-zoom",
-            "version": "0.1.0",
+            "name": "oomphinc/composer-installers-extender",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oomphinc/composer-installers-extender.git",
+                "reference": "cbf4b6f9a24153b785d09eee755b995ba87bd5f9"
+            },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/UCLALibrary/mirador-disable-zoom/archive/master.zip"
+                "url": "https://api.github.com/repos/oomphinc/composer-installers-extender/zipball/cbf4b6f9a24153b785d09eee755b995ba87bd5f9",
+                "reference": "cbf4b6f9a24153b785d09eee755b995ba87bd5f9",
+                "shasum": ""
             },
-            "type": "library"
+            "require": {
+                "composer-plugin-api": "^1.1 || ^2.0",
+                "composer/installers": "^1.0 || ^2.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "composer/composer": "^2.0",
+                "phpunit/phpunit": "^7.2",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "OomphInc\\ComposerInstallersExtender\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "OomphInc\\ComposerInstallersExtender\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Beemsterboer",
+                    "email": "stephen@oomphinc.com",
+                    "homepage": "https://github.com/balbuf"
+                },
+                {
+                    "name": "Nathan Dentzau",
+                    "email": "nate@oomphinc.com",
+                    "homepage": "http://oomph.is/ndentzau"
+                }
+            ],
+            "description": "Extend the composer/installers plugin to accept any arbitrary package type.",
+            "homepage": "http://www.oomphinc.com/",
+            "support": {
+                "issues": "https://github.com/oomphinc/composer-installers-extender/issues",
+                "source": "https://github.com/oomphinc/composer-installers-extender/tree/2.0.1"
+            },
+            "time": "2021-12-15T12:32:42+00:00"
         },
         {
-            "name": "ucla-library/mirador-ruler",
-            "version": "0.1.0",
+            "name": "projectmirador/mirador-integration",
+            "version": "0.0.2",
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/UCLALibrary/mirador-ruler/archive/master.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "ucla-library/mirador-share-workspace",
-            "version": "0.1.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/UCLALibrary/mirador-share-workspace/archive/master.zip"
-            },
-            "type": "library"
-        },
-        {
-            "name": "ucla-library/mirador-sync-windows",
-            "version": "0.1.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/UCLALibrary/mirador-sync-windows/archive/master.zip"
+                "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/master/Mirador-integration-Omeka-master.zip"
             },
             "type": "library"
         }

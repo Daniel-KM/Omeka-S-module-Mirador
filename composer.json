@@ -1,217 +1,99 @@
 {
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "mirador/mirador",
-        "version": "2.7.0",
-        "dist": {
-          "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.7.0/build.zip",
-          "type": "zip"
+    "name": "daniel-km/omeka-s-module-mirador",
+    "type": "library",
+    "description": "Module for Omeka S that integrates Mirador, an advanced viewer, in order to display one or multiple images, audio, and video, local or remote, via the IIIF standard.",
+    "license": "CECILL-2.1",
+    "authors": [
+        {
+            "name": "Daniel Berthereau",
+            "email": "Daniel.packagist@Berthereau.net"
         }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "2sc1815j/mirador-dragndrop-link-plugin",
-        "version": "0.0.1",
-        "dist": {
-          "url": "https://github.com/2SC1815J/mirador-dragndrop-link-plugin/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "archivelabs/mirador-crosslink-plugin",
-        "version": "0.0.1",
-        "dist": {
-          "url": "https://github.com/ArchiveLabs/mirador-crosslink-plugin/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "daniel-km/mirador-plugin-metadata-tab",
-        "version": "1.0.0",
-        "dist": {
-          "url": "https://github.com/Daniel-KM/Mirador-plugin-MetadataTab/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "dbmdz/mirador-plugins",
-        "version": "1.0.6.1",
-        "dist": {
-          "url": "https://github.com/dbmdz/mirador-plugins/archive/main.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "jazahn/mirador-metadata",
-        "version": "0.0.1",
-        "dist": {
-          "url": "https://github.com/jazahn/mirador-metadata/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "jbhoward-dublin/mirador-plugins-ucd",
-        "version": "0.0.1",
-        "dist": {
-          "url": "https://github.com/jbhoward-dublin/mirador-plugins-ucd/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "jeffreycwitt/mirador-ldn-plugin",
-        "version": "0.0.1",
-        "dist": {
-          "url": "https://github.com/jeffreycwitt/mirador-ldn-plugin/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "sul-dlss/mirador-jump-to-page",
-        "version": "0.0.1",
-        "dist": {
-          "url": "https://github.com/sul-dlss/mirador-jump-to-page/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "ucla-library/mirador-disable-zoom",
-        "version": "0.1.0",
-        "dist": {
-          "url": "https://github.com/UCLALibrary/mirador-disable-zoom/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "ucla-library/mirador-ruler",
-        "version": "0.1.0",
-        "dist": {
-          "url": "https://github.com/UCLALibrary/mirador-ruler/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "ucla-library/mirador-share-workspace",
-        "version": "0.1.0",
-        "dist": {
-          "url": "https://github.com/UCLALibrary/mirador-share-workspace/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "ucla-library/mirador-sync-windows",
-        "version": "0.1.0",
-        "dist": {
-          "url": "https://github.com/UCLALibrary/mirador-sync-windows/archive/master.zip",
-          "type": "zip"
-        }
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "projectmirador/mirador-integration",
-        "version": "0.0.2",
-        "dist": {
-          "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/master/Mirador-integration-Omeka-master.zip",
-          "type": "zip"
-        }
-      }
-    }
-  ],
-  "require": {
-    "slowprog/composer-copy-file": "~0.3",
-    "mirador/mirador": "*",
-    "2sc1815j/mirador-dragndrop-link-plugin": "*",
-    "archivelabs/mirador-crosslink-plugin": "*",
-    "daniel-km/mirador-plugin-metadata-tab": "*",
-    "dbmdz/mirador-plugins": "*",
-    "jazahn/mirador-metadata": "*",
-    "jbhoward-dublin/mirador-plugins-ucd": "*",
-    "jeffreycwitt/mirador-ldn-plugin": "*",
-    "sul-dlss/mirador-jump-to-page": "*",
-    "ucla-library/mirador-disable-zoom": "*",
-    "ucla-library/mirador-ruler": "*",
-    "ucla-library/mirador-share-workspace": "*",
-    "ucla-library/mirador-sync-windows": "*",
-    "projectmirador/mirador-integration": "*"
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "SlowProg\\CopyFile\\ScriptHandler::copy"
     ],
-    "post-update-cmd": [
-      "SlowProg\\CopyFile\\ScriptHandler::copy"
-    ]
-  },
-  "extra": {
-    "copy-file": {
-      "vendor/mirador/mirador/mirador/": "asset/vendor/mirador-2/",
-      "vendor/2sc1815j/mirador-dragndrop-link-plugin/": "asset/vendor/mirador-2-plugins/dragndrop-link/",
-      "vendor/archivelabs/mirador-crosslink-plugin/": "asset/vendor/mirador-2-plugins/crosslink/",
-      "vendor/daniel-km/mirador-plugin-metadata-tab/": "asset/vendor/mirador-2-plugins/metadata-tab/",
-      "vendor/dbmdz/mirador-plugins/CanvasLink/canvasLink.css": "asset/vendor/mirador-2-plugins/canvas-link/",
-      "vendor/dbmdz/mirador-plugins/CanvasLink/canvasLink.js": "asset/vendor/mirador-2-plugins/canvas-link/",
-      "vendor/dbmdz/mirador-plugins/DownloadMenu/downloadMenu.css": "asset/vendor/mirador-2-plugins/download-menu/",
-      "vendor/dbmdz/mirador-plugins/DownloadMenu/downloadMenu.js": "asset/vendor/mirador-2-plugins/download-menu/",
-      "vendor/dbmdz/mirador-plugins/ImageCropper/imageCropper.css": "asset/vendor/mirador-2-plugins/image-cropper/",
-      "vendor/dbmdz/mirador-plugins/ImageCropper/imageCropper.js": "asset/vendor/mirador-2-plugins/image-cropper/",
-      "vendor/dbmdz/mirador-plugins/KeyboardNavigation/keyboardNavigation.js": "asset/vendor/mirador-2-plugins/keyboard-navigation/",
-      "vendor/dbmdz/mirador-plugins/ManifestButton/manifestButton.css": "asset/vendor/mirador-2-plugins/manifest-button/",
-      "vendor/dbmdz/mirador-plugins/ManifestButton/manifestButton.js": "asset/vendor/mirador-2-plugins/manifest-button/",
-      "vendor/dbmdz/mirador-plugins/MultiPageNavigation/multiPageNavigation.css": "asset/vendor/mirador-2-plugins/multi-page-navigation/",
-      "vendor/dbmdz/mirador-plugins/MultiPageNavigation/multiPageNavigation.js": "asset/vendor/mirador-2-plugins/multi-page-navigation/",
-      "vendor/dbmdz/mirador-plugins/PhysicalRuler/physicalRuler.js": "asset/vendor/mirador-2-plugins/physical-ruler/",
-      "vendor/dbmdz/mirador-plugins/PiwikTracking/piwikTracking.js": "asset/vendor/mirador-2-plugins/piwik-tracking/",
-      "vendor/dbmdz/mirador-plugins/ShareButtons/shareButtons.css": "asset/vendor/mirador-2-plugins/share-buttons/",
-      "vendor/dbmdz/mirador-plugins/ShareButtons/shareButtons.js": "asset/vendor/mirador-2-plugins/share-buttons/",
-      "vendor/dbmdz/mirador-plugins/ViewFromUrl/viewFromUrl.js": "asset/vendor/mirador-2-plugins/view-from-url/",
-      "vendor/jazahn/mirador-metadata/": "asset/vendor/mirador-2-plugins/metadata-panel/",
-      "vendor/jbhoward-dublin/mirador-plugins-ucd/mirador-plugin-FromThePage/": "asset/vendor/mirador-2-plugins/from-the-page/",
-      "vendor/jbhoward-dublin/mirador-plugins-ucd/mirador-plugin-geojson/": "asset/vendor/mirador-2-plugins/geojson/",
-      "vendor/jeffreycwitt/mirador-ldn-plugin/ldn-plugin.css": "asset/vendor/mirador-2-plugins/ldn/",
-      "vendor/jeffreycwitt/mirador-ldn-plugin/ldn-plugin.js": "asset/vendor/mirador-2-plugins/ldn/",
-      "vendor/sul-dlss/mirador-jump-to-page/jump_to_page.js": "asset/vendor/mirador-2-plugins/jump-to-page/",
-      "vendor/ucla-library/mirador-disable-zoom/dist/": "asset/vendor/mirador-2-plugins/disable-zoom/",
-      "vendor/ucla-library/mirador-ruler/dist/": "asset/vendor/mirador-2-plugins/ruler/",
-      "vendor/ucla-library/mirador-share-workspace/dist/": "asset/vendor/mirador-2-plugins/share-workspace/",
-      "vendor/ucla-library/mirador-sync-windows/dist/": "asset/vendor/mirador-2-plugins/sync-windows/"
+    "homepage": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador",
+    "support": {
+        "issues": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/issues",
+        "forum": "https://forum.omeka.org/"
+    },
+    "keywords": [
+        "Omeka S",
+        "module",
+        "viewer",
+        "iiif",
+        "digital library"
+    ],
+    "require": {
+        "mirador/mirador-2": "2.7.0",
+        "mirador/mirador-2-plugins": "0.0.1",
+        "oomphinc/composer-installers-extender": "^2.0",
+        "projectmirador/mirador-integration": "0.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mirador\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "mirador/mirador-2",
+                "type": "omeka-addon-asset",
+                "version": "2.7.0",
+                "dist": {
+                    "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.7.0/build.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "mirador/mirador-2-plugins",
+                "type": "omeka-addon-asset",
+                "version": "0.0.1",
+                "dist": {
+                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.9/mirador-2-plugins.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "projectmirador/mirador-integration",
+                "version": "0.0.2",
+                "dist": {
+                    "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/master/Mirador-integration-Omeka-master.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "extra": {
+        "installer-types": ["omeka-addon-asset"],
+        "installer-paths": {
+            "asset/vendor/{$name}/": ["type:omeka-addon-asset"]
+        }
+    },
+    "scripts": {
+        "pre-install-cmd": "@pre-build",
+        "pre-update-cmd": "@pre-build",
+        "pre-build": [
+            "@php -r 'exec(sprintf(\"rm -rf %s\", escapeshellarg(__DIR__ . \"/asset/vendor/mirador-2\")));'"
+        ],
+        "post-install-cmd": "@post-build",
+        "post-update-cmd": "@post-build",
+        "post-build": [
+            "# Move Mirador 2 to asset/vendor/mirador-2.",
+            "@php -r '@rename(__DIR__ . \"/asset/vendor/mirador-2/mirador\", __DIR__ . \"/asset/vendor/mirador-2b\");'",
+            "@php -r 'exec(sprintf(\"rm -rf %s\", escapeshellarg(__DIR__ . \"/asset/vendor/mirador-2\")));'",
+            "@php -r '@rename(__DIR__ . \"/asset/vendor/mirador-2b\", __DIR__ . \"/asset/vendor/mirador-2\");'"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "oomphinc/composer-installers-extender": true
+        }
     }
-  }
 }
