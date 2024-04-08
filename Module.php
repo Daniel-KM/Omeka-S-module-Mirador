@@ -35,16 +35,25 @@ class Module extends AbstractModule
 
     protected function preInstall(): void
     {
+        $services = $this->getServiceLocator();
+        $plugins = $services->get('ControllerPluginManager');
+        $translate = $plugins->get('translate');
+        $translator = $services->get('MvcTranslator');
+
+        if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.55')) {
+            $message = new \Omeka\Stdlib\Message(
+                $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
+                'Common', '3.4.55'
+            );
+            throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+        }
+
         $js = __DIR__ . '/asset/vendor/mirador/mirador.min.js';
         if (!file_exists($js)) {
-            $services = $this->getServiceLocator();
-            $t = $services->get('MvcTranslator');
-            throw new ModuleCannotInstallException(
-                sprintf(
-                    $t->translate('The library "%s" should be installed.'), // @translate
-                    'Mirador'
-                ) . ' '
-                . $t->translate('See module’s installation documentation.')); // @translate
+            throw new ModuleCannotInstallException((string) (new PsrMessage(
+                'The library "{library]" should be installed. See module’s installation documentation.', // @translate
+                ['library' => 'Mirador']
+            ))->setTranslator($translator));
         }
     }
 
