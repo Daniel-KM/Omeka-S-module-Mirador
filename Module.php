@@ -2,22 +2,29 @@
 
 namespace Mirador;
 
-if (!class_exists(\Generic\AbstractModule::class)) {
-    require file_exists(dirname(__DIR__) . '/Generic/AbstractModule.php')
-        ? dirname(__DIR__) . '/Generic/AbstractModule.php'
-        : __DIR__ . '/src/Generic/AbstractModule.php';
+if (!class_exists(\Common\TraitModule::class)) {
+    require_once dirname(__DIR__) . '/Common/TraitModule.php';
 }
 
-use Generic\AbstractModule;
+use Common\Stdlib\PsrMessage;
+use Common\TraitModule;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Mvc\MvcEvent;
+use Omeka\Module\AbstractModule;
 use Omeka\Module\Exception\ModuleCannotInstallException;
-use Omeka\Module\Manager as ModuleManager;
 
+/**
+ * Mirador
+ *
+ * @copyright Daniel Berthereau, 2019-2024
+//  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ */
 class Module extends AbstractModule
 {
     const NAMESPACE = __NAMESPACE__;
+
+    use TraitModule;
 
     public function onBootstrap(MvcEvent $event): void
     {
@@ -82,14 +89,14 @@ class Module extends AbstractModule
             ->getMvcEvent()->getRouteMatch()->getParam('item-set-id');
         if ($isItemSetShow) {
             echo $view->mirador($view->itemSet);
-        } elseif ($this->iiifServerIsActive()) {
+        } elseif ($this->isModuleActive('IiifServer')) {
             echo $view->mirador($view->items);
         }
     }
 
     public function handleViewBrowseAfterItemSet(Event $event): void
     {
-        if (!$this->iiifServerIsActive()) {
+        if (!$this->isModuleActive('IiifServer')) {
             return;
         }
 
@@ -101,31 +108,16 @@ class Module extends AbstractModule
     {
         // In Omeka S v4, if the player is set in the view, don't add it.
         $view = $event->getTarget();
-        if (version_compare(\Omeka\Module::VERSION, '4', '>=')) {
-            $services = $this->getServiceLocator();
-            $currentTheme = $services->get('Omeka\Site\ThemeManager')->getCurrentTheme();
-            $blockLayoutManager = $services->get('Omeka\ResourcePageBlockLayoutManager');
-            $resourcePageBlocks = $blockLayoutManager->getResourcePageBlocks($currentTheme);
-            foreach ($resourcePageBlocks['items'] ?? [] as $blocks) {
-                if (in_array('mirador', $blocks)) {
-                    return;
-                }
+        $services = $this->getServiceLocator();
+        $currentTheme = $services->get('Omeka\Site\ThemeManager')->getCurrentTheme();
+        $blockLayoutManager = $services->get('Omeka\ResourcePageBlockLayoutManager');
+        $resourcePageBlocks = $blockLayoutManager->getResourcePageBlocks($currentTheme);
+        foreach ($resourcePageBlocks['items'] ?? [] as $blocks) {
+            if (in_array('mirador', $blocks)) {
+                return;
             }
         }
 
         echo $view->mirador($view->item);
-    }
-
-    protected function iiifServerIsActive()
-    {
-        static $iiifServerIsActive;
-
-        if (is_null($iiifServerIsActive)) {
-            $module = $this->getServiceLocator()
-                ->get('Omeka\ModuleManager')
-                ->getModule('IiifServer');
-            $iiifServerIsActive = $module && $module->getState() === ModuleManager::STATE_ACTIVE;
-        }
-        return $iiifServerIsActive;
     }
 }

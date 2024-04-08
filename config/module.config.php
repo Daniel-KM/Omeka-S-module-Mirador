@@ -19,8 +19,6 @@ return [
     'form_elements' => [
         'invokables' => [
             Form\ConfigForm::class => Form\ConfigForm::class,
-            Form\Element\OptionalSelect::class => Form\Element\OptionalSelect::class,
-            Form\Element\OptionalUrl::class => Form\Element\OptionalUrl::class,
         ],
         'factories' => [
             Form\SettingsFieldset::class => Service\Form\SettingsFieldsetFactory::class,

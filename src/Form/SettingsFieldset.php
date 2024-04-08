@@ -2,9 +2,9 @@
 
 namespace Mirador\Form;
 
+use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
-use Mirador\Form\Element as MiradorElement;
 
 class SettingsFieldset extends Fieldset
 {
@@ -51,7 +51,7 @@ class SettingsFieldset extends Fieldset
 
             ->add([
                 'name' => 'mirador_plugins_2',
-                'type' => MiradorElement\OptionalSelect::class,
+                'type' => CommonElement\OptionalSelect::class,
                 'options' => [
                     'element_group' => 'player',
                     'label' => 'Mirador plugins for v2',
@@ -97,7 +97,7 @@ class SettingsFieldset extends Fieldset
 
             ->add([
                 'name' => 'mirador_plugins',
-                'type' => MiradorElement\OptionalSelect::class,
+                'type' => CommonElement\OptionalSelect::class,
                 'options' => [
                     'element_group' => 'player',
                     'label' => 'Mirador plugins for v3',
@@ -142,7 +142,7 @@ class SettingsFieldset extends Fieldset
             ])
             ->add([
                 'name' => 'mirador_annotation_endpoint',
-                'type' => MiradorElement\OptionalUrl::class,
+                'type' => CommonElement\OptionalUrl::class,
                 'options' => [
                     'element_group' => 'player',
                     'label' => 'Endpoint to store annotations externally', // @translate
