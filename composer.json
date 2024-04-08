@@ -22,9 +22,12 @@
         "digital library"
     ],
     "require": {
+        "mirador/mirador": "3.3.0",
         "mirador/mirador-2": "2.7.0",
         "mirador/mirador-2-plugins": "0.0.1",
-        "oomphinc/composer-installers-extender": "^2.0",
+        "oomphinc/composer-installers-extender": "^2.0"
+    },
+    "require-dev": {
         "projectmirador/mirador-integration": "0.0.2"
     },
     "autoload": {
@@ -54,6 +57,18 @@
                 "dist": {
                     "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.9/mirador-2-plugins.zip",
                     "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "mirador/mirador",
+                "type": "omeka-addon-asset",
+                "version": "3.3.0",
+                "dist": {
+                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.9/mirador-3.3.0.tar.gz",
+                    "type": "tar"
                 }
             }
         },

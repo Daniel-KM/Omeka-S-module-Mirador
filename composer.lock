@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c228183d5106d2d78bf194a11c9be13",
+    "content-hash": "43fe1e84d264dd45fc6cdf8d3d8eda4e",
     "packages": [
         {
             "name": "composer/installers",
@@ -152,6 +152,15 @@
             "time": "2022-08-20T06:45:11+00:00"
         },
         {
+            "name": "mirador/mirador",
+            "version": "3.3.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.9/mirador-3.3.0.tar.gz"
+            },
+            "type": "omeka-addon-asset"
+        },
+        {
             "name": "mirador/mirador-2",
             "version": "2.7.0",
             "dist": {
@@ -225,7 +234,9 @@
                 "source": "https://github.com/oomphinc/composer-installers-extender/tree/2.0.1"
             },
             "time": "2021-12-15T12:32:42+00:00"
-        },
+        }
+    ],
+    "packages-dev": [
         {
             "name": "projectmirador/mirador-integration",
             "version": "0.0.2",
@@ -236,7 +247,6 @@
             "type": "library"
         }
     ],
-    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
