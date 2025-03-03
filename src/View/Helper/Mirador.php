@@ -87,6 +87,15 @@ class Mirador extends AbstractHelper
         // Determine the url of the manifest from a field in the metadata.
         $externalManifest = $view->iiifManifestExternal($resource, $iiifServerIsActive);
         if ($externalManifest) {
+            // For next process, the url should be absolute.
+            if (substr($externalManifest, 0, 4) !== 'http') {
+                // ServerUrl is not available, neither the router baseUrl
+                // $serverUrl = $view->get('ServerUrl')('/');
+                // $serverUrl = $resource->getServiceLocator()->get('Router')->getBaseUrl();
+                $serverUrl = $view->url('top', [], ['force_canonical' => true]);
+                $domain = substr($serverUrl, 0, strpos($serverUrl, '/', 9) + 1);
+                $externalManifest = $domain . ltrim($externalManifest, '/');
+            }
             return $this->render($externalManifest, $options, $resourceName, true);
         }
 
