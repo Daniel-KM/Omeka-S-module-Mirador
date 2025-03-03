@@ -4,10 +4,10 @@
  * @var array $plugins
  */
 
-$plugins = $this->getHelperPluginManager();
-$assetUrl = $plugins->get('assetUrl');
-$headLink = $plugins->get('headLink');
-$headScript = $plugins->get('headScript');
+$helpers = $this->getHelperPluginManager();
+$assetUrl = $helpers->get('assetUrl');
+$headLink = $helpers->get('headLink');
+$headScript = $helpers->get('headScript');
 
 foreach ($plugins as $plugin) switch ($plugin):
     case 'canvas-link':
