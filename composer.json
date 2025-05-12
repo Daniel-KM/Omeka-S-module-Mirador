@@ -18,17 +18,18 @@
         "Omeka S",
         "module",
         "viewer",
+        "mirador",
         "iiif",
         "digital library"
     ],
     "require": {
-        "mirador/mirador": "3.3.0",
+        "mirador/mirador": "3.4.3",
         "mirador/mirador-2": "2.7.0",
-        "mirador/mirador-2-plugins": "0.0.1",
+        "mirador/mirador-2-plugins": "0.0.2",
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {
-        "projectmirador/mirador-integration": "0.0.2"
+        "projectmirador/mirador-integration": "0.0.3"
     },
     "autoload": {
         "psr-4": {
@@ -43,8 +44,8 @@
                 "type": "omeka-addon-asset",
                 "version": "2.7.0",
                 "dist": {
-                    "url": "https://github.com/ProjectMirador/mirador/releases/download/v2.7.0/build.zip",
-                    "type": "zip"
+                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2.tar.gz",
+                    "type": "tar"
                 }
             }
         },
@@ -53,10 +54,10 @@
             "package": {
                 "name": "mirador/mirador-2-plugins",
                 "type": "omeka-addon-asset",
-                "version": "0.0.1",
+                "version": "0.0.2",
                 "dist": {
-                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.9/mirador-2-plugins.zip",
-                    "type": "zip"
+                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2-plugins.tar.gz",
+                    "type": "tar"
                 }
             }
         },
@@ -65,9 +66,9 @@
             "package": {
                 "name": "mirador/mirador",
                 "type": "omeka-addon-asset",
-                "version": "3.3.0",
+                "version": "3.4.3",
                 "dist": {
-                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.9/mirador-3.3.0.tar.gz",
+                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-3.4.3.tar.gz",
                     "type": "tar"
                 }
             }
@@ -76,10 +77,10 @@
             "type": "package",
             "package": {
                 "name": "projectmirador/mirador-integration",
-                "version": "0.0.2",
+                "version": "0.0.3",
                 "dist": {
-                    "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/master/Mirador-integration-Omeka-master.zip",
-                    "type": "zip"
+                    "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/0.0.3/Mirador-integration-Omeka-0.0.3.tar.gz",
+                    "type": "tar"
                 }
             }
         }
@@ -89,21 +90,6 @@
         "installer-paths": {
             "asset/vendor/{$name}/": ["type:omeka-addon-asset"]
         }
-    },
-    "scripts": {
-        "pre-install-cmd": "@pre-build",
-        "pre-update-cmd": "@pre-build",
-        "pre-build": [
-            "@php -r 'exec(sprintf(\"rm -rf %s\", escapeshellarg(__DIR__ . \"/asset/vendor/mirador-2\")));'"
-        ],
-        "post-install-cmd": "@post-build",
-        "post-update-cmd": "@post-build",
-        "post-build": [
-            "# Move Mirador 2 to asset/vendor/mirador-2.",
-            "@php -r '@rename(__DIR__ . \"/asset/vendor/mirador-2/mirador\", __DIR__ . \"/asset/vendor/mirador-2b\");'",
-            "@php -r 'exec(sprintf(\"rm -rf %s\", escapeshellarg(__DIR__ . \"/asset/vendor/mirador-2\")));'",
-            "@php -r '@rename(__DIR__ . \"/asset/vendor/mirador-2b\", __DIR__ . \"/asset/vendor/mirador-2\");'"
-        ]
     },
     "config": {
         "allow-plugins": {
