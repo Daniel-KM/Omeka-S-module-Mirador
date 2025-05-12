@@ -1,3 +1,7 @@
+'use strict';
+
 jQuery(document).ready(function(){
-    Mirador(miradorConfig);
+    Object.keys(miradors).forEach(viewerId => {
+        Mirador(miradors[viewerId]);
+    });
 });

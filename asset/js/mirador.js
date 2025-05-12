@@ -1,3 +1,5 @@
+'use strict';
+
 jQuery(document).ready(async function(){
     let plugins = [];
     if (window.miradorPlugins && window.miradorPlugins.length) {
