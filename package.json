@@ -1,6 +1,6 @@
 {
   "name": "omeka-s-module-mirador",
-  "version": "3.0.0",
+  "version": "3.4.10",
   "license": "CECILL-2.1",
   "description": "Mirador (module for Omeka S)",
   "repository": {
