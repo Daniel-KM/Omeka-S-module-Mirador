@@ -1,5 +1,5 @@
 /* Mirador custom and fixes for common Omeka themes */
-@media screen {
+@media all {
     #user-bar .show {
         display: inline-block !important;
     }
