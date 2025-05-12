@@ -17,8 +17,8 @@ use Omeka\Module\Exception\ModuleCannotInstallException;
 /**
  * Mirador
  *
- * @copyright Daniel Berthereau, 2019-2024
-//  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
+ * @copyright Daniel Berthereau, 2019-2025
+ * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule
 {
