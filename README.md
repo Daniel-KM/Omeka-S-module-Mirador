@@ -29,6 +29,21 @@ For an example, see [Corpus du Louvre].
 Installation
 ------------
 
+### Access to IIIF images
+
+Mirador is based on IIIF, so the images should be available through an image
+server compliant with this protocol. So for you own images, you need either
+[Cantaloupe] or [IIP Image] or the module [Image Server].
+
+With [Image Server], if you need to display big images (bigger than 1 to 10 MB
+according to your server, your network, and your users), you need to create
+tiles. The tiling means that big images like maps and deep paintings, and any
+other images, are converted into tiles in order to load and zoom them instantly.
+And if you use the image engine [vips] with the module [Vips], tiles can be
+created in real time in most of the common cases.
+
+### Installation of the module
+
 See general end user documentation for [installing a module].
 
 First, if wanted, install the two optional modules [Generic] and [Blocks Disposition].
@@ -47,22 +62,30 @@ settings or in site settings.
 Download the last release [Mirador.zip] from the list of releases (the master
 does not contain the dependency), and uncompress it in the `modules` directory.
 
-* From the source and for development:
+* From the source
 
-  - Libraries for Mirador
-
-  If the module was installed from the source, rename the name of the folder of
-  the module to `Mirador`, and go to the root module.
-
-  Because compiling old Mirador versions with unmaintained but stable plugins is
-  more complex with the time, the libraries for Mirador are provided through a
-  zip since version 3.4.9.
+If the module was installed from the source, rename the name of the folder of
+the module to `Mirador`, go to the root of the module, and run:
 
 ```sh
 composer install --no-dev
 ```
 
-  - Compilation of mirador 3
+* For development only
+
+  - Libraries for Mirador
+
+  Because compiling old Mirador versions with unmaintained but stable plugins is
+  more complex with the time, the libraries for Mirador are provided through a
+  zip since version 3.4.9.
+
+  So you don't need to install npm, node.js or anything else to install and to
+  use the module.
+
+  The compilation is only needed if you want specific features of Mirador or if
+  you want to use the dev version.
+
+  - Compilation of Mirador 3
 
   This explanation for Mirador 3 is useful only if you want to compile Mirador
   yourself.
@@ -75,14 +98,26 @@ composer install --no-dev
   So, to simplify installation of Mirador 3 and plugins and to keep it as small
   as possible, Mirador is managed as a separate repository [Mirador integration Omeka].
 
-  Development of a specific version of Mirador 3 requires npm. If you want to
-  remove plugins or to include new plugins from the bundle, update the files
-  [vendor/projectmirador/mirador-integration/package.json] and [vendor/projectmirador/mirador-integration/src/index.js].
+  Development of a specific version of Mirador 3 requires a specific version of
+  node and npm (node 16 and npm 8), so use nvm. If you want to remove plugins or
+  to include new plugins from the bundle, update the files [vendor/projectmirador/mirador-integration/package.json]
+  and [vendor/projectmirador/mirador-integration/src/index.js].
+
+  To compile, you will probably need to use argument "legacy-peer-deps":
+
+```sh
+  npm install --legacy-peer-deps
+```
+
+  In case of difficulties, you may downgrade the plugin mirador-annotation to
+  0.4.0 in the included package if compilation is broken, even with "legacy-peer-deps"
+  or "force".
+
   See more information in the [included package]. You may have to fork the
   repository and to set it in package.json. The file gulpfile.js inside the
   present module is used only as a shortcut to it.
 
-  See [official documentation about Mirador plugins].
+    See [official documentation about Mirador plugins].
 
 ```sh
 # Install mirador-integration with composer, including dev.
@@ -96,18 +131,8 @@ npx gulp
 ```
 
   If it doesn't work, clone the repository [Mirador-integration-Omeka] somewhere,
-  follow its readme, then copy build files inside "asset/vendor/mirador".
-
-* Access to IIIF images
-
-Mirador is based on IIIF, so the images should be available through an image
-server compliant with this protocol. So for you own images, you need either
-[Cantaloupe] or [IIP Image] or the module [Image Server].
-
-With [Image Server], if you need to display big images (bigger than 1 to 10 MB
-according to your server, your network, and your users), you need to create
-tiles. The tiling means that big images like maps and deep paintings, and any
-other images, are converted into tiles in order to load and zoom them instantly.
+  follow its readme, build files with webpack, then copy build files inside
+  "asset/vendor/mirador".
 
 
 Usage
@@ -383,6 +408,8 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Corpus du Louvre]: https://corpus.louvre.fr/
 [IIIF Server]: https://gitlab.com/Daniel-KM/Omeka-S-module-IiifServer
 [Image Server]: https://gitlab.com/Daniel-KM/Omeka-S-module-ImageServer
+[vips]: https://libvips.github.io/libvips
+[Vips]: https://gitlab.com/Daniel-KM/Omeka-S-module-Vips
 [IIIF]: http://iiif.io
 [Cantaloupe]: https://cantaloupe-project.github.io
 [IIP Image]: http://iipimage.sourceforge.net
