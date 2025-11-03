@@ -32,18 +32,18 @@ if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActi
 }
 
 if (version_compare($oldVersion, '3.1.0', '<')) {
-    $sql = <<<SQL
-DELETE FROM site_setting
-WHERE id IN ('mirador_class', 'mirador_style', 'mirador_locale');
-SQL;
+    $sql = <<<'SQL'
+        DELETE FROM site_setting
+        WHERE id IN ('mirador_class', 'mirador_style', 'mirador_locale');
+        SQL;
     $connection->executeStatement($sql);
 }
 
 if (version_compare($oldVersion, '3.1.3', '<')) {
     $sql = <<<'SQL'
-DELETE FROM site_setting
-WHERE id IN ("mirador_append_item_set_show", "mirador_append_item_show", "mirador_append_item_set_browse", "mirador_append_item_browse");
-SQL;
+        DELETE FROM site_setting
+        WHERE id IN ("mirador_append_item_set_show", "mirador_append_item_show", "mirador_append_item_set_browse", "mirador_append_item_browse");
+        SQL;
     $connection->executeStatement($sql);
 }
 
@@ -67,6 +67,7 @@ if (version_compare($oldVersion, '3.3.7.9', '<')) {
     $settings->set('mirador_config_item', null);
     $settings->set('mirador_config_collection_2', $settings->get('mirador_config_collection', null));
     $settings->set('mirador_config_collection', null);
+
     $siteSettings = $services->get('Omeka\Settings\Site');
     $sites = $api->search('sites')->getContent();
     foreach ($sites as $site) {
@@ -95,4 +96,35 @@ if (version_compare($oldVersion, '3.3.7.13', '<')) {
         'The module supports audio and video for Mirador v3.' // @translate
     );
     $messenger->addSuccess($message);
+}
+
+if (version_compare($oldVersion, '3.4.11', '<')) {
+    $settings->set('mirador_plugins_3', $settings->get('mirador_plugins', []));
+    $settings->set('mirador_plugins', []);
+    $settings->set('mirador_config_item_3', $settings->get('mirador_config_item', null));
+    $settings->set('mirador_config_item', null);
+    $settings->set('mirador_config_collection_3', $settings->get('mirador_config_collection', null));
+    $settings->set('mirador_config_collection', null);
+
+    $siteSettings = $services->get('Omeka\Settings\Site');
+    $sites = $api->search('sites')->getContent();
+    foreach ($sites as $site) {
+        $siteSettings->setTargetId($site->id());
+        $siteSettings->set('mirador_plugins_3', $siteSettings->get('mirador_plugins', []));
+        $siteSettings->set('mirador_plugins', []);
+        $siteSettings->set('mirador_config_item_3', $siteSettings->get('mirador_config_item', null));
+        $siteSettings->set('mirador_config_item', null);
+        $siteSettings->set('mirador_config_collection_3', $siteSettings->get('mirador_config_collection', null));
+        $siteSettings->set('mirador_config_collection', null);
+    }
+
+    $message = new Message(
+        'The module supports Mirador v4.' // @translate
+    );
+    $messenger->addSuccess($message);
+
+    $message = new Message(
+        'Warning: if you customized theme, note that settings were renamed.' // @translate
+    );
+    $messenger->addWarning($message);
 }
