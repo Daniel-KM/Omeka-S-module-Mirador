@@ -6,14 +6,14 @@ Mirador Viewer (module for Omeka S)
 > than the previous repository.__
 
 [Mirador Viewer] is a module for [Omeka S] that integrates [Mirador], an
-advanced online viewer for images (version 2), audio and video (version 3), so
-it can display books, images, maps, etc. via the [IIIF] standard. Common plugins
-are included.
+advanced online viewer for images (version 2), audio and video (versions 3 and
+4), so it can display books, images, maps, etc. via the [IIIF] standard. Common
+plugins are included.
 
 [Mirador] is an open-source, web based, multi-window image viewing platform with
 the ability to zoom, display, compare and annotate images from around the world.
-It's configurable and fully extensible via plugins. The version 2.7 and 3.0 are
-available.
+It's configurable and fully extensible via plugins. The version 2.7, 3.4.3 and
+4.0 are available.
 
 It uses the resources of any [IIIF] compliant server. The full specification of
 the "International Image Interoperability Framework" standard is supported
@@ -49,8 +49,8 @@ See general end user documentation for [installing a module].
 First, if wanted, install the two optional modules [Generic] and [Blocks Disposition].
 
 The module uses multiple external js library, [Mirador] itself and its plugins,
-in version 2.7 or 3, so use the release zip to install it, or use and init the
-source.
+in version 2.7, 3.4.3 or 4.0, so use the release zip to install it, or use and
+init the source.
 
 There are three versions of Mirador: vanilla Mirador, Mirador with common
 plugins, Mirador with all plugins. The choice is transparent inside Omeka and
@@ -117,7 +117,7 @@ composer install --no-dev
   repository and to set it in package.json. The file gulpfile.js inside the
   present module is used only as a shortcut to it.
 
-    See [official documentation about Mirador plugins].
+    See [official documentation about Mirador plugins (v3)].
 
 ```sh
 # Install mirador-integration with composer, including dev.
@@ -196,10 +196,10 @@ automatically filled, but may be overridden too.
 
 See below for a fix to get the [list of images in fullscreen].
 
-#### Mirador 3.0
+#### Mirador 3.4.3
 
 The parameters used to config the viewer can be found in in the [recipes] and in
-the details of the file [settings.js].
+the details of the file [settings.js (v3)].
 
 ***Warning***: The config should be json, not js, so use double quotes, remove
 comments and trailing comma, etc. Check your json on a site such [jsonformatter.org].
@@ -250,6 +250,16 @@ with upper menu bar:
     }
 }
 ```
+
+#### Mirador 4.0
+
+The parameters used to config the viewer can be found in in the [recipes] and in
+the details of the file [settings.js].
+
+***Warning***: The config should be json, not js, so use double quotes, remove
+comments and trailing comma, etc. Check your json on a site such [jsonformatter.org].
+
+The specific keys of each plugin can be added to the config too.
 
 ### Display
 
@@ -306,6 +316,21 @@ for Mirador v2, `data/plugins/plugins-mirador-2.php` and `view/common/helper/mir
 - [UCD]: Plugins of the University College Dublin
 
 #### Plugins for Mirador 3
+
+- [Annotations]: Note: only two backends are supported currently, local storage
+  (inside browser persistent cache; it **requires a `https` site** for security),
+  and [Annotot] (requires its endpoint).
+- [Download]
+- [Image Tools]
+- [OCR Helper]
+- [Ruler]
+- [Share]
+- [Text overlay]
+
+#### Plugins for Mirador 4
+
+**Warning**: Annotations, OCR Helper, Ruler and Text Overlay are not yet compatible with Mirador 4.
+Other plugins require manual import for now.
 
 - [Annotations]: Note: only two backends are supported currently, local storage
   (inside browser persistent cache; it **requires a `https` site** for security),
@@ -421,8 +446,9 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [wiki]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides
 [api]: https://github.com/ProjectMirador/mirador/wiki/Complete-Configuration-API
 [tutorial]: http://projectmirador.org/docs/docs/getting-started.html
-[recipes]: https://github.com/ProjectMirador/mirador/wiki/M3-Configuration-Recipes
+[recipes]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Recipes
 [settings.js]: https://github.com/ProjectMirador/mirador/blob/master/src/config/settings.js
+[settings.js (v3)]: https://github.com/ProjectMirador/mirador/blob/v3.4.3/src/config/settings.js
 [installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [Generic]: https://gitlab.com/Daniel-KM/Omeka-S-module-Generic
 [Blocks Disposition]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlocksDisposition
@@ -434,7 +460,7 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [vendor/projectmirador/mirador-integration/src/index.js]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/blob/master/src/index.js
 [included package]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka
 [jsonformatter.org]: https://jsonformatter.org
-[official documentation about Mirador plugins]: https://github.com/ProjectMirador/mirador/wiki/Mirador-3-plugins
+[official documentation about Mirador plugins (v3)]: https://github.com/ProjectMirador/mirador/wiki/Mirador-3-plugins
 [Annotate]: https://gitlab.com/Daniel-KM/Omeka-S-module-Annotate
 [Annotot]: https://rubygems.org/gems/annotot
 [included repository]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/blob/master/mirador-integration/README.md
