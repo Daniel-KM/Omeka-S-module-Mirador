@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f033b231d5dc04fc370854e8505e61a1",
+    "content-hash": "752b8db83b774aa9c3fe7e3b6925484e",
     "packages": [
         {
             "name": "composer/installers",
@@ -154,10 +154,10 @@
         },
         {
             "name": "mirador/mirador",
-            "version": "3.4.3",
+            "version": "4.0.0",
             "dist": {
-                "type": "tar",
-                "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-3.4.3.tar.gz"
+                "type": "file",
+                "url": "https://unpkg.com/mirador@^4.0/dist/mirador.min.js"
             },
             "type": "omeka-addon-asset"
         },
@@ -176,6 +176,15 @@
             "dist": {
                 "type": "tar",
                 "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2-plugins.tar.gz"
+            },
+            "type": "omeka-addon-asset"
+        },
+        {
+            "name": "mirador/mirador-3",
+            "version": "3.4.3",
+            "dist": {
+                "type": "tar",
+                "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-3.4.3.tar.gz"
             },
             "type": "omeka-addon-asset"
         },
@@ -250,10 +259,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }

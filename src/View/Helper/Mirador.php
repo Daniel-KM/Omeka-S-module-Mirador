@@ -23,7 +23,7 @@ class Mirador extends AbstractHelper
     /**
      * @var string
      *
-     * "2" or "3" (version of Mirador).
+     * "2" or "3" or "4" (main version of Mirador).
      */
     protected $version;
 
@@ -62,7 +62,7 @@ class Mirador extends AbstractHelper
         $view = $this->getView();
         $this->isSite = $view->status()->isSiteRequest();
         $setting = $this->isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
-        $this->version = (string) $setting('mirador_version', '3');
+        $this->version = (string) $setting('mirador_version', '4');
 
         // If the manifest is not provided in metadata, point to the manifest
         // created from Omeka files only when the Iiif Server is installed.
@@ -169,8 +169,10 @@ class Mirador extends AbstractHelper
     {
         if ($this->version === '2') {
             return $this->renderMirador2($urlManifest, $options, $resourceName, $isExternal);
-        } else {
+        } elseif ($this->version === '3') {
             return $this->renderMirador3($urlManifest, $options, $resourceName, $isExternal);
+        } else {
+            return $this->renderMirador4($urlManifest, $options, $resourceName, $isExternal);
         }
     }
 
@@ -302,7 +304,169 @@ class Mirador extends AbstractHelper
         // No css in Mirador 3: this is a webpack + google roboto.
         $assetUrl = $view->plugin('assetUrl');
         $headScript = $view->headScript();
-        $miradorPlugins = $setting('mirador_plugins', []);
+        // The filter removes empty values that may appear in settings.
+        $miradorPlugins = array_filter($setting('mirador_plugins_3', []));
+
+        // Optimize the size of the bundle.
+        $internalConfig = false;
+        $annotationEndpoint = null;
+        if (empty($miradorPlugins)) {
+            // Vanilla Mirador.
+            $miradorVendorJs = 'vendor/mirador-3/mirador.min.js';
+        } elseif (in_array('annotations', $miradorPlugins)) {
+            // Heavy Mirador: include Annotation plugin and all others ones.
+            $miradorVendorJs = 'vendor/mirador-3/mirador-bundle.min.js';
+            $internalConfig = true;
+            $annotationEndpoint = $setting('mirador_annotation_endpoint');
+        } else {
+            // Common or small plugins.
+            $miradorVendorJs = 'vendor/mirador-3/mirador-pack.min.js';
+        }
+
+        $headScript
+            ->appendFile($assetUrl($miradorVendorJs, 'Mirador'), 'text/javascript', ['defer' => 'defer'])
+            ->appendFile($assetUrl('js/mirador-3.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
+
+        $view->partial('common/helper/mirador-3-plugins', [
+            'plugins' => $miradorPlugins,
+        ]);
+
+        if (!$setting('mirador_skip_default_css', false)) {
+            $view->headLink()
+                ->appendStylesheet($assetUrl('css/mirador.css', 'Mirador'));
+        }
+
+        $viewerId = 'mirador-' . ++$id;
+        $config = [
+            'id' => $viewerId,
+            'globalMiradorPlugins' => $miradorPlugins,
+        ];
+
+        $config['language'] = $view->identity()
+            ? strtr((string) $view->userSetting('locale'), ['_' => '-'])
+            : strtr((string) $setting('locale'), ['_' => '-']);
+
+        $data = [];
+        $location = '';
+        $isCollection = false;
+        if ($isExternal) {
+            $site = $view->site;
+            $location = $site ? $site->title() : '';
+        }
+
+        switch ($resourceName) {
+            case 'items':
+                $data = [
+                    'windows' => [[
+                        'manifestId' => $urlManifest,
+                        'loadedManifest' => $urlManifest,
+                    ]],
+                ];
+                $data = $this->appendConfigData($data);
+                $config += $data;
+                // TODO Site settings are not checked in page site settings (security only for v3 and v4).
+                $configSet = $setting('mirador_config_item_3', '{}') ?: '{}';
+                break;
+            case 'item_sets':
+            case 'multiple':
+                $isCollection = true;
+                $data = [
+                    'windows' => [[
+                        'manifestId' => $urlManifest,
+                        'loadedManifest' => $urlManifest,
+                    ]],
+                ];
+                if ($resourceName === 'item_sets') {
+                    $data = $this->appendConfigData($data);
+                }
+                $config += $data;
+                $configSet = $setting('mirador_config_collection_3', '{}') ?: '{}';
+                break;
+        }
+
+        // This is js, not json, so no need to check quotes, commas, etc.
+        // $config = array_replace_recursive($config, $configSet, $options);
+        $configSet = trim($configSet);
+
+        // The admin may forget to wrap config.
+        if ($configSet && $configSet !== '{}' && mb_substr($configSet, 0, 1) !== '{') {
+            $configSet = "{\n" . $configSet . "\n}";
+        }
+
+        if ($internalConfig) {
+            $internalConfigAnnotation = <<<'JS'
+                annotation: {
+                    adapter: (canvasId) => window.miradorAnnotationServerAdapter(canvasId),
+                }
+                JS;
+            $internalConfigWindow = <<<'JS'
+                window: {
+                    defaultSideBarPanel: 'annotations',
+                    sideBarOpenByDefault: false,
+                }
+                JS;
+            if ($configSet && $configSet !== '{}') {
+                $hasAnnotation = strpos($configSet, 'annotation:') || strpos($configSet, '"annotation":') || strpos($configSet, "'annotation':");
+                $hasWindow = strpos($configSet, 'window:') || strpos($configSet, '"window":') || strpos($configSet, "'window':");
+                if ($hasAnnotation && $hasWindow) {
+                    // Nothing to do.
+                } elseif ($hasAnnotation) {
+                    $configSet = "{\n$internalConfigWindow,\n" . mb_substr($configSet, 1);
+                } elseif ($hasWindow) {
+                    $configSet = "{\n$internalConfigAnnotation,\n" . mb_substr($configSet, 1);
+                } else {
+                    $configSet = "{\n$internalConfigAnnotation,\n$internalConfigWindow,\n" . mb_substr($configSet, 1);
+                }
+            } else {
+                $configSet = "{\n$internalConfigAnnotation,\n$internalConfigWindow,\n}";
+            }
+        }
+
+        if ($configSet && $configSet !== '{}') {
+            if ($options) {
+                $configJson = mb_substr(json_encode($config, 448), 0, -1)
+                    . ",\n    "
+                    . trim(mb_substr($configSet, 1, -1), ", \n\t\r")
+                    . ",\n"
+                    . mb_substr(json_encode($options, 448), 1);
+            } else {
+                $configJson = mb_substr(json_encode($config, 448), 0, -2)
+                    . ",\n    "
+                    . trim(mb_substr($configSet, 1));
+            }
+        } else {
+            $config = array_replace_recursive($config, $options);
+            $configJson = json_encode($config, 448);
+        }
+
+        return $view->partial('common/mirador', [
+            'config' => $configJson,
+            'viewerId' => $viewerId,
+            'annotationEndpoint' => $annotationEndpoint,
+        ]);
+    }
+
+    /**
+     * Render a mirador viewer v4 for a url, according to options.
+     *
+     * @param string $urlManifest
+     * @param array $options
+     * @param string $resourceName
+     * @param bool $isExternal If the manifest is managed by Omeka or not.
+     * @return string Html code.
+     */
+    protected function renderMirador4($urlManifest, array $options = [], $resourceName = null, $isExternal = false): string
+    {
+        static $id = 0;
+
+        $view = $this->view;
+        $setting = $this->isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
+
+        // No css in mirador 4: this is a webpack + google roboto.
+        $assetUrl = $view->plugin('assetUrl');
+        $headScript = $view->headScript();
+        // The filter removes empty values that may appear in settings.
+        $miradorPlugins = array_filter($setting('mirador_plugins', []));
 
         // Optimize the size of the bundle.
         $internalConfig = false;
@@ -344,12 +508,7 @@ class Mirador extends AbstractHelper
             : strtr((string) $setting('locale'), ['_' => '-']);
 
         $data = [];
-        $location = '';
-        $isCollection = false;
-        if ($isExternal) {
-            $site = $view->site;
-            $location = $site ? $site->title() : '';
-        }
+
         switch ($resourceName) {
             case 'items':
                 $data = [
@@ -360,12 +519,11 @@ class Mirador extends AbstractHelper
                 ];
                 $data = $this->appendConfigData($data);
                 $config += $data;
-                // TODO Site settings are not checked in page site settings (security only for v3).
+                // TODO Site settings are not checked in page site settings (security only for v3 and v4).
                 $configSet = $setting('mirador_config_item', '{}') ?: '{}';
                 break;
             case 'item_sets':
             case 'multiple':
-                $isCollection = true;
                 $data = [
                     'windows' => [[
                         'manifestId' => $urlManifest,
@@ -421,13 +579,13 @@ class Mirador extends AbstractHelper
         if ($configSet && $configSet !== '{}') {
             if ($options) {
                 $configJson = mb_substr(json_encode($config, 448), 0, -1)
-                    . ",\n    "
+                . ",\n    "
                     . trim(mb_substr($configSet, 1, -1), ", \n\t\r")
                     . ",\n"
-                    . mb_substr(json_encode($options, 448), 1);
+                        . mb_substr(json_encode($options, 448), 1);
             } else {
                 $configJson = mb_substr(json_encode($config, 448), 0, -2)
-                    . ",\n    "
+                . ",\n    "
                     . trim(mb_substr($configSet, 1));
             }
         } else {

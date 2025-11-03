@@ -9,7 +9,7 @@ $assetUrl = $helpers->get('assetUrl');
 $headLink = $helpers->get('headLink');
 $headScript = $helpers->get('headScript');
 
-foreach ($plugins as $plugin) switch ($plugin):
+foreach ($plugins as $plugin) switch ($plugin) {
     case 'canvas-link':
         $headLink->appendStylesheet($assetUrl('vendor/mirador-2-plugins/canvas-link/canvasLink.css', 'Mirador'));
         $headScript->appendFile($assetUrl('vendor/mirador-2-plugins/canvas-link/canvasLink.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
@@ -98,4 +98,6 @@ foreach ($plugins as $plugin) switch ($plugin):
     case 'view-from-url':
         $headScript->appendFile($assetUrl('vendor/mirador-2-plugins/view-from-url/viewFromUrl.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
         break;
-endswitch;
+    default:
+        break;
+}

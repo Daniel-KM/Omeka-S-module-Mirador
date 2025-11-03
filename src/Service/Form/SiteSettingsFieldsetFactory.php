@@ -12,10 +12,12 @@ class SiteSettingsFieldsetFactory implements FactoryInterface
     {
         $plugins = require dirname(__DIR__, 3) . '/data/plugins/plugins.php';
         $plugins2 = require dirname(__DIR__, 3) . '/data/plugins/plugins-mirador-2.php';
+        $plugins3 = require dirname(__DIR__, 3) . '/data/plugins/plugins-mirador-3.php';
 
         $form = new SiteSettingsFieldset(null, $options ?? []);
         return $form
             ->setPlugins($plugins)
-            ->setPlugins2($plugins2);
+            ->setPlugins2($plugins2)
+            ->setPlugins3($plugins3);
     }
 }

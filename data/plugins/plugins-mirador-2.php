@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * List of js plugins that can be dynamically added to Mirador viewer.
+ * List of js plugins that can be dynamically added to Mirador viewer (v2.7).
  *
  * It is used to have a multiple select field in the site settings page or in a
  * block page. It allows to include automatically the css and the js assets too.
