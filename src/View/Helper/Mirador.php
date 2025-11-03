@@ -269,7 +269,7 @@ class Mirador extends AbstractHelper
                 $isCollection ? null : (substr($urlManifest, 0, -8) . 'canvas/p1')
             ),
         ];
-        $configSet = str_replace(array_keys($placeholders), array_values($placeholders), $configSet);
+        $configSet = strtr($configSet, $placeholders);
         $configSet = json_decode($configSet, true) ?: [];
 
         // Since only id, buildPath and data are set, it is possible to use
@@ -340,8 +340,8 @@ class Mirador extends AbstractHelper
         ];
 
         $config['language'] = $view->identity()
-            ? str_replace('_', '-', (string) $view->userSetting('locale'))
-            : str_replace('_', '-', (string) $setting('locale'));
+            ? strtr((string) $view->userSetting('locale'), ['_' => '-'])
+            : strtr((string) $setting('locale'), ['_' => '-']);
 
         $data = [];
         $location = '';
