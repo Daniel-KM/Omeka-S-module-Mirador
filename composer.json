@@ -1,113 +1,58 @@
 {
     "name": "daniel-km/omeka-s-module-mirador",
-    "type": "library",
-    "description": "Module for Omeka S that integrates Mirador, an advanced viewer, in order to display one or multiple images, audio, and video, local or remote, via the IIIF standard.",
+    "type": "omeka-s-module",
+    "description": "Module for Omeka S: Integrates Mirador, an advanced viewer, in order to display one or multiple images, audio, and video, local or remote, via the IIIF standard.",
+    "keywords": [
+        "Omeka S",
+        "Omeka S module",
+        "viewer",
+        "book",
+        "digital library",
+        "image comparison",
+        "iiif"
+    ],
     "license": "CECILL-2.1",
+    "homepage": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador",
     "authors": [
         {
             "name": "Daniel Berthereau",
             "email": "Daniel.packagist@Berthereau.net"
         }
     ],
-    "homepage": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador",
     "support": {
         "issues": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/issues",
         "forum": "https://forum.omeka.org/"
     },
-    "keywords": [
-        "Omeka S",
-        "module",
-        "viewer",
-        "mirador",
-        "iiif",
-        "digital library"
-    ],
-    "require": {
-        "mirador/mirador": "4.0.0",
-        "mirador/mirador-2": "2.7.0",
-        "mirador/mirador-2-plugins": "0.0.2",
-        "mirador/mirador-3": "3.4.3",
-        "oomphinc/composer-installers-extender": "^2.0"
+    "_require (not set until Omeka S merges PR #2412)": {
+        "omeka/omeka-s": "^4.1",
+        "daniel-km/omeka-s-module-common": "*"
     },
-    "require-dev": {
-        "projectmirador/mirador-integration": "0.0.4"
+    "require": {
+        "sempia/external-assets": "^1.0"
     },
     "autoload": {
         "psr-4": {
             "Mirador\\": "src/"
         }
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "mirador/mirador-2",
-                "type": "omeka-addon-asset",
-                "version": "2.7.0",
-                "dist": {
-                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2.tar.gz",
-                    "type": "tar"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "mirador/mirador-2-plugins",
-                "type": "omeka-addon-asset",
-                "version": "0.0.2",
-                "dist": {
-                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2-plugins.tar.gz",
-                    "type": "tar"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "mirador/mirador-3",
-                "type": "omeka-addon-asset",
-                "version": "3.4.3",
-                "dist": {
-                    "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-3.4.3.tar.gz",
-                    "type": "tar"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "mirador/mirador",
-                "type": "omeka-addon-asset",
-                "version": "4.0.0",
-                "dist": {
-                    "url": "https://unpkg.com/mirador@^4.0/dist/mirador.min.js",
-                    "type": "file"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "projectmirador/mirador-integration",
-                "version": "0.0.4",
-                "dist": {
-                    "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/0.0.4/Mirador-integration-Omeka-0.0.4.tar.gz",
-                    "type": "tar"
-                }
-            }
-        }
-    ],
-    "extra": {
-        "installer-types": ["omeka-addon-asset"],
-        "installer-paths": {
-            "asset/vendor/{$name}/": ["type:omeka-addon-asset"]
+    "autoload-dev": {
+        "psr-4": {
+            "MiradorTest\\": "tests/MiradorTest/"
         }
     },
     "config": {
         "allow-plugins": {
-            "composer/installers": true,
-            "oomphinc/composer-installers-extender": true
+            "sempia/external-assets": true
+        }
+    },
+    "extra": {
+        "installer-name": "Mirador",
+        "configurable": true,
+        "external-assets": {
+            "asset/vendor/mirador/mirador.min.js": "https://unpkg.com/mirador@^4.0/dist/mirador.min.js",
+            "asset/vendor/mirador-2/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2.tar.gz",
+            "asset/vendor/mirador-2-plugins/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2-plugins.tar.gz",
+            "asset/vendor/mirador-3/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-3.4.3.tar.gz"
         }
     }
 }

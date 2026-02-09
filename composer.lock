@@ -4,259 +4,68 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33153430dea84044a14b995ee7bd0565",
+    "content-hash": "176197038793024bf75bf6736bde540c",
     "packages": [
         {
-            "name": "composer/installers",
-            "version": "v2.3.0",
+            "name": "sempia/external-assets",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/composer/installers.git",
-                "reference": "12fb2dfe5e16183de69e784a7b84046c43d97e8e"
+                "url": "https://gitlab.com/Sempia/composer-plugin-external-assets.git",
+                "reference": "3c101e7edb043daabfcc45871a3b048bf8a38e96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/12fb2dfe5e16183de69e784a7b84046c43d97e8e",
-                "reference": "12fb2dfe5e16183de69e784a7b84046c43d97e8e",
+                "url": "https://gitlab.com/api/v4/projects/Sempia%2Fcomposer-plugin-external-assets/repository/archive.zip?sha=3c101e7edb043daabfcc45871a3b048bf8a38e96",
+                "reference": "3c101e7edb043daabfcc45871a3b048bf8a38e96",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "php": "^7.2 || ^8.0"
-            },
-            "require-dev": {
-                "composer/composer": "^1.10.27 || ^2.7",
-                "composer/semver": "^1.7.2 || ^3.4.0",
-                "phpstan/phpstan": "^1.11",
-                "phpstan/phpstan-phpunit": "^1",
-                "symfony/phpunit-bridge": "^7.1.1",
-                "symfony/process": "^5 || ^6 || ^7"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Composer\\Installers\\Plugin",
-                "branch-alias": {
-                    "dev-main": "2.x-dev"
-                },
-                "plugin-modifies-install-path": true
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\Installers\\": "src/Composer/Installers"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kyle Robinson Young",
-                    "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama"
-                }
-            ],
-            "description": "A multi-framework Composer library installer",
-            "homepage": "https://composer.github.io/installers/",
-            "keywords": [
-                "Dolibarr",
-                "Eliasis",
-                "Hurad",
-                "ImageCMS",
-                "Kanboard",
-                "Lan Management System",
-                "MODX Evo",
-                "MantisBT",
-                "Mautic",
-                "Maya",
-                "OXID",
-                "Plentymarkets",
-                "Porto",
-                "RadPHP",
-                "SMF",
-                "Starbug",
-                "Thelia",
-                "Whmcs",
-                "WolfCMS",
-                "agl",
-                "annotatecms",
-                "attogram",
-                "bitrix",
-                "cakephp",
-                "chef",
-                "cockpit",
-                "codeigniter",
-                "concrete5",
-                "concreteCMS",
-                "croogo",
-                "dokuwiki",
-                "drupal",
-                "eZ Platform",
-                "elgg",
-                "expressionengine",
-                "fuelphp",
-                "grav",
-                "installer",
-                "itop",
-                "known",
-                "kohana",
-                "laravel",
-                "lavalite",
-                "lithium",
-                "magento",
-                "majima",
-                "mako",
-                "matomo",
-                "mediawiki",
-                "miaoxing",
-                "modulework",
-                "modx",
-                "moodle",
-                "osclass",
-                "pantheon",
-                "phpbb",
-                "piwik",
-                "ppi",
-                "processwire",
-                "puppet",
-                "pxcms",
-                "reindex",
-                "roundcube",
-                "shopware",
-                "silverstripe",
-                "sydes",
-                "sylius",
-                "tastyigniter",
-                "wordpress",
-                "yawik",
-                "zend",
-                "zikula"
-            ],
-            "support": {
-                "issues": "https://github.com/composer/installers/issues",
-                "source": "https://github.com/composer/installers/tree/v2.3.0"
-            },
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/composer",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-06-24T20:46:46+00:00"
-        },
-        {
-            "name": "mirador/mirador",
-            "version": "4.0.0",
-            "dist": {
-                "type": "file",
-                "url": "https://unpkg.com/mirador@^4.0/dist/mirador.min.js"
-            },
-            "type": "omeka-addon-asset"
-        },
-        {
-            "name": "mirador/mirador-2",
-            "version": "2.7.0",
-            "dist": {
-                "type": "tar",
-                "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2.tar.gz"
-            },
-            "type": "omeka-addon-asset"
-        },
-        {
-            "name": "mirador/mirador-2-plugins",
-            "version": "0.0.2",
-            "dist": {
-                "type": "tar",
-                "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2-plugins.tar.gz"
-            },
-            "type": "omeka-addon-asset"
-        },
-        {
-            "name": "mirador/mirador-3",
-            "version": "3.4.3",
-            "dist": {
-                "type": "tar",
-                "url": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-3.4.3.tar.gz"
-            },
-            "type": "omeka-addon-asset"
-        },
-        {
-            "name": "oomphinc/composer-installers-extender",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/oomphinc/composer-installers-extender.git",
-                "reference": "cbf4b6f9a24153b785d09eee755b995ba87bd5f9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/oomphinc/composer-installers-extender/zipball/cbf4b6f9a24153b785d09eee755b995ba87bd5f9",
-                "reference": "cbf4b6f9a24153b785d09eee755b995ba87bd5f9",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.1 || ^2.0",
-                "composer/installers": "^1.0 || ^2.0",
-                "php": ">=7.1"
+                "composer-plugin-api": "^2.0",
+                "php": ">=7.2.5"
             },
             "require-dev": {
                 "composer/composer": "^2.0",
-                "phpunit/phpunit": "^7.2",
-                "squizlabs/php_codesniffer": "^3.3"
+                "phpunit/phpunit": "^8.5 || ^9.6"
             },
+            "bin": [
+                "bin/external-assets"
+            ],
             "type": "composer-plugin",
             "extra": {
-                "class": "OomphInc\\ComposerInstallersExtender\\Plugin"
+                "class": "Sempia\\ExternalAssets\\ExternalAssetsPlugin"
             },
             "autoload": {
                 "psr-4": {
-                    "OomphInc\\ComposerInstallersExtender\\": "src/"
+                    "Sempia\\ExternalAssets\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "CECILL-2.1"
             ],
             "authors": [
                 {
-                    "name": "Stephen Beemsterboer",
-                    "email": "stephen@oomphinc.com",
-                    "homepage": "https://github.com/balbuf"
-                },
-                {
-                    "name": "Nathan Dentzau",
-                    "email": "nate@oomphinc.com",
-                    "homepage": "http://oomph.is/ndentzau"
+                    "name": "Daniel Berthereau",
+                    "email": "Daniel.fr@Berthereau.net"
                 }
             ],
-            "description": "Extend the composer/installers plugin to accept any arbitrary package type.",
-            "homepage": "http://www.oomphinc.com/",
+            "description": "Composer plugin to download external assets (JS, CSS, fonts, images) for any PHP project",
+            "homepage": "https://gitlab.com/sempia/composer-plugin-external-assets",
+            "keywords": [
+                "assets",
+                "composer-plugin",
+                "download",
+                "external"
+            ],
             "support": {
-                "issues": "https://github.com/oomphinc/composer-installers-extender/issues",
-                "source": "https://github.com/oomphinc/composer-installers-extender/tree/2.0.1"
+                "issues": "https://gitlab.com/Sempia/composer-plugin-external-assets/-/issues",
+                "source": "https://gitlab.com/Sempia/composer-plugin-external-assets/-/tree/1.0.1"
             },
-            "time": "2021-12-15T12:32:42+00:00"
+            "time": "2026-02-09T00:00:00+00:00"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "projectmirador/mirador-integration",
-            "version": "0.0.4",
-            "dist": {
-                "type": "tar",
-                "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/0.0.4/Mirador-integration-Omeka-0.0.4.tar.gz"
-            },
-            "type": "library"
-        }
-    ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {},
