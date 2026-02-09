@@ -14,6 +14,10 @@ function execCommand(command, args, cb) {
     });
 };
 
+gulp.task('composer-install', function (cb) {
+    return execCommand('composer', ['install', '--no-cache', '--ignore-platform-reqs'], cb);
+});
+
 gulp.task('npm-install', function (cb) {
     return execCommand('npm', ['--force', '--prefix', './vendor/projectmirador/mirador-integration', 'install'], cb);
 });
@@ -71,7 +75,11 @@ gulp.task('build-textoverlay', gulp.series(
 ));
 */
 
-gulp.task('install', gulp.series('npm-install', 'build-textoverlay', 'vanilla', 'bundles'));
+gulp.task('composer-no-dev', function (cb) {
+    return execCommand('composer', ['install', '--no-dev', '--no-cache', '--ignore-platform-reqs'], cb);
+});
+
+gulp.task('install', gulp.series('composer-install', 'npm-install', 'vanilla', 'bundles', 'composer-no-dev'));
 
 gulp.task('update', gulp.series('install'));
 

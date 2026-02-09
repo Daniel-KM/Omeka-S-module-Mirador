@@ -30,7 +30,7 @@
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {
-        "projectmirador/mirador-integration": "0.0.3"
+        "projectmirador/mirador-integration": "0.0.4"
     },
     "autoload": {
         "psr-4": {
@@ -90,9 +90,9 @@
             "type": "package",
             "package": {
                 "name": "projectmirador/mirador-integration",
-                "version": "0.0.3",
+                "version": "0.0.4",
                 "dist": {
-                    "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/0.0.3/Mirador-integration-Omeka-0.0.3.tar.gz",
+                    "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/0.0.4/Mirador-integration-Omeka-0.0.4.tar.gz",
                     "type": "tar"
                 }
             }

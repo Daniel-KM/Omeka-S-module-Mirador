@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "752b8db83b774aa9c3fe7e3b6925484e",
+    "content-hash": "33153430dea84044a14b995ee7bd0565",
     "packages": [
         {
             "name": "composer/installers",
@@ -249,10 +249,10 @@
     "packages-dev": [
         {
             "name": "projectmirador/mirador-integration",
-            "version": "0.0.3",
+            "version": "0.0.4",
             "dist": {
                 "type": "tar",
-                "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/0.0.3/Mirador-integration-Omeka-0.0.3.tar.gz"
+                "url": "https://gitlab.com/Daniel-KM/Mirador-integration-Omeka/-/archive/0.0.4/Mirador-integration-Omeka-0.0.4.tar.gz"
             },
             "type": "library"
         }
