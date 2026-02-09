@@ -13,7 +13,8 @@ plugins are included.
 [Mirador] is an open-source, web based, multi-window image viewing platform with
 the ability to zoom, display, compare and annotate images from around the world.
 It's configurable and fully extensible via plugins. The version 2.7, 3.4.3 and
-4.0 are available.
+4.0 are available. They are served locally, without third piracy services (cdn),
+so they are fully GDPR-compliant.
 
 It uses the resources of any [IIIF] compliant server. The full specification of
 the "International Image Interoperability Framework" standard is supported
@@ -23,11 +24,14 @@ and [Image Server].
 
 It’s an alternative to the [Universal Viewer] or the lighter [Diva Viewer].
 
-For an example, see [Corpus du Louvre].
+For an example, see [Corpus du Louvre] or [Gaffurius codices].
 
 
 Installation
 ------------
+
+Before installation, note that an IIIF server is required, unless all your media
+are stored outside.
 
 ### Access to IIIF images
 
@@ -46,23 +50,29 @@ created in real time in most of the common cases.
 
 See general end user documentation for [installing a module].
 
-First, if wanted, install the two optional modules [Generic] and [Blocks Disposition].
+The module [Common] must be installed first.
 
-The module uses multiple external js library, [Mirador] itself and its plugins,
-in version 2.7, 3.4.3 or 4.0, so use the release zip to install it, or use and
-init the source.
+If you have an old theme without resource blocks, you may install the optional
+module [Blocks Disposition].
 
-There are three versions of Mirador: vanilla Mirador, Mirador with common
-plugins, Mirador with all plugins. The choice is transparent inside Omeka and
-the appropriate bundle is included according to the selected plugins in main
-settings or in site settings.
+* Composer (recommended, requires Omeka [pull request #2432])
+
+Install the module from the root of Omeka S:
+
+```sh
+composer require daniel-km/omeka-s-module-mirador
+```
+
+The module is automatically downloaded in `composer-addons/modules/` and ready
+to enable in the admin interface.
 
 * From the zip
 
-Download the last release [Mirador.zip] from the list of releases (the master
-does not contain the dependency), and uncompress it in the `modules` directory.
+Download the last release [Mirador.zip] from the list of releases, and
+uncompress it in the `modules` directory. Rename the name of the folder of the
+module to `Mirador`
 
-* From the source
+* From the source and for development
 
 If the module was installed from the source, rename the name of the folder of
 the module to `Mirador`, go to the root of the module, and run:
@@ -71,53 +81,91 @@ the module to `Mirador`, go to the root of the module, and run:
 composer install --no-dev
 ```
 
-* For development only
+* For test
 
-  - Libraries for Mirador
-
-  Because compiling old Mirador versions with unmaintained but stable plugins is
-  more complex with the time, the libraries for Mirador are provided through a
-  zip since version 3.4.9.
-
-  So you don't need to install npm, node.js or anything else to install and to
-  use the module.
-
-  The compilation is only needed if you want specific features of Mirador or if
-  you want to use the dev version.
-
-  - Compilation of Mirador 3
-
-  This explanation for Mirador 3 is useful only if you want to compile Mirador
-  yourself.
-
-  Mirador 3 is based on [react], a js framework managed by facebook, so a
-  complex install is required to manage it and plugins should be compiled and
-  minified with Mirador itself. Furthermore, the plugin [Annotations] is heavy,
-  but may not be used.
-
-  So, to simplify installation of Mirador 3 and plugins and to keep it as small
-  as possible, Mirador is managed as a separate repository [Mirador integration Omeka].
-
-  Development of a specific version of Mirador 3 requires a specific version of
-  node and npm (node 16 and npm 8), so use nvm. If you want to remove plugins or
-  to include new plugins from the bundle, update the files [vendor/projectmirador/mirador-integration/package.json]
-  and [vendor/projectmirador/mirador-integration/src/index.js].
-
-  To compile, you will probably need to use argument "legacy-peer-deps":
+The module includes a comprehensive test suite with unit and functional tests.
+Run them from the root of Omeka:
 
 ```sh
-  npm install --legacy-peer-deps
+vendor/bin/phpunit -c modules/Mirador/phpunit.xml --testdox
 ```
 
-  In case of difficulties, you may downgrade the plugin mirador-annotation to
-  0.4.0 in the included package if compilation is broken, even with "legacy-peer-deps"
-  or "force".
 
-  See more information in the [included package]. You may have to fork the
-  repository and to set it in package.json. The file gulpfile.js inside the
-  present module is used only as a shortcut to it.
+Installation for development
+----------------------------
 
-    See [official documentation about Mirador plugins (v3)].
+Because compiling old Mirador versions with unmaintained but stable plugins is
+more complex with the time, the libraries for Mirador are provided through a zip
+since module version 3.4.9.
+
+So you don't need to install npm, node.js or anything else to install and to use
+the module.
+
+The compilation is only needed if you want specific features of Mirador or if
+you want to use the dev version.
+
+### Version 2.7
+
+The version 2.7 and its plugins are compiled to fix an old issue and is
+installed automatically via composer.
+
+The js contains a fix to list of images in fullscreen in Mirador 2.
+
+The standard Mirador doesn’t allow to have the bottom sidebar (list of images)
+in fullscreen, so it’s hard to browse. It’s not a bug, it’s a [feature].
+To fix it without patching and recompilation, just run this replacement command
+from the root of the module:
+
+```sh
+rpl \
+    'toggleFullScreen:function(){OpenSeadragon.isFullScreen()?(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-expand").addClass("fa-compress"),this.element.find(".mirador-osd-toggle-bottom-panel").hide(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!1)):(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-compress").addClass("fa-expand"),this.element.find(".mirador-osd-toggle-bottom-panel").show(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!0))},' \
+    'toggleFullScreen:function(){OpenSeadragon.isFullScreen()?(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-expand").addClass("fa-compress")/*,this.element.find(".mirador-osd-toggle-bottom-panel").hide(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!1)*/):(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-compress").addClass("fa-expand")/*,this.element.find(".mirador-osd-toggle-bottom-panel").show(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!0)*/)},' \
+    asset/vendor/mirador/mirador.min.js
+```
+
+If wanted, you can fix this feature in the Mirador 2.7.0 source file too:
+comment lines 42779, 42780, 42783, and 42784.
+
+### Version 3.4.3 (deprecated)
+
+Mirador 3 is no more recommended: Mirador 4 uses a modern approach of js and
+avoids to compile and to bundle all plugins in the same package. Mirador 4 looks
+visually the same; all plugins for Mirador 3 works for Mirador 4 with small
+changes.
+
+So, this explanation for Mirador 3 is useful only if you want to compile Mirador
+yourself.
+
+Mirador 3 is based on [react], a js framework managed by facebook, so a complex
+install is required to manage it and plugins should be compiled and minified
+with Mirador itself. Furthermore, the plugin [Annotations] is heavy, but may not
+be used.
+
+So, to simplify installation of Mirador 3 and plugins and to keep it as small as
+possible, Mirador is managed as a separate repository [Mirador integration Omeka].
+
+Development of a specific version of Mirador 3 requires a specific version of
+node and npm (node 16 and npm 8), so use nvm. If you want to remove plugins or
+to include new plugins from the bundle, update the files [vendor/projectmirador/mirador-integration/package.json]
+and [vendor/projectmirador/mirador-integration/src/index.js].
+
+First, copy the node files package.json and gulpfile.js from version 3.4.11 of
+the module, because they were removed in version 3.4.12.
+
+To compile, you will probably need to use argument "legacy-peer-deps":
+
+```sh
+npm install --legacy-peer-deps
+```
+
+In case of difficulties, you may downgrade the plugin mirador-annotation to
+0.4.0 in the included package if compilation is broken, even with "legacy-peer-deps"
+or "force".
+
+See more information in the [included package]. You may have to fork the
+repository and to set it in package.json.
+
+See [official documentation about Mirador plugins (v3)].
 
 ```sh
 # Install mirador-integration with composer, including dev.
@@ -130,13 +178,79 @@ npm install
 npx gulp
 ```
 
-  If it doesn't work, clone the repository [Mirador-integration-Omeka] somewhere,
-  follow its readme, build files with webpack, then copy build files inside
-  "asset/vendor/mirador".
+If it doesn't work, clone the repository [Mirador-integration-Omeka] somewhere,
+follow its readme, build files with webpack, then copy build files inside
+"asset/vendor/mirador".
+
+### Mirador 4.x
+
+Since module version 3.4.12, Mirador 4 uses EcmaScript (ES) modules with
+[import maps] instead of pre-compiled webpack bundles. Plugins are loaded
+individually by the browser, so adding or removing a plugin no longer requires
+recompilation of the whole viewer.
+
+The build uses [Vite] with Rollup code-splitting: shared dependencies (React,
+MUI, emotion, redux, OpenSeadragon, etc.) are extracted into a single `vendor.js`
+chunk. Each plugin and Mirador core import from `vendor.js` via relative imports,
+ensuring the browser loads each dependency only once (React singleton, MUI
+singleton).
+
+All built files are served locally from `asset/vendor/mirador-esm/`, so no third
+piracy CDN is needed and it is GDPR-compliant. The directory `asset/vendor/mirador/`
+is kept as fallback for some old themes that used them, but will be removed in
+a future version.
+
+To compile Mirador v4, Node.js 18+ and npm are needed. The source files are in
+`asset/src/` and the compiled files are stored in `asset/vendor/mirador-esm/`.
+The dependencies, the core, and the plugins are compiled as separated files. For
+the plugin annotation, its own dependencies are compiled with it. In the
+compiled files, `mirador-2.js` is the core and `mirador.js` is the entry that
+allows reexports.
+
+
+```sh
+npm install
+npm run build
+```
+
+To add a new plugin to the build:
+
+1. Install the npm package:
+    ```sh
+    npm install new-mirador-plugin
+    ```
+2. Create the entry file `asset/src/plugin-new.js`:
+    ```js
+    export { default } from 'new-mirador-plugin';
+    ```
+    Note: some plugins use named exports instead of a default export. Check the
+    plugin's source and adapt accordingly (e.g.
+    `export { myPlugin as default } from 'new-mirador-plugin';`).
+3. Add the entry in `vite.config.js` under `rollupOptions.input`:
+    ```js
+    'plugin-new': resolve(__dirname, 'asset/src/plugin-new.js'),
+    ```
+4. Rebuild:
+    ```sh
+    npm run build
+    ```
+5. Register the plugin in `data/plugins/plugins.php` (label for the settings
+    form) and in `data/plugins/plugins-esm.php` (ESM metadata with package name
+    and entry path).
+6. Publish a new release with the built files.
 
 
 Usage
 -----
+
+The module uses multiple external js library, [Mirador] itself and its plugins,
+in version 2.7 (light), 3.4.3 (deprecated) or 4.0 (same ui and settings names,
+but modern and full featured), so use the release zip to install it, or use and
+init the source.
+
+For version 2.x and version 4.x, plugins are loaded individually. For version
+3.x, plugins are bundled with the core of Mirador. So version 3.x is not
+recommended.
 
 ### Configuration
 
@@ -153,7 +267,7 @@ The other ones can be set differently for each site:
   your theme and customize it;
 - via the theme of the site and the assets (`asset/vendor/mirador`).
 
-#### Mirador 2.7 (deprecated)
+#### Mirador 2.7
 
 The parameters used to config the viewer can be found in the [wiki], in the
 details of the [api] and in the examples of the [tutorial].
@@ -168,6 +282,11 @@ For example, this params can be set to display an item in [Zen mode]:
 {
     "mainMenuSettings": {
         "show": false
+    },
+    "windowSettings": {
+        "osd": {
+            "maxZoomPixelRatio": 10
+        }
     },
     "windowObjects": [
         {
@@ -196,7 +315,13 @@ automatically filled, but may be overridden too.
 
 See below for a fix to get the [list of images in fullscreen].
 
-#### Mirador 3.4.3
+The params above includes an option to allow deeper zoom: by default, the
+underlying OpenSeadragon viewer limits zoom to 1.1× the native image resolution
+(`maxZoomPixelRatio`). For high-res photographs, manuscripts, etc., it is
+recommended to render up each image pixel to 10 screen pixels (omeka admin
+viewer uses 100).
+
+#### Mirador 3.4.3 (deprecated)
 
 The parameters used to config the viewer can be found in in the [recipes] and in
 the details of the file [settings.js (v3)].
@@ -205,7 +330,7 @@ the details of the file [settings.js (v3)].
 comments and trailing comma, etc. Check your json on a site such [jsonformatter.org].
 
 For example, this params can be set to display an item in Zen mode, in French,
-with upper menu bar:
+with upper menu bar and a pixel ratio of 10:
 
 ```json
 {
@@ -235,6 +360,9 @@ with upper menu bar:
             "layers": true
         }
     },
+    "osdConfig": {
+        "maxZoomPixelRatio": 10
+    },
     "thumbnailNavigation": {
         "defaultPosition": "off",
         "displaySettings": true
@@ -252,6 +380,9 @@ with upper menu bar:
 ```
 
 #### Mirador 4.0
+
+The settings are similar to 3.4.3 (for example for max zoom pixel ratio), but
+there are some changes and new ones.
 
 The parameters used to config the viewer can be found in in the [recipes] and in
 the details of the file [settings.js].
@@ -315,7 +446,7 @@ for Mirador v2, `data/plugins/plugins-mirador-2.php` and `view/common/helper/mir
 - [Sync windows]
 - [UCD]: Plugins of the University College Dublin
 
-#### Plugins for Mirador 3
+#### Plugins for Mirador 3 (deprecated)
 
 - [Annotations]: Note: only two backends are supported currently, local storage
   (inside browser persistent cache; it **requires a `https` site** for security),
@@ -329,44 +460,26 @@ for Mirador v2, `data/plugins/plugins-mirador-2.php` and `view/common/helper/mir
 
 #### Plugins for Mirador 4
 
-**Warning**: Annotations, OCR Helper, Ruler and Text Overlay are not yet compatible with Mirador 4.
-Other plugins require manual import for now.
+Available plugins:
 
 - [Annotations]: Note: only two backends are supported currently, local storage
   (inside browser persistent cache; it **requires a `https` site** for security),
   and [Annotot] (requires its endpoint).
 - [Download]
 - [Image Tools]
-- [OCR Helper]
-- [Ruler]
 - [Share]
-- [Text overlay]
 
-
-List of images in fullscreen in Mirador 2
------------------------------------------
-
-This fix is needed only for Mirador 2.
-
-The standard Mirador doesn’t allow to have the bottom sidebar (list of images)
-in fullscreen, so it’s hard to browse. It’s not a bug, it’s a [feature].
-To fix it without patching and recompilation, just run this replacement command
-from the root of the module:
-
-```sh
-rpl 'toggleFullScreen:function(){OpenSeadragon.isFullScreen()?(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-expand").addClass("fa-compress"),this.element.find(".mirador-osd-toggle-bottom-panel").hide(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!1)):(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-compress").addClass("fa-expand"),this.element.find(".mirador-osd-toggle-bottom-panel").show(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!0))},' 'toggleFullScreen:function(){OpenSeadragon.isFullScreen()?(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-expand").addClass("fa-compress")/*,this.element.find(".mirador-osd-toggle-bottom-panel").hide(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!1)*/):(this.element.find(".mirador-osd-fullscreen i").removeClass("fa-compress").addClass("fa-expand")/*,this.element.find(".mirador-osd-toggle-bottom-panel").show(),this.eventEmitter.publish("SET_BOTTOM_PANEL_VISIBILITY."+this.id,!0)*/)},' asset/vendor/mirador/mirador.min.js
-```
-
-If wanted, you can fix this feature in the Mirador 2.7.0 source file too:
-comment lines 42779, 42780, 42783, and 42784.
+To add a custom plugin, see the compilation instructions in the Installation
+section above.
 
 
 TODO
 ----
 
 - [ ] Support module [Annotate] as backend for annotations.
-- [ ] Split Mirador plugins for dynamic lazy load (see https://v4.webpack.js.org/guides/code-splitting/).
+- [x] Split Mirador plugins for dynamic lazy load via ES modules and import maps.
 - [ ] Remove dependency to IiifServer for block.
+- [ ] Remove old directory asset/vendor/mirador.
 
 
 Warning
@@ -423,14 +536,15 @@ Module Mirador for Omeka S:
 
 First version of this module was built for [Fachhochschule Nordwestschweiz],
 University of Applied Sciences and Arts, Basel Academy of Music, Academy of Music,
-[Schola Cantorum Basiliensis].
+[Schola Cantorum Basiliensis]. Many improvements were done for various projects.
 
 
 [Mirador Viewer]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador
 [Mirador]: https://projectmirador.org
 [Omeka S]: https://omeka.org/s
 [Omeka]: https://omeka.org
-[Corpus du Louvre]: https://corpus.louvre.fr/
+[Corpus du Louvre]: https://corpus.louvre.fr
+[Gaffurius codices]: https://www.gaffurius-codices.ch
 [IIIF Server]: https://gitlab.com/Daniel-KM/Omeka-S-module-IiifServer
 [Image Server]: https://gitlab.com/Daniel-KM/Omeka-S-module-ImageServer
 [vips]: https://libvips.github.io/libvips
@@ -452,7 +566,10 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [Generic]: https://gitlab.com/Daniel-KM/Omeka-S-module-Generic
 [Blocks Disposition]: https://gitlab.com/Daniel-KM/Omeka-S-module-BlocksDisposition
+[pull request #2432]: https://github.com/omeka/omeka-s/pull/2432
 [react]: https://reactjs.org
+[Vite]: https://vite.dev
+[import maps]: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/script/type/importmap
 [Mirador integration Omeka]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka
 [Mirador-integration-Omeka]: https://gitlab.com/Daniel-KM/Mirador-integration-Omeka
 [List of images in fullscreen]: #list-of-images-in-fullscreen-in-mirador-2
