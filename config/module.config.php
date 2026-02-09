@@ -131,11 +131,35 @@ return [
         'settings' => [
             'mirador_version' => '4',
             'mirador_plugins' => [],
-            'mirador_config_item' => null,
-            'mirador_config_collection' => null,
+            'mirador_config_item' => <<<'JS'
+                {
+                    "osdConfig": {
+                        "maxZoomPixelRatio": 10
+                    }
+                }
+                JS,
+            'mirador_config_collection' => <<<'JS'
+                {
+                    "osdConfig": {
+                        "maxZoomPixelRatio": 10
+                    }
+                }
+                JS,
             'mirador_plugins_3' => [],
-            'mirador_config_item_3' => null,
-            'mirador_config_collection_3' => null,
+            'mirador_config_item_3' => <<<'JS'
+                {
+                    "osdConfig": {
+                        "maxZoomPixelRatio": 10
+                    }
+                }
+                JS,
+            'mirador_config_collection_3' => <<<'JS'
+                {
+                    "osdConfig": {
+                        "maxZoomPixelRatio": 10
+                    }
+                }
+                JS,
             'mirador_plugins_2' => [],
             'mirador_config_item_2' => null,
             'mirador_config_collection_2' => null,
@@ -145,11 +169,35 @@ return [
         'site_settings' => [
             'mirador_version' => '4',
             'mirador_plugins' => [],
-            'mirador_config_item' => null,
-            'mirador_config_collection' => null,
+            'mirador_config_item' => <<<'JS'
+                {
+                    "osdConfig": {
+                        "maxZoomPixelRatio": 10
+                    }
+                }
+                JS,
+            'mirador_config_collection' => <<<'JS'
+                {
+                    "osdConfig": {
+                        "maxZoomPixelRatio": 10
+                    }
+                }
+                JS,
             'mirador_plugins_3' => [],
-            'mirador_config_item_3' => null,
-            'mirador_config_collection_3' => null,
+            'mirador_config_item_3' => <<<'JS'
+                {
+                    "osdConfig": {
+                        "maxZoomPixelRatio": 10
+                    }
+                }
+                JS,
+            'mirador_config_collection_3' => <<<'JS'
+                {
+                    "osdConfig": {
+                        "maxZoomPixelRatio": 10
+                    }
+                }
+                JS,
             'mirador_plugins_2' => [],
             'mirador_config_item_2' => null,
             'mirador_config_collection_2' => null,
