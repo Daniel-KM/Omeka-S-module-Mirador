@@ -7,65 +7,104 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-22 00:00+0000\n"
-"PO-Revision-Date: 2021-02-22 00:00+0000\n"
+"POT-Creation-Date: 2026-02-09 00:00+0000\n"
+"PO-Revision-Date: 2026-02-09 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.6\n"
 
-#: Module.php:37
+#: data/scripts/upgrade.php:89
 #, php-format
-msgid "The library \"%s\" should be installed."
-msgstr "La bibliothèque \"%s\" doit être installée."
+msgid "This module requires the module \"%s\", version %s or above."
+msgstr "Ce module requiert le module « %s », version « %s » ou supérieure."
 
-#: Module.php:40
-msgid "See module’s installation documentation."
-msgstr "Consulter la documentation d’installation du module."
-
-#: src/Generic/AbstractModule.php:66
+#: Module.php:45
 #, php-format
-msgid "This module requires the module \"%s\"."
-msgstr "Ce module requiert le module \"%s\"."
+msgid "The module %1$s should be upgraded to version %2$s or later."
+msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
 
-#: src/Generic/AbstractModule.php:73
-#, php-format
-msgid "This module requires modules \"%s\"."
-msgstr "Ce module requiert les modules \"%s\"."
+#: data/scripts/upgrade.php:96
+msgid "The module supports audio and video for Mirador v3."
+msgstr "Le module gère l’audio et la vidéo pour Mirador v3."
 
-#: src/Generic/AbstractModule.php:80
-msgid "This module has resources that connot be installed."
-msgstr "Ce module a des ressources qui ne peuvent pas être installées."
+#: data/scripts/upgrade.php:122
+msgid "The module supports Mirador v4."
+msgstr "Le module gère désormais Mirador v4."
 
-#: src/Generic/AbstractModule.php:707
-#, php-format
-msgid ""
-"The module \"%s\" was automatically deactivated because the dependencies are "
-"unavailable."
+#: data/scripts/upgrade.php:127
+msgid "Warning: if you customized theme, note that settings were renamed."
 msgstr ""
-"Le module \"%s\" a été automatiquement désactivé car ses dépendances ne sont "
-"plus disponibles."
+"Attention : si vous avez personnalisé les thèmes, notez que les noms des "
+"paramètres ont été modifiés."
+
+#: data/scripts/upgrade.php:134
+msgid ""
+"Mirador v4 now uses ecmascript modules with import maps instead of pre-"
+"compiled bundles. Plugins are now loaded individually and locally, in a GDPR-"
+"compliand way."
+msgstr ""
+"Mirador v4 utilise désormais les modules ecmascript avec des cartes d’import "
+"et non plus des paquets précompilés. Les extensions sont désormais chargées "
+"individuellement et localement, de façon compatible avec la RGPD."
+
+#: Module.php:55
+msgid ""
+"The library \"{library}\" should be installed. See module’s installation "
+"documentation."
+msgstr ""
+"La bibliothèque « {library} » doit être installée. Consulter la "
+"documentation d’installation du module."
+
+#: src/View/Helper/Mirador.php:244
+msgid "Settings for Mirador config of items is not a valid json."
+msgstr ""
+"Les paramètres de la configuration de Mirador pour les contenus ne sont pas "
+"un json valide."
+
+#: src/View/Helper/Mirador.php:263
+msgid "Settings for Mirador config of collections is not a valid json."
+msgstr ""
+"Les paramètres de la configuration de Mirador pour les collections ne sont "
+"pas un json valide."
+
+#: src/Form/SiteSettingsFieldset.php:19
+msgid "Skip default css"
+msgstr "Ignorer le css par défaut"
 
 #: src/Form/SettingsFieldset.php:11
 msgid "Mirador IIIF Viewer"
 msgstr "Mirador IIIF Viewer"
 
-#: src/Form/SettingsFieldset.php:30
+#: src/Form/SettingsFieldset.php:18
+msgid "Players"
+msgstr "Lecteurs"
+
+#: src/Form/SettingsFieldset.php:46
 msgid "Mirador version"
 msgstr "Version de Mirador"
 
-#: src/Form/SettingsFieldset.php:32
-msgid "2.7 (deprecated)"
-msgstr "2.7 (obsolète)"
+#: src/Form/SettingsFieldset.php:48
+msgid "2.7 (light)"
+msgstr "2.7 (léger)"
 
-#: src/Form/SettingsFieldset.php:33
-msgid "3.0 and above"
-msgstr "3.0 et plus récent"
+#: src/Form/SettingsFieldset.php:49
+msgid "3.4.3 (deprecated)"
+msgstr "3.4.3 (obsolète)"
 
-#: src/Form/SettingsFieldset.php:46 src/Form/SettingsFieldset.php:88
+#: src/Form/SettingsFieldset.php:50
+msgid "4.0 and above"
+msgstr "4.0 et plus récent"
+
+#: src/Form/SettingsFieldset.php:65
+msgid "Mirador plugins for v2"
+msgstr "Extensions Mirador pour v2"
+
+#: src/Form/SettingsFieldset.php:66 src/Form/SettingsFieldset.php:114
+#: src/Form/SettingsFieldset.php:162
 msgid ""
 "Some plugins require json options to work. Cross compatibility has not been "
 "checked, so add them one by one and only the needed ones."
@@ -74,15 +113,16 @@ msgstr ""
 "compatibilité croisée n’a pas été vérifiée. Il est donc recommandé de les "
 "ajouter un par un et seulement les plugins nécessaires."
 
-#: src/Form/SettingsFieldset.php:56 src/Form/SettingsFieldset.php:98
+#: src/Form/SettingsFieldset.php:77 src/Form/SettingsFieldset.php:125
+#: src/Form/SettingsFieldset.php:173
 msgid "Select plugins…"
 msgstr "Choisir des plugins…"
 
-#: src/Form/SettingsFieldset.php:63
+#: src/Form/SettingsFieldset.php:85
 msgid "Mirador json config for v2 (item)"
 msgstr "Configuration Mirador en json pour la v2 (contenu)"
 
-#: src/Form/SettingsFieldset.php:64
+#: src/Form/SettingsFieldset.php:86
 msgid ""
 "This json object will be merged with the default one generated by the "
 "module. Placeholders: {manifestUri} and {canvasID}."
@@ -90,28 +130,51 @@ msgstr ""
 "Cet objet json sera fusionné avec celui préparé par le module. Jokers : "
 "{manifestUri} et {canvasID}."
 
-#: src/Form/SettingsFieldset.php:75
+#: src/Form/SettingsFieldset.php:98
 msgid "Mirador json config for v2 (collection)"
 msgstr "Configuration Mirador en json pour la v2 (collection)"
 
-#: src/Form/SettingsFieldset.php:105
+#: src/Form/SettingsFieldset.php:99 src/Form/SettingsFieldset.php:147
+#: src/Form/SettingsFieldset.php:195
+msgid "Iiif collections are Omeka item sets, but may be search results too."
+msgstr ""
+"Les collections Iiif sont des collections Omeka, mais peuvent également être "
+"des résultats de recherche."
+
+#: src/Form/SettingsFieldset.php:113
+msgid "Mirador plugins for v3"
+msgstr "Extensions Mirador pour v3"
+
+#: src/Form/SettingsFieldset.php:133
 msgid "Mirador config as object string for v3 (item)"
 msgstr "Configuration Mirador en chaîne objet pour la v3 (contenu)"
 
-#: src/Form/SettingsFieldset.php:106
+#: src/Form/SettingsFieldset.php:134 src/Form/SettingsFieldset.php:182
 msgid ""
 "This object will be merged with the default one generated by the module."
 msgstr "Cet objet sera fusionné avec celui préparé par le module."
 
-#: src/Form/SettingsFieldset.php:117
+#: src/Form/SettingsFieldset.php:146
 msgid "Mirador config as object string for v3 (collection)"
 msgstr "Configuration Mirador en chaîne objet pour la v3 (collection)"
 
-#: src/Form/SettingsFieldset.php:128
+#: src/Form/SettingsFieldset.php:161
+msgid "Mirador plugins for v4"
+msgstr "Extensions Mirador pour v4"
+
+#: src/Form/SettingsFieldset.php:181
+msgid "Mirador config as object string for v4 (item)"
+msgstr "Configuration Mirador en chaîne objet pour la v4 (contenu)"
+
+#: src/Form/SettingsFieldset.php:194
+msgid "Mirador config as object string for v4 (collection)"
+msgstr "Configuration Mirador en chaîne objet pour la v4 (collection)"
+
+#: src/Form/SettingsFieldset.php:209
 msgid "Endpoint to store annotations externally"
 msgstr "Point d’accès pour enregistrer les annotations à l’extérieur"
 
-#: src/Form/SettingsFieldset.php:129
+#: src/Form/SettingsFieldset.php:210
 msgid ""
 "This option is used only if the plugin Annotations is enabled, and useful "
 "only with an external annotation server."
@@ -119,28 +182,57 @@ msgstr ""
 "Cette option est utilisée seulement quand l’extension Annotations est "
 "activée et avec un serveur d’annotations externe ."
 
-#: src/Form/SettingsFieldset.php:140
+#: src/Form/SettingsFieldset.php:222
 msgid "Preselect manifests from the same collection"
 msgstr "Présélectionner des manifestes à partir de la même collection"
 
-#: src/Form/SettingsFieldset.php:141
+#: src/Form/SettingsFieldset.php:223
 msgid "Set a number of items to preselect. IiifServer should be enabled."
 msgstr ""
 "Indiquer le nombre de contenus à présélectionner. Le module IIIF Server doit "
 "être actif."
 
-#: src/View/Helper/Mirador.php:330
-msgid "Settings for Mirador config of items is not a valid json."
-msgstr ""
-"Les paramètres de la configuration de Mirador pour les contenus ne sont pas "
-"un json valide."
+#: src/Form/ConfigForm.php:19
+msgid "Property supplying an external manifest"
+msgstr "Propriété fournissant un manifeste tiers"
 
-#: src/View/Helper/Mirador.php:349
-msgid "Settings for Mirador config of collections is not a valid json."
+#: src/Form/ConfigForm.php:20
+msgid ""
+"External or static manifests can be more customized and may be quicker to be "
+"loaded. Usually, the property is \"dcterms:hasFormat\" or "
+"\"dcterms:isFormatOf\"."
 msgstr ""
-"Les paramètres de la configuration de Mirador pour les collections ne sont "
-"pas un json valide."
+"Les manifestes externes ou statiques peuvent être personnalisés et sont plus "
+"rapides à charger. Généralement, la propriété utilisée est "
+"« dcterms:hasFormat » ou « dcterms:isFormatOf »."
 
-#: src/Site/BlockLayout/Mirador.php:42
+#: src/Form/ConfigForm.php:28
+msgid "Select a property…"
+msgstr "Choisir une propriété…"
+
+#: src/Site/ResourcePageBlockLayout/Mirador.php:13
+msgid "Mirador IIIF viewer"
+msgstr "Mirador IIIF Viewer"
+
+#: src/Site/BlockLayout/Mirador.php:21
 msgid "Mirador Viewer"
 msgstr "Mirador Viewer"
+
+#, php-format
+#~ msgid "The library \"%s\" should be installed."
+#~ msgstr "La bibliothèque \"%s\" doit être installée."
+
+#, php-format
+#~ msgid "This module requires modules \"%s\"."
+#~ msgstr "Ce module requiert les modules \"%s\"."
+
+#~ msgid "This module has resources that connot be installed."
+#~ msgstr "Ce module a des ressources qui ne peuvent pas être installées."
+
+#, php-format
+#~ msgid ""
+#~ "The module \"%s\" was automatically deactivated because the dependencies "
+#~ "are unavailable."
+#~ msgstr ""
+#~ "Le module \"%s\" a été automatiquement désactivé car ses dépendances ne "
+#~ "sont plus disponibles."
