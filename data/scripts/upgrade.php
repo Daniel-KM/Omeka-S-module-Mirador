@@ -128,3 +128,10 @@ if (version_compare($oldVersion, '3.4.11', '<')) {
     );
     $messenger->addWarning($message);
 }
+
+if (version_compare($oldVersion, '3.4.12', '<')) {
+    $message = new Message(
+        'Mirador v4 now uses ecmascript modules with import maps instead of pre-compiled bundles. Plugins are now loaded individually and locally, in a GDPR-compliand way.' // @translate
+    );
+    $messenger->addSuccess($message);
+}

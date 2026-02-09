@@ -532,7 +532,7 @@ Widget [Mirador]:
 
 Module Mirador for Omeka S:
 
-* Copyright Daniel Berthereau, 2018-2025
+* Copyright Daniel Berthereau, 2018-2026
 
 First version of this module was built for [Fachhochschule Nordwestschweiz],
 University of Applied Sciences and Arts, Basel Academy of Music, Academy of Music,
