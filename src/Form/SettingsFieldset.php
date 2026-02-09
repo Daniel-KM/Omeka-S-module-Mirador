@@ -113,7 +113,7 @@ class SettingsFieldset extends Fieldset
                     'label' => 'Mirador plugins for v3', // @translate
                     'info' => 'Some plugins require json options to work. Cross compatibility has not been checked, so add them one by one and only the needed ones.', // @translate
                     'documentation' => 'https://github.com/daniel-km/omeka-s-module-mirador#plugins',
-                    'value_options' => $this->getPlugins(),
+                    'value_options' => $this->getPlugins3(),
                     'empty_option' => '',
                     'use_hidden_element' => true,
                     'disable_inarray_validator' => true,
