@@ -45,8 +45,8 @@ class SettingsFieldset extends Fieldset
                     'element_group' => 'player',
                     'label' => 'Mirador version', // @translate
                     'value_options' => [
-                        '2' => '2.7 (deprecated)', // @translate
-                        '3' => '3.4.3', // @translate
+                        '2' => '2.7 (light)', // @translate
+                        '3' => '3.4.3 (deprecated)', // @translate
                         '4' => '4.0 and above', // @translate
                     ],
                 ],

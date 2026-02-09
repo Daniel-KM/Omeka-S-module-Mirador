@@ -458,39 +458,51 @@ class Mirador extends AbstractHelper
     protected function renderMirador4($urlManifest, array $options = [], $resourceName = null, $isExternal = false): string
     {
         static $id = 0;
+        static $headInjected = false;
 
         $view = $this->view;
         $setting = $this->isSite ? $view->plugin('siteSetting') : $view->plugin('setting');
 
-        // No css in mirador 4: this is a webpack + google roboto.
         $assetUrl = $view->plugin('assetUrl');
         $headScript = $view->headScript();
         // The filter removes empty values that may appear in settings.
         $miradorPlugins = array_filter($setting('mirador_plugins', []));
 
-        // Optimize the size of the bundle.
         $internalConfig = false;
         $annotationEndpoint = null;
-        if (empty($miradorPlugins)) {
-            // Vanilla Mirador.
-            $miradorVendorJs = 'vendor/mirador/mirador.min.js';
-        } elseif (in_array('annotations', $miradorPlugins)) {
-            // Heavy Mirador: include Annotation plugin and all others ones.
-            $miradorVendorJs = 'vendor/mirador/mirador-bundle.min.js';
+        if (in_array('annotations', $miradorPlugins)) {
             $internalConfig = true;
             $annotationEndpoint = $setting('mirador_annotation_endpoint');
-        } else {
-            // Common or small plugins.
-            $miradorVendorJs = 'vendor/mirador/mirador-pack.min.js';
         }
 
-        $headScript
-            ->appendFile($assetUrl($miradorVendorJs, 'Mirador'), 'text/javascript', ['defer' => 'defer'])
-            ->appendFile($assetUrl('js/mirador.js', 'Mirador'), 'text/javascript', ['defer' => 'defer']);
+        if (!$headInjected) {
+            $headInjected = true;
 
-        $view->partial('common/helper/mirador-plugins', [
-            'plugins' => $miradorPlugins,
-        ]);
+            // 1. Import map (MUST be before any <script type="module">).
+            $importMapJson = $this->buildImportMap($miradorPlugins);
+            $headScript->prependScript($importMapJson, 'importmap', ['noescape' => true]);
+
+            // 2. Plugin selection variables (classic script).
+            $pluginPackageMap = $this->getPluginPackageMap($miradorPlugins);
+            $setupScript = 'window.__miradorPlugins = '
+                . json_encode(array_values($miradorPlugins), 320) . ";\n"
+                . 'window.__miradorPluginPackages = '
+                . json_encode($pluginPackageMap, 320) . ';';
+            $headScript->appendScript($setupScript);
+
+            // 3. ESM init module (implicit defer).
+            $headScript->appendFile($assetUrl('js/mirador-4.mjs', 'Mirador'), 'module');
+
+            // 4. CSS for plugins that need it.
+            $pluginsEsm = require dirname(__DIR__, 3) . '/data/plugins/plugins-esm.php';
+            foreach ($miradorPlugins as $name) {
+                if (isset($pluginsEsm[$name]['css'])) {
+                    $view->headLink()->appendStylesheet(
+                        $assetUrl($pluginsEsm[$name]['css'], 'Mirador')
+                    );
+                }
+            }
+        }
 
         if (!$setting('mirador_skip_default_css', false)) {
             $view->headLink()
@@ -500,7 +512,6 @@ class Mirador extends AbstractHelper
         $viewerId = 'mirador-' . ++$id;
         $config = [
             'id' => $viewerId,
-            'globalMiradorPlugins' => $miradorPlugins,
         ];
 
         $config['language'] = $view->identity()
@@ -598,6 +609,51 @@ class Mirador extends AbstractHelper
             'viewerId' => $viewerId,
             'annotationEndpoint' => $annotationEndpoint,
         ]);
+    }
+
+    /**
+     * Build the import map JSON for Mirador 4 ESM modules.
+     *
+     * The import map maps bare specifiers (e.g. "mirador") to local asset URLs,
+     * so ES module imports resolve to files served by the module itself (no CDN).
+     */
+    protected function buildImportMap(array $miradorPlugins): string
+    {
+        $assetUrl = $this->view->plugin('assetUrl');
+        $imports = [];
+
+        // Core mirador.
+        $imports['mirador'] = $assetUrl('vendor/mirador-esm/mirador.js', 'Mirador');
+
+        // Selected plugins.
+        $pluginsEsm = require dirname(__DIR__, 3) . '/data/plugins/plugins-esm.php';
+        foreach ($miradorPlugins as $name) {
+            if (isset($pluginsEsm[$name])) {
+                $imports[$pluginsEsm[$name]['package']] = $assetUrl(
+                    $pluginsEsm[$name]['entry'], 'Mirador'
+                );
+            }
+        }
+
+        return json_encode(['imports' => $imports], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * Get a map of plugin keys to their npm package names.
+     *
+     * Used to pass plugin package names to the ESM init script so it can
+     * dynamically import each selected plugin by its package specifier.
+     */
+    protected function getPluginPackageMap(array $miradorPlugins): array
+    {
+        $pluginsEsm = require dirname(__DIR__, 3) . '/data/plugins/plugins-esm.php';
+        $map = [];
+        foreach ($miradorPlugins as $name) {
+            if (isset($pluginsEsm[$name]['package'])) {
+                $map[$name] = $pluginsEsm[$name]['package'];
+            }
+        }
+        return $map;
     }
 
     protected function appendConfigData(array $data): array

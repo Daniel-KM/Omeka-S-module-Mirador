@@ -1,13 +1,25 @@
 {
-  "name": "omeka-s-module-mirador",
-  "version": "3.4.11",
-  "license": "CECILL-2.1",
-  "description": "Mirador (module for Omeka S)",
-  "repository": {
-    "type": "git",
-    "url": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador.git"
-  },
-  "devDependencies": {
-    "gulp-concat": "^2.6.1"
-  }
+    "name": "omeka-s-module-mirador",
+    "private": true,
+    "version": "3.4.12",
+    "type": "module",
+    "license": "CECILL-2.1",
+    "description": "Mirador (module for Omeka S)",
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador.git"
+    },
+    "scripts": {
+        "build": "vite build"
+    },
+    "dependencies": {
+        "mirador": "^4.0.0",
+        "mirador-image-tools": "^1.0.0",
+        "mirador-dl-plugin": "^1.0.0",
+        "mirador-share-plugin": "^1.0.0",
+        "mirador-annotation-editor": "^1.2.1"
+    },
+    "devDependencies": {
+        "vite": "^6.0.0"
+    }
 }

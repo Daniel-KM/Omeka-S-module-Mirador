@@ -49,9 +49,10 @@ class Module extends AbstractModule
         }
 
         $js = __DIR__ . '/asset/vendor/mirador/mirador.min.js';
-        if (!file_exists($js)) {
+        $jsEsm = __DIR__ . '/asset/vendor/mirador-esm/mirador.js';
+        if (!file_exists($js) && !file_exists($jsEsm)) {
             throw new ModuleCannotInstallException((string) (new PsrMessage(
-                'The library "{library]" should be installed. See module’s installation documentation.', // @translate
+                'The library "{library}" should be installed. See module’s installation documentation.', // @translate
                 ['library' => 'Mirador']
             ))->setTranslator($translator));
         }

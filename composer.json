@@ -49,10 +49,11 @@
         "installer-name": "Mirador",
         "configurable": true,
         "external-assets": {
-            "asset/vendor/mirador/mirador.min.js": "https://unpkg.com/mirador@^4.0/dist/mirador.min.js",
             "asset/vendor/mirador-2/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2.tar.gz",
             "asset/vendor/mirador-2-plugins/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2-plugins.tar.gz",
-            "asset/vendor/mirador-3/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-3.4.3.tar.gz"
+            "asset/vendor/mirador-3/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-3.4.3.tar.gz",
+            "asset/vendor/mirador/mirador.min.js": "https://unpkg.com/mirador@^4.0/dist/mirador.min.js",
+            "asset/vendor/mirador-esm/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.12/mirador-esm.tar.gz"
         }
     }
 }

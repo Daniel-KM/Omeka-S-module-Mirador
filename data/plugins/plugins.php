@@ -8,18 +8,16 @@
  * The options should be set via the json textarea or via the theme.
  *
  * Note:
- * Currently, with Mirador 4, plugins should be included and compiled with the
- * bundle, so they are not available separately, but hidden.
+ * With Mirador 4, plugins are compiled with the bundle. The selection determines
+ * which bundle is loaded: vanilla (no plugin), pack (common), or bundle (all).
  */
 
 return [
-    /*
-    // 'annotations' => 'Annotations',
+    'annotations' => 'Annotations',
     'dl' => 'Download files',
     'image-tools' => 'Image tools',
     // 'ocr-helper' => 'OCR helper',
     // 'ruler' => 'Ruler',
     'share' => 'Share',
     // 'text-overlay' => 'Text overlay',
-     */
 ];
