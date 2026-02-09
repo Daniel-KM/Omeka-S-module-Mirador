@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE phpunit>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/9.5/phpunit.xsd"
+    colors="true"
+    backupGlobals="false"
+    bootstrap="./tests/bootstrap.php"
+    >
+    <testsuites>
+        <testsuite name="MiradorTest">
+            <directory suffix="Test.php">./tests/MiradorTest</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="APPLICATION_ENV" value="testing"/>
+        <includePath>./tests</includePath>
+    </php>
+</phpunit>
