@@ -198,9 +198,9 @@ class Mirador extends AbstractHelper
         if ($this->version === '2') {
             return $this->renderMirador2($urlManifest, $options, $resourceName, $isExternal);
         } elseif ($this->version === '3') {
-            return $this->renderMirador3($urlManifest, $options, $resourceName, $isExternal);
+            return $this->renderMirador3($urlManifest, $options, $resourceName);
         } else {
-            return $this->renderMirador4($urlManifest, $options, $resourceName, $isExternal);
+            return $this->renderMirador4($urlManifest, $options, $resourceName);
         }
     }
 
@@ -319,10 +319,9 @@ class Mirador extends AbstractHelper
      * @param string $urlManifest
      * @param array $options
      * @param string $resourceName
-     * @param bool $isExternal If the manifest is managed by Omeka or not.
      * @return string Html code.
      */
-    protected function renderMirador3($urlManifest, array $options = [], $resourceName = null, $isExternal = false): string
+    protected function renderMirador3($urlManifest, array $options = [], $resourceName = null): string
     {
         static $id = 0;
 
@@ -375,12 +374,7 @@ class Mirador extends AbstractHelper
             : strtr((string) $setting('locale'), ['_' => '-']);
 
         $data = [];
-        $location = '';
         $isCollection = false;
-        if ($isExternal) {
-            $site = $view->site;
-            $location = $site ? $site->title() : '';
-        }
 
         switch ($resourceName) {
             case 'items':
@@ -434,8 +428,12 @@ class Mirador extends AbstractHelper
                 }
                 JS;
             if ($configSet && $configSet !== '{}') {
-                $hasAnnotation = strpos($configSet, 'annotation:') || strpos($configSet, '"annotation":') || strpos($configSet, "'annotation':");
-                $hasWindow = strpos($configSet, 'window:') || strpos($configSet, '"window":') || strpos($configSet, "'window':");
+                $hasAnnotation = strpos($configSet, 'annotation:') !== false
+                    || strpos($configSet, '"annotation":') !== false
+                    || strpos($configSet, "'annotation':") !== false;
+                $hasWindow = strpos($configSet, 'window:') !== false
+                    || strpos($configSet, '"window":') !== false
+                    || strpos($configSet, "'window':") !== false;
                 if ($hasAnnotation && $hasWindow) {
                     // Nothing to do.
                 } elseif ($hasAnnotation) {
@@ -480,10 +478,9 @@ class Mirador extends AbstractHelper
      * @param string $urlManifest
      * @param array $options
      * @param string $resourceName
-     * @param bool $isExternal If the manifest is managed by Omeka or not.
      * @return string Html code.
      */
-    protected function renderMirador4($urlManifest, array $options = [], $resourceName = null, $isExternal = false): string
+    protected function renderMirador4($urlManifest, array $options = [], $resourceName = null): string
     {
         static $id = 0;
         static $headInjected = false;
@@ -599,8 +596,12 @@ class Mirador extends AbstractHelper
                 }
                 JS;
             if ($configSet && $configSet !== '{}') {
-                $hasAnnotation = strpos($configSet, 'annotation:') || strpos($configSet, '"annotation":') || strpos($configSet, "'annotation':");
-                $hasWindow = strpos($configSet, 'window:') || strpos($configSet, '"window":') || strpos($configSet, "'window':");
+                $hasAnnotation = strpos($configSet, 'annotation:') !== false
+                    || strpos($configSet, '"annotation":') !== false
+                    || strpos($configSet, "'annotation':") !== false;
+                $hasWindow = strpos($configSet, 'window:') !== false
+                    || strpos($configSet, '"window":') !== false
+                    || strpos($configSet, "'window':") !== false;
                 if ($hasAnnotation && $hasWindow) {
                     // Nothing to do.
                 } elseif ($hasAnnotation) {
@@ -618,13 +619,13 @@ class Mirador extends AbstractHelper
         if ($configSet && $configSet !== '{}') {
             if ($options) {
                 $configJson = mb_substr(json_encode($config, 448), 0, -1)
-                . ",\n    "
+                    . ",\n    "
                     . trim(mb_substr($configSet, 1, -1), ", \n\t\r")
                     . ",\n"
-                        . mb_substr(json_encode($options, 448), 1);
+                    . mb_substr(json_encode($options, 448), 1);
             } else {
                 $configJson = mb_substr(json_encode($config, 448), 0, -2)
-                . ",\n    "
+                    . ",\n    "
                     . trim(mb_substr($configSet, 1));
             }
         } else {
@@ -706,6 +707,8 @@ class Mirador extends AbstractHelper
             case 'item_sets':
                 $collection = $this->resource;
                 break;
+            default:
+                return $data;
         }
 
         $site = $view->vars('site');
