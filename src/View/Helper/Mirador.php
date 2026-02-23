@@ -75,12 +75,40 @@ class Mirador extends AbstractHelper
             if (!$iiifServerIsActive) {
                 return '';
             }
-            $urlManifest = $view->iiifUrl($resource);
-            return $this->render($urlManifest, $options, 'multiple');
+            // Convert media to their parent items for the collection, since
+            // the iiifserver/set route only handles items and item sets.
+            $collectionResources = [];
+            $seen = [];
+            foreach ($resource as $res) {
+                if ($res->resourceName() === 'media') {
+                    $res = $res->item();
+                }
+                $id = $res->id();
+                if (!isset($seen[$id])) {
+                    $seen[$id] = true;
+                    $collectionResources[] = $res;
+                }
+            }
+            if (!$collectionResources) {
+                return '';
+            }
+            if (count($collectionResources) === 1) {
+                $resource = reset($collectionResources);
+            } else {
+                $urlManifest = $view->iiifUrl($collectionResources);
+                return $this->render($urlManifest, $options, 'multiple');
+            }
         }
 
         // Prepare the url for the manifest of a record after additional checks.
         $resourceName = $resource->resourceName();
+
+        // For a media, use the parent item manifest.
+        if ($resourceName === 'media') {
+            $resource = $resource->item();
+            $resourceName = 'items';
+        }
+
         if (!in_array($resourceName, ['items', 'item_sets'])) {
             return '';
         }

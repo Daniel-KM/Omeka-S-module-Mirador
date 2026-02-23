@@ -8,9 +8,12 @@
 $resources = [];
 foreach ($attachments as $attachment) {
     $item = $attachment->item();
-    if ($item) {
-        $resources[] = $item;
+    if (!$item) {
+        continue;
     }
+    // When a specific media is selected, use it; otherwise use the full item.
+    $media = $attachment->media();
+    $resources[] = $media ?: $item;
 }
 
 // Display the viewer with the specified resources.
