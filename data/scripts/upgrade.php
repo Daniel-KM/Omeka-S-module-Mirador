@@ -28,7 +28,8 @@ if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActi
         'The module %1$s should be upgraded to version %2$s or later.', // @translate
         'Common', '3.4.80'
     );
-    throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+    $messenger->addError($message);
+    throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $translator('Missing requirement. Unable to upgrade.')); // @translate
 }
 
 if (version_compare($oldVersion, '3.1.0', '<')) {
@@ -89,7 +90,8 @@ if (version_compare($oldVersion, '3.3.7.13', '<')) {
             $translator->translate('This module requires the module "%s", version %s or above.'), // @translate
             'IiifServer', '3.6.5.3'
         );
-        throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+        $messenger->addError($message);
+        throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $translator('Missing requirement. Unable to upgrade.')); // @translate
     }
 
     $message = new Message(
