@@ -401,7 +401,15 @@ configured property.
 The viewer is always available at `http://www.example.com/item-set/{item-set id}/mirador`
 and `http://www.example.com/item/{item id}/mirador`. Furthermore, it is
 automatically embedded in "item-set/{id}" and "item/{id}" show and/or browse
-pages. This can be disabled via the module [Blocks Disposition] for each site.
+pages. The placement can be configured in site settings with the option "Display
+Mirador viewer": item show, item browse, item set browse. By default, only the
+item show page is enabled.
+
+In Omeka S v4.0+, you can use the block in the resource page theme options. When
+this feature is used, the viewer is automatically skipped on item show to avoid
+duplication. The placement option remains useful for browse pages and for themes
+that do not use resource page blocks (Omeka S < v4.0).
+
 Finally, a block layout is available to add the viewer in any standard page.
 
 To embed Mirador somewhere else, just use the helper:
