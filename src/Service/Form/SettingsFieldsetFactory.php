@@ -8,7 +8,7 @@ use Mirador\Form\SettingsFieldset;
 
 class SettingsFieldsetFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
         $plugins = require dirname(__DIR__, 3) . '/data/plugins/plugins.php';
         $plugins2 = require dirname(__DIR__, 3) . '/data/plugins/plugins-mirador-2.php';

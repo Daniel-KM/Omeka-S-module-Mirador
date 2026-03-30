@@ -24,8 +24,8 @@ class Mirador extends AbstractBlockLayout implements TemplateableBlockLayoutInte
     public function form(
         PhpRenderer $view,
         SiteRepresentation $site,
-        SitePageRepresentation $page = null,
-        SitePageBlockRepresentation $block = null
+        ?SitePageRepresentation $page = null,
+        ?SitePageBlockRepresentation $block = null
     ) {
         return $view->blockAttachmentsForm($block);
     }
