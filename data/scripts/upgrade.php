@@ -2,7 +2,7 @@
 
 namespace Mirador;
 
-use Omeka\Stdlib\Message;
+use Common\Stdlib\PsrMessage;
 
 /**
  * @var Module $this
@@ -24,9 +24,9 @@ $messenger = $plugins->get('messenger');
 $entityManager = $services->get('Omeka\EntityManager');
 
 if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.82')) {
-    $message = new Message(
-        'The module %1$s should be upgraded to version %2$s or later.', // @translate
-        'Common', '3.4.82'
+    $message = new PsrMessage(
+        'The module {module} should be upgraded to version {version} or later.', // @translate
+        ['module' => 'Common', 'version' => '3.4.82']
     );
     $messenger->addError($message);
     throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $translator('Missing requirement. Unable to upgrade.')); // @translate
@@ -86,15 +86,15 @@ if (version_compare($oldVersion, '3.3.7.13', '<')) {
     $module = $services->get('Omeka\ModuleManager')->getModule('IiifServer');
     if ($module && version_compare($module->getIni('version') ?? '', '3.6.5.3', '<')) {
         $translator = $services->get('MvcTranslator');
-        $message = new \Omeka\Stdlib\Message(
-            $translator->translate('This module requires the module "%s", version %s or above.'), // @translate
-            'IiifServer', '3.6.5.3'
+        $message = new PsrMessage(
+            'This module requires the module {module}, version {version} or above.', // @translate
+            ['module' => 'IiifServer', 'version' => '3.6.5.3']
         );
         $messenger->addError($message);
         throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $translator('Missing requirement. Unable to upgrade.')); // @translate
     }
 
-    $message = new Message(
+    $message = new PsrMessage(
         'The module supports audio and video for Mirador v3.' // @translate
     );
     $messenger->addSuccess($message);
@@ -120,20 +120,96 @@ if (version_compare($oldVersion, '3.4.11', '<')) {
         $siteSettings->set('mirador_config_collection', null);
     }
 
-    $message = new Message(
+    $message = new PsrMessage(
         'The module supports Mirador v4.' // @translate
     );
     $messenger->addSuccess($message);
 
-    $message = new Message(
+    $message = new PsrMessage(
         'Warning: if you customized theme, note that settings were renamed.' // @translate
     );
     $messenger->addWarning($message);
 }
 
 if (version_compare($oldVersion, '3.4.12', '<')) {
-    $message = new Message(
+    $message = new PsrMessage(
         'Mirador v4 now uses ecmascript modules with import maps instead of pre-compiled bundles. Plugins are now loaded individually and locally, in a GDPR-compliand way.' // @translate
     );
     $messenger->addSuccess($message);
+}
+
+if (version_compare($oldVersion, '3.4.14', '<')) {
+    $siteSettings = $services->get('Omeka\Settings\Site');
+    $sites = $api->search('sites')->getContent();
+    foreach ($sites as $site) {
+        $siteSettings->setTargetId($site->id());
+        // By default, keep item show only (previous implicit behavior).
+        $siteSettings->set('mirador_placement', ['after/items']);
+    }
+
+    $message = new PsrMessage(
+        'A new option allows to set the placement of the viewer on item show and browse pages.' // @translate
+    );
+    $messenger->addSuccess($message);
+
+    // Force version to 4 when no custom plugins or config for v2/v3.
+    $hasCustom = function ($settingsService) {
+        $version = $settingsService->get('mirador_version', '4');
+        if ($version === '4') {
+            return false;
+        }
+        if (!empty($settingsService->get('mirador_plugins_2', []))) {
+            return true;
+        }
+        if (!empty($settingsService->get('mirador_plugins_3', []))) {
+            return true;
+        }
+        if ($settingsService->get('mirador_config_item_2') !== null) {
+            return true;
+        }
+        if ($settingsService->get('mirador_config_collection_2') !== null) {
+            return true;
+        }
+        $config3Item = $settingsService->get('mirador_config_item_3');
+        if ($config3Item !== null && trim($config3Item) !== '' && trim($config3Item) !== '{}') {
+            return true;
+        }
+        $config3Collection = $settingsService->get('mirador_config_collection_3');
+        if ($config3Collection !== null && trim($config3Collection) !== '' && trim($config3Collection) !== '{}') {
+            return true;
+        }
+        return false;
+    };
+
+    $skipped = [];
+
+    if (!$hasCustom($settings)) {
+        $settings->set('mirador_version', '4');
+    } else {
+        $skipped[] = 'settings';
+    }
+
+    $siteSettings = $services->get('Omeka\Settings\Site');
+    $sites = $api->search('sites')->getContent();
+    foreach ($sites as $site) {
+        $siteSettings->setTargetId($site->id());
+        if (!$hasCustom($siteSettings)) {
+            $siteSettings->set('mirador_version', '4');
+        } else {
+            $skipped[] = $site->slug();
+        }
+    }
+
+    if ($skipped) {
+        $message = new PsrMessage(
+            'Mirador version was not updated to v4 for {list} because custom v2/v3 plugins or config were found. Please check and update manually.', // @translate
+            ['list' => implode(', ', $skipped)]
+        );
+        $messenger->addWarning($message);
+    } else {
+        $message = new PsrMessage(
+            'Mirador version has been set to v4 for all settings and sites.' // @translate
+        );
+        $messenger->addSuccess($message);
+    }
 }

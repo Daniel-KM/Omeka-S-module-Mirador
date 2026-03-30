@@ -125,11 +125,12 @@ return [
     ],
     'mirador' => [
         'config' => [
-            // By exception, the name of this property is the same than
-            // module iiif server (and other iiif viewer).
-            // This option allows to use this module independantly, but for
-            // consistency, the same name is used.
-            'iiifserver_manifest_external_property' => 'dcterms:hasFormat',
+            // By exception, iiifserver_manifest_external_property is shared
+            // with IiifServer and other Iiif viewers, so the module can be used
+            // alone or not. For consistency, the same name is used.
+            // It is managed in postInstall() to avoid deletion on uninstall of
+            //  one module.
+            // 'iiifserver_manifest_external_property' => 'dcterms:hasFormat',
         ],
         'settings' => [
             'mirador_version' => '4',
