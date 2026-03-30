@@ -2,9 +2,9 @@
 
 namespace Mirador\Service\Form;
 
-use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mirador\Form\SettingsFieldset;
+use Psr\Container\ContainerInterface;
 
 class SettingsFieldsetFactory implements FactoryInterface
 {

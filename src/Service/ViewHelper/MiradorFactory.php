@@ -2,9 +2,9 @@
 
 namespace Mirador\Service\ViewHelper;
 
-use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mirador\View\Helper\Mirador;
+use Psr\Container\ContainerInterface;
 
 /**
  * Service factory for the Mirador view helper.
