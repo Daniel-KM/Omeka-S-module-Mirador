@@ -2,7 +2,7 @@
 
 namespace Mirador\Service\Form;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Mirador\Form\SiteSettingsFieldset;
 
