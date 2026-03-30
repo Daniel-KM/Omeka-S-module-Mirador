@@ -62,22 +62,23 @@ class Module extends AbstractModule
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
+        // Display viewer in resource pages for old themes (before v4.1
+        // resource page blocks). The site is not set yet, so checks are
+        // done in method.
+        $sharedEventManager->attach(
+            'Omeka\Controller\Site\Item',
+            'view.show.after',
+            [$this, 'handleViewShowAfterItem']
+        );
         $sharedEventManager->attach(
             'Omeka\Controller\Site\Item',
             'view.browse.after',
             [$this, 'handleViewBrowseAfterItem']
         );
-
         $sharedEventManager->attach(
             'Omeka\Controller\Site\ItemSet',
             'view.browse.after',
             [$this, 'handleViewBrowseAfterItemSet']
-        );
-
-        $sharedEventManager->attach(
-            'Omeka\Controller\Site\Item',
-            'view.show.after',
-            [$this, 'handleViewShowAfterItem']
         );
 
         $sharedEventManager->attach(
@@ -92,11 +93,42 @@ class Module extends AbstractModule
         );
     }
 
+    public function handleViewShowAfterItem(Event $event): void
+    {
+        $services = $this->getServiceLocator();
+        $currentTheme = $services->get('Omeka\Site\ThemeManager')->getCurrentTheme();
+        if (method_exists($currentTheme, 'isConfigurableResourcePageBlocks') && $currentTheme->isConfigurableResourcePageBlocks()) {
+            return;
+        }
+
+        $siteSettings = $services->get('Omeka\Settings\Site');
+        $placements = $siteSettings->get('mirador_placement', ['after/items']);
+        if (!in_array('after/items', $placements)) {
+            return;
+        }
+
+        $view = $event->getTarget();
+        echo $view->mirador($view->item);
+    }
+
     public function handleViewBrowseAfterItem(Event $event): void
     {
-        $view = $event->getTarget();
         $services = $this->getServiceLocator();
-        // Note: there is no item-set show, but a special case for items browse.
+        $currentTheme = $services->get('Omeka\Site\ThemeManager')->getCurrentTheme();
+        if (method_exists($currentTheme, 'isConfigurableResourcePageBlocks') && $currentTheme->isConfigurableResourcePageBlocks()) {
+            return;
+        }
+
+        $siteSettings = $services->get('Omeka\Settings\Site');
+        $placements = $siteSettings->get('mirador_placement', ['after/items']);
+        if (!in_array('browse/items', $placements)) {
+            return;
+        }
+
+        $view = $event->getTarget();
+
+        // Note: there is no item-set show, but a special case for items
+        // browse inside an item set.
         $isItemSetShow = (bool) $services->get('Application')
             ->getMvcEvent()->getRouteMatch()->getParam('item-set-id');
         if ($isItemSetShow) {
@@ -108,33 +140,23 @@ class Module extends AbstractModule
 
     public function handleViewBrowseAfterItemSet(Event $event): void
     {
+        $services = $this->getServiceLocator();
+        $currentTheme = $services->get('Omeka\Site\ThemeManager')->getCurrentTheme();
+        if (method_exists($currentTheme, 'isConfigurableResourcePageBlocks') && $currentTheme->isConfigurableResourcePageBlocks()) {
+            return;
+        }
+
+        $siteSettings = $services->get('Omeka\Settings\Site');
+        $placements = $siteSettings->get('mirador_placement', ['after/items']);
+        if (!in_array('browse/item_sets', $placements)) {
+            return;
+        }
+
         if (!$this->isModuleActive('IiifServer')) {
             return;
         }
 
         $view = $event->getTarget();
         echo $view->mirador($view->itemSets);
-    }
-
-    public function handleViewShowAfterItem(Event $event): void
-    {
-        $view = $event->getTarget();
-        $services = $this->getServiceLocator();
-        // In Omeka S v4.1+, if the player is set in the resource page
-        // blocks of the current theme, don't add it a second time.
-        if ($services->has('Omeka\ResourcePageBlockLayoutManager')) {
-            $currentTheme = $services->get('Omeka\Site\ThemeManager')
-                ->getCurrentTheme();
-            $blockLayoutManager = $services
-                ->get('Omeka\ResourcePageBlockLayoutManager');
-            $resourcePageBlocks = $blockLayoutManager
-                ->getResourcePageBlocks($currentTheme);
-            foreach ($resourcePageBlocks['items'] ?? [] as $blocks) {
-                if (in_array('mirador', $blocks)) {
-                    return;
-                }
-            }
-        }
-        echo $view->mirador($view->item);
     }
 }

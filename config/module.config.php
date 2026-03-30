@@ -206,6 +206,9 @@ return [
             'mirador_config_collection_2' => null,
             'mirador_annotation_endpoint' => '',
             'mirador_preselected_items' => 0,
+            'mirador_placement' => [
+                'after/items',
+            ],
             'mirador_skip_default_css' => false,
         ],
     ],
