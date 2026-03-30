@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-09 00:00+0000\n"
+"POT-Creation-Date: 2026-03-09 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,50 +17,89 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/scripts/upgrade.php:89
-#, php-format
-msgid "This module requires the module \"%s\", version %s or above."
-msgstr ""
-
-#: Module.php:45
+#: Module.php:47
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr ""
 
-#: data/scripts/upgrade.php:96
+#: data/scripts/upgrade.php:28
+msgid "The module {module} should be upgraded to version {version} or later."
+msgstr ""
+
+#: data/scripts/upgrade.php:32 data/scripts/upgrade.php:94
+msgid "Missing requirement. Unable to upgrade."
+msgstr ""
+
+#: data/scripts/upgrade.php:90
+msgid "This module requires the module {module}, version {version} or above."
+msgstr ""
+
+#: data/scripts/upgrade.php:98
 msgid "The module supports audio and video for Mirador v3."
 msgstr ""
 
-#: data/scripts/upgrade.php:122
+#: data/scripts/upgrade.php:124
 msgid "The module supports Mirador v4."
 msgstr ""
 
-#: data/scripts/upgrade.php:127
+#: data/scripts/upgrade.php:129
 msgid "Warning: if you customized theme, note that settings were renamed."
 msgstr ""
 
-#: data/scripts/upgrade.php:134
+#: data/scripts/upgrade.php:136
 msgid ""
 "Mirador v4 now uses ecmascript modules with import maps instead of pre-"
 "compiled bundles. Plugins are now loaded individually and locally, in a GDPR-"
 "compliand way."
 msgstr ""
 
-#: Module.php:55
+#: data/scripts/upgrade.php:151
+msgid ""
+"A new option allows to set the placement of the viewer on item show and "
+"browse pages."
+msgstr ""
+
+#: data/scripts/upgrade.php:205
+msgid ""
+"Mirador version was not updated to v4 for {list} because custom v2/v3 "
+"plugins or config were found. Please check and update manually."
+msgstr ""
+
+#: data/scripts/upgrade.php:211
+msgid "Mirador version has been set to v4 for all settings and sites."
+msgstr ""
+
+#: Module.php:59
 msgid ""
 "The library \"{library}\" should be installed. See module’s installation "
 "documentation."
 msgstr ""
 
-#: src/View/Helper/Mirador.php:244
+#: src/View/Helper/Mirador.php:272
 msgid "Settings for Mirador config of items is not a valid json."
 msgstr ""
 
-#: src/View/Helper/Mirador.php:263
+#: src/View/Helper/Mirador.php:291
 msgid "Settings for Mirador config of collections is not a valid json."
 msgstr ""
 
-#: src/Form/SiteSettingsFieldset.php:19
+#: src/Form/SiteSettingsFieldset.php:20
+msgid "Display Mirador viewer (old themes)"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:22
+msgid "Item show"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:23
+msgid "Item browse"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:24
+msgid "Item set browse"
+msgstr ""
+
+#: src/Form/SiteSettingsFieldset.php:37
 msgid "Skip default css"
 msgstr ""
 
@@ -189,6 +228,6 @@ msgstr ""
 msgid "Mirador IIIF viewer"
 msgstr ""
 
-#: src/Site/BlockLayout/Mirador.php:21
+#: src/Site/BlockLayout/Mirador.php:33
 msgid "Mirador Viewer"
 msgstr ""
