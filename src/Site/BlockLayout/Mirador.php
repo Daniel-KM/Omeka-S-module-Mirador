@@ -7,9 +7,21 @@ use Omeka\Api\Representation\SitePageBlockRepresentation;
 use Omeka\Api\Representation\SitePageRepresentation;
 use Omeka\Api\Representation\SiteRepresentation;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
-use Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface;
 
-class Mirador extends AbstractBlockLayout implements TemplateableBlockLayoutInterface
+// Block templates require Omeka S v4.1+.
+if (interface_exists('Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface')) {
+    class Mirador extends AbstractBlockLayout implements \Omeka\Site\BlockLayout\TemplateableBlockLayoutInterface
+    {
+        use MiradorTrait;
+    }
+} else {
+    class Mirador extends AbstractBlockLayout
+    {
+        use MiradorTrait;
+    }
+}
+
+trait MiradorTrait
 {
     /**
      * The default partial view script.

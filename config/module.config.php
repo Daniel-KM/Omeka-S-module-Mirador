@@ -2,6 +2,9 @@
 
 namespace Mirador;
 
+// Resource page block layouts require Omeka S v4+.
+$isBeforeV4 = !interface_exists('Omeka\Site\ResourcePageBlockLayout\ResourcePageBlockLayoutInterface');
+
 return [
     'view_manager' => [
         'template_path_stack' => [
@@ -30,7 +33,7 @@ return [
             'mirador' => Site\BlockLayout\Mirador::class,
         ],
     ],
-    'resource_page_block_layouts' => [
+    'resource_page_block_layouts' => $isBeforeV4 ? [] : [
         'invokables' => [
             'mirador' => Site\ResourcePageBlockLayout\Mirador::class,
         ],
