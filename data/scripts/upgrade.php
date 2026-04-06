@@ -23,7 +23,7 @@ $connection = $services->get('Omeka\Connection');
 $messenger = $plugins->get('messenger');
 $entityManager = $services->get('Omeka\EntityManager');
 
-if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.82')) {
+if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.83')) {
     $message = new PsrMessage(
         'The module {module} should be upgraded to version {version} or later.', // @translate
         ['module' => 'Common', 'version' => '3.4.82']
