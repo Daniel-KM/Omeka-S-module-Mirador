@@ -19,5 +19,6 @@ return [
     // 'ocr-helper' => 'OCR helper',
     // 'ruler' => 'Ruler',
     'share' => 'Share',
+    'zoom-percent' => 'Zoom percentage', // @translate
     // 'text-overlay' => 'Text overlay',
 ];

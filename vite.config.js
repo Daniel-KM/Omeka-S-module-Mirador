@@ -20,6 +20,7 @@ export default defineConfig({
                 'plugin-dl': resolve(__dirname, 'asset/src/plugin-dl.js'),
                 'plugin-share': resolve(__dirname, 'asset/src/plugin-share.js'),
                 'plugin-annotations': resolve(__dirname, 'asset/src/plugin-annotations.js'),
+                'plugin-zoom-percent': resolve(__dirname, 'asset/src/plugin-zoom-percent.jsx'),
             },
             output: {
                 format: 'es',
