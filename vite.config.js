@@ -2,6 +2,16 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+    resolve: {
+        alias: {
+            // Force every import of "mirador" (including from external
+            // plugins) to resolve to the source tree. Mirador 4.0.0 ships
+            // dist/mirador.es.js with OpenSeadragon 5.0.1 inline- vendored;
+            // importing the source forces Vite to rebundle Mirador with our
+            // overridden OpenSeadragon ^6.0.2.
+            mirador: 'mirador/src',
+        },
+    },
     build: {
         target: 'es2022',
         outDir: resolve(__dirname, 'asset/vendor/mirador-esm'),

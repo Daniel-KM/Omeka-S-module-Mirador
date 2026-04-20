@@ -1,7 +1,7 @@
 {
     "name": "omeka-s-module-mirador",
     "private": true,
-    "version": "3.4.12",
+    "version": "3.4.16",
     "type": "module",
     "license": "CECILL-2.1",
     "description": "Mirador (module for Omeka S)",
@@ -21,5 +21,8 @@
     },
     "devDependencies": {
         "vite": "^6.0.0"
+    },
+    "overrides": {
+        "openseadragon": "^6.0.2"
     }
 }
