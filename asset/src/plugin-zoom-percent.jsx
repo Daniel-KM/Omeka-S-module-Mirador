@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { OSDReferences } from 'mirador';
 
 /**
- * Mirador 4 plugin: discreet zoom percentage overlay.
+ * Mirador 4 plugin: discreet zoom percentage indicator.
  *
- * Shows the current image zoom (native resolution ratio, rounded) in
- * the bottom-right corner of the canvas while the user zooms, then
- * fades out after a 5 s delay. Styling stays readable on any
- * background via a semi-transparent dark pill with white text and a
- * tight text-shadow.
+ * Shows the current image zoom (native resolution ratio, rounded) as
+ * a sibling of the Mirador zoom controls, immediately to the left of
+ * the "Zoom in" button, styled like a disabled MUI IconButton so it
+ * blends with the surrounding toolbar. Fades out after a 5 s delay.
  *
  * The OSD `zoom` event is listened to directly so the value reflects
  * the animation frame-by-frame; Mirador's redux `zoom` only updates
@@ -17,8 +17,54 @@ import { OSDReferences } from 'mirador';
 function ZoomPercentOverlay({ windowId }) {
     const [value, setValue] = useState(null);
     const [visible, setVisible] = useState(false);
+    const [host, setHost] = useState(null);
     const prevRef = useRef(null);
     const fadeTimerRef = useRef(null);
+
+    // Inject a host span immediately before the "Zoom in" button so
+    // the portal renders in the toolbar flow rather than overlaying
+    // the canvas.
+    useEffect(() => {
+        let cancelled = false;
+        let hostSpan = null;
+
+        const inject = () => {
+            if (cancelled) {
+                return;
+            }
+            const ref = OSDReferences.get(windowId);
+            const osdEl = ref && ref.current && ref.current.element;
+            if (!osdEl) {
+                setTimeout(inject, 150);
+                return;
+            }
+            // Search within the window root for the zoom-in control.
+            const winRoot = osdEl.closest('[class*="window-container"]')
+                || osdEl.closest('[class*="Window-root"]')
+                || osdEl.ownerDocument;
+            const zoomInIcon = winRoot.querySelector(
+                '[data-testid="ZoomInIcon"], [aria-label*="Zoom in" i], [aria-label*="Zoom avant" i]'
+            );
+            const zoomInBtn = zoomInIcon && (zoomInIcon.closest('button') || zoomInIcon);
+            if (!zoomInBtn || !zoomInBtn.parentNode) {
+                setTimeout(inject, 200);
+                return;
+            }
+            hostSpan = document.createElement('span');
+            hostSpan.className = 'mirador-zoom-percent-host';
+            hostSpan.style.display = 'inline-flex';
+            zoomInBtn.parentNode.insertBefore(hostSpan, zoomInBtn);
+            setHost(hostSpan);
+        };
+        inject();
+
+        return () => {
+            cancelled = true;
+            if (hostSpan && hostSpan.parentNode) {
+                hostSpan.parentNode.removeChild(hostSpan);
+            }
+        };
+    }, [windowId]);
 
     useEffect(() => {
         let osd = null;
@@ -75,40 +121,36 @@ function ZoomPercentOverlay({ windowId }) {
         };
     }, [windowId]);
 
-    if (value == null) {
+    if (!host || value == null) {
         return null;
     }
 
     const style = {
-        position: 'absolute',
-        right: 12,
-        bottom: 12,
-        padding: '3px 9px',
-        minWidth: 36,
-        textAlign: 'center',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 40,
+        height: 40,
+        padding: '0 6px',
+        marginRight: 4,
         fontSize: 12,
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-        lineHeight: 1.2,
-        color: '#fff',
-        background: 'rgba(0, 0, 0, 0.55)',
-        border: '1px solid rgba(255, 255, 255, 0.18)',
-        borderRadius: 10,
-        pointerEvents: 'none',
+        fontFamily: 'inherit',
+        fontWeight: 500,
+        color: 'inherit',
+        borderRadius: '50%',
         userSelect: 'none',
-        textShadow: '0 0 3px rgba(0, 0, 0, 0.9), 0 0 1px rgba(0, 0, 0, 0.9)',
-        backdropFilter: 'blur(2px)',
-        WebkitBackdropFilter: 'blur(2px)',
-        zIndex: 1000,
+        pointerEvents: 'none',
         opacity: visible ? 1 : 0,
         transition: visible
             ? 'opacity 120ms ease-out'
             : 'opacity 900ms ease-out 4100ms',
     };
 
-    return (
-        <div style={style} aria-live="polite">
+    return createPortal(
+        <span style={style} aria-live="polite">
             {value}%
-        </div>
+        </span>,
+        host
     );
 }
 
