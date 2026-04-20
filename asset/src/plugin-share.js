@@ -1,1 +1,3 @@
-export { miradorSharePlugin as default } from 'mirador-share-plugin';
+import { miradorSharePlugin, miradorShareDialogPlugin } from 'mirador-share-plugin';
+
+export default [miradorSharePlugin, miradorShareDialogPlugin];

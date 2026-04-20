@@ -1,1 +1,3 @@
-export { miradorDownloadPlugin as default } from 'mirador-dl-plugin';
+import { miradorDownloadPlugin, miradorDownloadDialogPlugin } from 'mirador-dl-plugin';
+
+export default [miradorDownloadPlugin, miradorDownloadDialogPlugin];
