@@ -145,10 +145,16 @@ class Mirador extends AbstractHelper
                     return '';
                 }
                 // Display the viewer only when at least one media is managed.
+                // Use the IiifServer plugin if installed, else fallback to the
+                // legacy hardcoded "iiif" ingester name.
+                $plugins = $this->getView()->getHelperPluginManager();
+                $isIiifMedia = $plugins->has('isIiifMedia')
+                    ? $plugins->get('isIiifMedia')
+                    : fn ($media, $type = null) => $media->ingester() === 'iiif';
                 $hasManagedMedia = false;
                 if ($this->version === '2') {
                     foreach ($medias as $media) {
-                        if ($media->ingester() === 'iiif'
+                        if ($isIiifMedia($media, 'image')
                             || substr((string) $media->mediaType(), 0, 5) === 'image'
                         ) {
                             $hasManagedMedia = true;
@@ -157,7 +163,7 @@ class Mirador extends AbstractHelper
                     }
                 } else {
                     foreach ($medias as $media) {
-                        if ($media->ingester() === 'iiif'
+                        if ($isIiifMedia($media)
                             || in_array(substr((string) $media->mediaType(), 0, 5), ['image', 'audio', 'video'])
                         ) {
                             $hasManagedMedia = true;
