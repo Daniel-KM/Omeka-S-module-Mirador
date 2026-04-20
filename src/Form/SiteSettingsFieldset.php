@@ -18,11 +18,23 @@ class SiteSettingsFieldset extends \Mirador\Form\SettingsFieldset
 
         $this
             ->add([
+                'name' => 'mirador_skip_default_css',
+                'type' => Element\Checkbox::class,
+                'options' => [
+                    'element_group' => 'player',
+                    'label' => 'Mirador: Skip default css', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'mirador_skip_default_css',
+                ],
+            ])
+
+            ->add([
                 'name' => 'mirador_placement',
                 'type' => CommonElement\OptionalMultiCheckbox::class,
                 'options' => [
                     'element_group' => 'themes_old',
-                    'label' => 'Display Mirador viewer (old themes)', // @translate
+                    'label' => 'Display Mirador viewer', // @translate
                     'value_options' => [
                         'after/items' => 'Item show', // @translate
                         'browse/items' => 'Item browse', // @translate
@@ -32,17 +44,6 @@ class SiteSettingsFieldset extends \Mirador\Form\SettingsFieldset
                 'attributes' => [
                     'id' => 'mirador_placement',
                     'required' => false,
-                ],
-            ])
-            ->add([
-                'name' => 'mirador_skip_default_css',
-                'type' => Element\Checkbox::class,
-                'options' => [
-                    'element_group' => 'player',
-                    'label' => 'Skip default css', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'mirador_skip_default_css',
                 ],
             ])
         ;
