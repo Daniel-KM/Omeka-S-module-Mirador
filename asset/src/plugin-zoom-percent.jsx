@@ -53,6 +53,8 @@ function ZoomPercentOverlay({ windowId }) {
             hostSpan = document.createElement('span');
             hostSpan.className = 'mirador-zoom-percent-host';
             hostSpan.style.display = 'inline-flex';
+            hostSpan.style.alignItems = 'center';
+            hostSpan.style.verticalAlign = 'middle';
             zoomInBtn.parentNode.insertBefore(hostSpan, zoomInBtn);
             setHost(hostSpan);
         };
@@ -67,10 +69,16 @@ function ZoomPercentOverlay({ windowId }) {
     }, [windowId]);
 
     useEffect(() => {
-        let osd = null;
         let detached = false;
+        let currentOsd = null;
 
-        const update = () => {
+        const compute = () => {
+            // Always re-fetch the osd ref: Mirador may swap the
+            // viewer (e.g. after opening a new canvas) without the
+            // windowId changing, so the captured instance can be
+            // stale.
+            const ref = OSDReferences.get(windowId);
+            const osd = ref && ref.current;
             if (!osd || !osd.viewport) {
                 return;
             }
@@ -93,27 +101,28 @@ function ZoomPercentOverlay({ windowId }) {
             );
         };
 
+        const events = ['zoom', 'pan', 'animation', 'animation-finish', 'resize', 'open'];
+
         const attach = () => {
             if (detached) {
                 return;
             }
             const ref = OSDReferences.get(windowId);
-            osd = ref && ref.current;
+            const osd = ref && ref.current;
             if (!osd) {
                 setTimeout(attach, 150);
                 return;
             }
-            osd.addHandler('zoom', update);
-            osd.addHandler('open', update);
-            update();
+            currentOsd = osd;
+            events.forEach((e) => osd.addHandler(e, compute));
+            compute();
         };
         attach();
 
         return () => {
             detached = true;
-            if (osd) {
-                osd.removeHandler('zoom', update);
-                osd.removeHandler('open', update);
+            if (currentOsd) {
+                events.forEach((e) => currentOsd.removeHandler(e, compute));
             }
             if (fadeTimerRef.current) {
                 clearTimeout(fadeTimerRef.current);
@@ -129,11 +138,13 @@ function ZoomPercentOverlay({ windowId }) {
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
+        verticalAlign: 'middle',
         minWidth: 40,
         height: 40,
         padding: '0 6px',
         marginRight: 4,
-        fontSize: 12,
+        fontSize: 14,
+        lineHeight: 1,
         fontFamily: 'inherit',
         fontWeight: 500,
         color: 'inherit',
