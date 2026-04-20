@@ -195,6 +195,10 @@ chunk. Each plugin and Mirador core import from `vendor.js` via relative imports
 ensuring the browser loads each dependency only once (React singleton, MUI
 singleton).
 
+Mirador 4.0.0 ships its `dist/mirador.es.js` with OpenSeadragon 5.0.1 inline-
+vendored. It is improved with last version of OpenSeadragon to fix issues and to
+improve performance.
+
 All built files are served locally from `asset/vendor/mirador-esm/`, so no third
 piracy CDN is needed and it is GDPR-compliant. The directory `asset/vendor/mirador/`
 is kept as fallback for some old themes that used them, but will be removed in
