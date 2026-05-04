@@ -13,84 +13,67 @@ import { OSDReferences } from 'mirador';
  * The OSD `zoom` event is listened to directly so the value reflects
  * the animation frame-by-frame; Mirador's redux `zoom` only updates
  * at animation settle, which feels laggy during a wheel scroll.
+ *
+ * Multi-window robustness: Mirador may re-render a window's toolbar
+ * (canvas swap, focus change, fullscreen toggle) and detach our host
+ * span. The component watches the per-window DOM and the OSD ref via
+ * a MutationObserver and a polling fallback, re-injecting the host
+ * and re-binding OSD handlers whenever needed. Lookup is scoped to
+ * `document.getElementById(windowId)` so the right toolbar wins in a
+ * multi-window workspace.
  */
+const OSD_EVENTS = ['zoom', 'pan', 'animation', 'animation-finish', 'resize', 'open'];
+
 function ZoomPercentOverlay({ windowId }) {
     const [value, setValue] = useState(null);
     const [visible, setVisible] = useState(false);
-    const [host, setHost] = useState(null);
-    const prevRef = useRef(null);
+    const [, setHostTick] = useState(0);
+    const hostRef = useRef(null);
+    const prevPctRef = useRef(null);
     const fadeTimerRef = useRef(null);
+    const attachedOsdRef = useRef(null);
 
-    // Inject a host span immediately before the "Zoom in" button so
-    // the portal renders in the toolbar flow rather than overlaying
-    // the canvas.
     useEffect(() => {
         let cancelled = false;
-        let hostSpan = null;
-
-        const inject = () => {
-            if (cancelled) {
-                return;
-            }
-            const ref = OSDReferences.get(windowId);
-            const osdEl = ref && ref.current && ref.current.element;
-            if (!osdEl) {
-                setTimeout(inject, 150);
-                return;
-            }
-            // Search within the window root for the zoom-in control.
-            const winRoot = osdEl.closest('[class*="window-container"]')
-                || osdEl.closest('[class*="Window-root"]')
-                || osdEl.ownerDocument;
-            const zoomInIcon = winRoot.querySelector(
-                '[data-testid="ZoomInIcon"], [aria-label*="Zoom in" i], [aria-label*="Zoom avant" i]'
-            );
-            const zoomInBtn = zoomInIcon && (zoomInIcon.closest('button') || zoomInIcon);
-            if (!zoomInBtn || !zoomInBtn.parentNode) {
-                setTimeout(inject, 200);
-                return;
-            }
-            hostSpan = document.createElement('span');
-            hostSpan.className = 'mirador-zoom-percent-host';
-            hostSpan.style.display = 'inline-flex';
-            hostSpan.style.alignItems = 'center';
-            hostSpan.style.verticalAlign = 'middle';
-            zoomInBtn.parentNode.insertBefore(hostSpan, zoomInBtn);
-            setHost(hostSpan);
-        };
-        inject();
-
-        return () => {
-            cancelled = true;
-            if (hostSpan && hostSpan.parentNode) {
-                hostSpan.parentNode.removeChild(hostSpan);
-            }
-        };
-    }, [windowId]);
-
-    useEffect(() => {
-        let detached = false;
-        let currentOsd = null;
+        let observer = null;
+        let pollTimer = null;
 
         const compute = () => {
-            // Always re-fetch the osd ref: Mirador may swap the
-            // viewer (e.g. after opening a new canvas) without the
-            // windowId changing, so the captured instance can be
-            // stale.
             const ref = OSDReferences.get(windowId);
             const osd = ref && ref.current;
             if (!osd || !osd.viewport) {
+                return;
+            }
+            // OSD emits zoom/pan/resize events before the tiled image
+            // actually opens; the placeholder viewport then yields huge
+            // ratios (e.g. 77054%). Wait until the world has at least
+            // one item with a positive content size before computing.
+            if (!osd.world || osd.world.getItemCount() === 0) {
+                return;
+            }
+            const tiledImage = osd.world.getItemAt(0);
+            if (!tiledImage || typeof tiledImage.getContentSize !== 'function') {
+                return;
+            }
+            const contentSize = tiledImage.getContentSize();
+            if (!contentSize || contentSize.x <= 0 || contentSize.y <= 0) {
                 return;
             }
             const imageZoom = osd.viewport.viewportToImageZoom(
                 osd.viewport.getZoom(true)
             );
             const pct = Math.round(imageZoom * 100);
-            if (!Number.isFinite(pct) || prevRef.current === pct) {
+            if (!Number.isFinite(pct) || pct <= 0) {
                 return;
             }
-            prevRef.current = pct;
-            setValue(pct);
+            // Even if the percentage is unchanged, re-show: the user may
+            // have switched windows / canvases and expects the overlay
+            // to confirm the active viewer.
+            const sameValue = prevPctRef.current === pct;
+            prevPctRef.current = pct;
+            if (!sameValue) {
+                setValue(pct);
+            }
             setVisible(true);
             if (fadeTimerRef.current) {
                 clearTimeout(fadeTimerRef.current);
@@ -101,36 +84,127 @@ function ZoomPercentOverlay({ windowId }) {
             );
         };
 
-        const events = ['zoom', 'pan', 'animation', 'animation-finish', 'resize', 'open'];
-
-        const attach = () => {
-            if (detached) {
-                return;
+        const ensureHost = () => {
+            if (hostRef.current && hostRef.current.isConnected) {
+                return true;
             }
+            const ref = OSDReferences.get(windowId);
+            const osdEl = ref && ref.current && ref.current.element;
+            if (!osdEl) {
+                return false;
+            }
+            const winRoot = document.getElementById(windowId)
+                || osdEl.closest('.mirador-window')
+                || osdEl.closest('[class*="window-container"]')
+                || osdEl.closest('[class*="Window-root"]')
+                || osdEl.ownerDocument;
+            const zoomInIcon = winRoot.querySelector(
+                '[data-testid="ZoomInIcon"], [aria-label*="Zoom in" i], [aria-label*="Zoom avant" i]'
+            );
+            const zoomInBtn = zoomInIcon
+                && (zoomInIcon.closest('button') || zoomInIcon);
+            if (!zoomInBtn || !zoomInBtn.parentNode) {
+                return false;
+            }
+            // Drop any stale orphan host before creating a new one.
+            if (hostRef.current && hostRef.current.parentNode) {
+                hostRef.current.parentNode.removeChild(hostRef.current);
+            }
+            const span = document.createElement('span');
+            span.className = 'mirador-zoom-percent-host';
+            span.dataset.windowId = windowId;
+            span.style.display = 'inline-flex';
+            span.style.alignItems = 'center';
+            span.style.verticalAlign = 'middle';
+            zoomInBtn.parentNode.insertBefore(span, zoomInBtn);
+            hostRef.current = span;
+            // useRef does not trigger a re-render: bump a tick so the
+            // portal gets attached now that hostRef has a valid target.
+            setHostTick((n) => n + 1);
+            return true;
+        };
+
+        const ensureOsdHandlers = () => {
             const ref = OSDReferences.get(windowId);
             const osd = ref && ref.current;
             if (!osd) {
-                setTimeout(attach, 150);
+                return false;
+            }
+            if (attachedOsdRef.current === osd) {
+                return true;
+            }
+            if (attachedOsdRef.current) {
+                OSD_EVENTS.forEach((e) =>
+                    attachedOsdRef.current.removeHandler(e, compute)
+                );
+            }
+            OSD_EVENTS.forEach((e) => osd.addHandler(e, compute));
+            attachedOsdRef.current = osd;
+            compute();
+            return true;
+        };
+
+        const sync = () => {
+            if (cancelled) {
                 return;
             }
-            currentOsd = osd;
-            events.forEach((e) => osd.addHandler(e, compute));
-            compute();
+            ensureHost();
+            ensureOsdHandlers();
         };
-        attach();
+
+        // First attempt immediately; the toolbar may not exist yet on
+        // initial mount.
+        sync();
+
+        // Watch the per-window DOM tree: any toolbar mutation rebinds
+        // the host and refreshes the OSD ref.
+        const winRoot = document.getElementById(windowId);
+        if (winRoot) {
+            observer = new MutationObserver(sync);
+            observer.observe(winRoot, { childList: true, subtree: true });
+        }
+
+        // Polling fallback for the brief windows during which neither
+        // the host nor the OSD ref are ready (Mirador is still building
+        // the window). Stops once both are attached.
+        const poll = () => {
+            if (cancelled) {
+                return;
+            }
+            const ready = (hostRef.current && hostRef.current.isConnected)
+                && attachedOsdRef.current;
+            if (!ready) {
+                sync();
+                pollTimer = setTimeout(poll, 200);
+            }
+        };
+        pollTimer = setTimeout(poll, 200);
 
         return () => {
-            detached = true;
-            if (currentOsd) {
-                events.forEach((e) => currentOsd.removeHandler(e, compute));
+            cancelled = true;
+            if (observer) {
+                observer.disconnect();
             }
+            if (pollTimer) {
+                clearTimeout(pollTimer);
+            }
+            if (attachedOsdRef.current) {
+                OSD_EVENTS.forEach((e) =>
+                    attachedOsdRef.current.removeHandler(e, compute)
+                );
+                attachedOsdRef.current = null;
+            }
+            if (hostRef.current && hostRef.current.parentNode) {
+                hostRef.current.parentNode.removeChild(hostRef.current);
+            }
+            hostRef.current = null;
             if (fadeTimerRef.current) {
                 clearTimeout(fadeTimerRef.current);
             }
         };
     }, [windowId]);
 
-    if (!host || value == null) {
+    if (!hostRef.current || value == null) {
         return null;
     }
 
@@ -161,7 +235,7 @@ function ZoomPercentOverlay({ windowId }) {
         <span style={style} aria-live="polite">
             {value}%
         </span>,
-        host
+        hostRef.current
     );
 }
 
