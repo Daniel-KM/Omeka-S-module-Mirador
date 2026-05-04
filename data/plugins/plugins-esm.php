@@ -26,6 +26,10 @@ return [
         'package' => 'mirador-image-tools',
         'entry' => 'vendor/mirador-esm/plugin-image-tools.js',
     ],
+    'ocr-helper' => [
+        'package' => 'mirador-ocr-helper',
+        'entry' => 'vendor/mirador-esm/plugin-ocr-helper.js',
+    ],
     'share' => [
         'package' => 'mirador-share-plugin',
         'entry' => 'vendor/mirador-esm/plugin-share.js',
