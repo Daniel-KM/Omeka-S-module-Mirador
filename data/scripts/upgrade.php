@@ -213,3 +213,75 @@ if (version_compare($oldVersion, '3.4.14', '<')) {
         $messenger->addSuccess($message);
     }
 }
+
+if (version_compare($oldVersion, '3.4.17', '<')) {
+    // Force migration v3 -> v4 for remaining users. Plugins are no longer a
+    // reason to skip: the v3 plugin selection is copied to mirador_plugins
+    // (v4) when the key exists in the v4 plugin list. Only a custom v3 JSON
+    // config (mirador_config_item_3 / mirador_config_collection_3, non-empty
+    // and not "{}") still skips the version update so the admin can review.
+    $v4Plugins = array_keys(require dirname(__DIR__) . '/plugins/plugins.php');
+
+    $migrate = function ($settingsService) use ($v4Plugins) {
+        if ($settingsService->get('mirador_version', '4') !== '3') {
+            return null;
+        }
+        $oldPlugins = $settingsService->get('mirador_plugins_3', []) ?: [];
+        $newPlugins = array_values(array_intersect($oldPlugins, $v4Plugins));
+        if ($newPlugins) {
+            $settingsService->set('mirador_plugins', $newPlugins);
+        }
+        $config3Item = $settingsService->get('mirador_config_item_3');
+        $config3Collection = $settingsService->get('mirador_config_collection_3');
+        $hasCustomConfig = ($config3Item !== null && trim($config3Item) !== '' && trim($config3Item) !== '{}')
+            || ($config3Collection !== null && trim($config3Collection) !== '' && trim($config3Collection) !== '{}');
+        if ($hasCustomConfig) {
+            return false;
+        }
+        $settingsService->set('mirador_version', '4');
+        return true;
+    };
+
+    $skipped = [];
+    $migrated = [];
+
+    $result = $migrate($settings);
+    if ($result === true) {
+        $migrated[] = 'settings';
+    } elseif ($result === false) {
+        $skipped[] = 'settings';
+    }
+
+    $siteSettings = $services->get('Omeka\Settings\Site');
+    $sites = $api->search('sites')->getContent();
+    foreach ($sites as $site) {
+        $siteSettings->setTargetId($site->id());
+        $result = $migrate($siteSettings);
+        if ($result === true) {
+            $migrated[] = $site->slug();
+        } elseif ($result === false) {
+            $skipped[] = $site->slug();
+        }
+    }
+
+    if ($skipped) {
+        $message = new PsrMessage(
+            'Mirador v3 kept for {list} due to a custom v3 JSON config. Review and migrate manually.', // @translate
+            ['list' => implode(', ', $skipped)]
+        );
+        $messenger->addWarning($message);
+    }
+
+    if ($migrated) {
+        $message = new PsrMessage(
+            'Mirador forced to v4 for {list}. v3 plugins copied to v4 plugins. You may review the migration.', // @translate
+            ['list' => implode(', ', $migrated)]
+        );
+        $messenger->addNotice($message);
+    }
+
+    $message = new PsrMessage(
+        'Mirador v4 now includes all plugins from Mirador v3 and some other ones, in particular image cropper, ocr helper and physical ruler.' // @translate
+    );
+    $messenger->addSuccess($message);
+}
