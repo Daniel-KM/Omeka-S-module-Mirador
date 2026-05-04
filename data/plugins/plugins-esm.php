@@ -22,13 +22,13 @@ return [
         'package' => 'mirador-dl-plugin',
         'entry' => 'vendor/mirador-esm/plugin-dl.js',
     ],
+    'image-cropper' => [
+        'package' => 'mirador-image-cropper',
+        'entry' => 'vendor/mirador-esm/plugin-image-cropper.js',
+    ],
     'image-tools' => [
         'package' => 'mirador-image-tools',
         'entry' => 'vendor/mirador-esm/plugin-image-tools.js',
-    ],
-    'imagecropper' => [
-        'package' => 'mirador-imagecropper',
-        'entry' => 'vendor/mirador-esm/plugin-imagecropper.js',
     ],
     'ocr-helper' => [
         'package' => 'mirador-ocr-helper',

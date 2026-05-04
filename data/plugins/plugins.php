@@ -15,8 +15,8 @@
 return [
     'annotations' => 'Annotations',
     'dl' => 'Download files',
+    'image-cropper' => 'Image cropper', // @translate
     'image-tools' => 'Image tools',
-    'imagecropper' => 'Image cropper', // @translate
     'ocr-helper' => 'OCR helper (text panel)', // @translate
     'rotation' => 'Rotation', // @translate
     'ruler' => 'Physical ruler', // @translate
