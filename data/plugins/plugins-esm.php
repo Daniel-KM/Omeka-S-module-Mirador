@@ -26,6 +26,10 @@ return [
         'package' => 'mirador-image-tools',
         'entry' => 'vendor/mirador-esm/plugin-image-tools.js',
     ],
+    'imagecropper' => [
+        'package' => 'mirador-imagecropper',
+        'entry' => 'vendor/mirador-esm/plugin-imagecropper.js',
+    ],
     'ocr-helper' => [
         'package' => 'mirador-ocr-helper',
         'entry' => 'vendor/mirador-esm/plugin-ocr-helper.js',

@@ -18,6 +18,7 @@
         "mirador-annotation-editor": "^1.2.1",
         "mirador-dl-plugin": "^1.0.0",
         "mirador-image-tools": "^1.0.0",
+        "mirador-imagecropper": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-imagecropper-3.0.0.tgz",
         "mirador-ocr-helper": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-ocr-helper-2.1.0.tgz",
         "mirador-physical-ruler": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-physical-ruler-1.0.0.tgz",
         "mirador-share-plugin": "^1.0.0",
