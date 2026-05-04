@@ -204,8 +204,18 @@ piracy CDN is needed and it is GDPR-compliant. The directory `asset/vendor/mirad
 is kept as fallback for some old themes that used them, but will be removed in
 a future version.
 
-To compile Mirador v4, Node.js 18+ and npm are needed. The source files are in
-`asset/src/` and the compiled files are stored in `asset/vendor/mirador-esm/`.
+The bootstrap `asset/js/mirador-4.mjs` injects `osdConfig.drawer: 'canvas'`
+as a default before each viewer is instantiated. OSD 6 defaults to
+`drawer: 'auto'` which tries WebGL first; on cross-origin IIIF images
+served without the proper CORS headers the texture upload silently
+fails with `Error creating texture in WebGL.` and OSD falls back to
+the canvas drawer anyway. Pinning the canvas drawer up front skips
+that wasted texture allocation and silences the log noise. Site
+admins can override the choice via
+`mirador_config_item.osdConfig.drawer` (e.g. `'webgl'`, `'auto'`).
+
+To compile Mirador v4, Node.js 20+ and npm 11+ are needed. The source files are
+in `asset/src/` and the compiled files are stored in `asset/vendor/mirador-esm/`.
 The dependencies, the core, and the plugins are compiled as separated files. For
 the plugin annotation, its own dependencies are compiled with it. In the
 compiled files, `mirador-2.js` is the core and `mirador.js` is the entry that
@@ -214,7 +224,7 @@ allows reexports.
 
 ```sh
 npm install
-npm run build
+npx vite build
 ```
 
 To add a new plugin to the build:
@@ -236,11 +246,11 @@ To add a new plugin to the build:
     ```
 4. Rebuild:
     ```sh
-    npm run build
+    npx vite build
     ```
 5. Register the plugin in `data/plugins/plugins.php` (label for the settings
-    form) and in `data/plugins/plugins-esm.php` (ESM metadata with package name
-    and entry path).
+   form) and in `data/plugins/plugins-esm.php` (ESM metadata with package name
+   and entry path).
 6. Publish a new release with the built files.
 
 
@@ -478,12 +488,171 @@ Available plugins:
   (inside browser persistent cache; it **requires a `https` site** for security),
   and [Annotot] (requires its endpoint).
 - [Download]
+- [Image Cropper v4]: port of [@dbmdz/mirador-imagecropper] (Mirador 2) to
+  Mirador 4 (React/MUI).
 - [Image Tools]
+- [OCR Helper v4]: port of [@4eyes/mirador-ocr-helper] (Mirador 3) to
+  Mirador 4. Self-contained: ships its own settings bubble (visibility,
+  text selection, opacity, palette) and works without mirador-textoverlay.
+  Bidirectional highlighting between the OCR panel and the OSD image:
+  clicking a line in the panel highlights the matching zone in the
+  image, and clicking a zone on the image scrolls and highlights the
+  corresponding line in the panel.
+- [Physical Ruler]: by S. Nakamura.
+- [Rotation]: by S. Nakamura ([repository][Rotation Plugin]).
 - [Share]
+- [Sync Windows]: by S. Nakamura.
+- [Text Overlay v4]: dbmdz [mirador-textoverlay] branch `mirador4`.
+- [Zoom Percentage]: bundled in this module.
 
 To add a custom plugin, see the compilation instructions in the Installation
 section above.
 
+
+Patches and contributions
+-------------------------
+
+Mirador 4 is still young (4.0.0 is the only release at the time of
+writing) and several upstream plugins were originally written for
+Mirador 3 / OSD 5. The bundle in `asset/vendor/mirador-esm/` is
+therefore rebuilt from source against patched copies of Mirador,
+OpenSeadragon and a handful of plugins. The patches are minimal and
+all aim at upstream parity — most of them either align with already
+merged upstream master commits or correspond to follow-up PRs to the
+relevant projects.
+
+### Mirador core (`mirador@4.0.0`)
+
+- `src/config/settings.js`: default `filteredMotivations` aligned to
+  the upstream master value `[]` (was the 4.0.0 hardcoded list, which
+  silently dropped every annotation whose `motivation` was
+  `supplementing` — for instance every IIIF Cookbook OCR transcription
+  recipe). Already merged upstream, awaiting a 4.0.x release.
+
+### OpenSeadragon (forced override `^6.0.2`)
+
+- `src/tiledimage.js#_setCoverage`: replace the 6.0.0 `warn + return`
+  guard with an auto-init `coverage[level] = {}`. The original guard
+  fired on every `requestAnimationFrame` when `_blendTile` reached an
+  opaque tile on a level the current draw pass had not visited (typical
+  cross-fade case), and silently dropped the bookkeeping it was meant
+  to protect. Patch and PR description are kept in `_pr-osd/` for
+  upstream submission.
+
+### Plugins ported in-tree (Mirador 3 → 4)
+
+- `mirador-image-cropper` (port of [@dbmdz/mirador-imagecropper] 2.4.6):
+  fully rewritten against MUI 7 / React 18-19, region selection layer
+  above OSD, IIIF URL builder, client-side preview canvas, HTTP
+  clipboard fallback, responsive layout (preview right / form left in
+  landscape, preview bottom on mobile).
+- `mirador-rotation` (S. Nakamura): `useTranslation` migrated to
+  Mirador 4, panel relocated bottom-right, slider opens upward, icons
+  unified.
+- `mirador-physical-ruler` (S. Nakamura): rebundled against Mirador 4
+  ESM exports.
+- `mirador-sync-windows` (S. Nakamura):
+  - `MiradorSyncWindowsMenuItem`: `useTranslation` injected (was
+    relying on the Mirador 3 auto-injected `t` prop).
+  - `MiradorSyncWindows`: `withTranslation()` HOC added; `withSize`
+    (which called the React-19-removed `findDOMNode`) dropped because
+    it was imported but never used.
+  - `MiradorSyncWindowsButton`: `crypto.randomUUID()` (secure-context
+    only) replaced by a `getRandomValues`-based fallback so group
+    creation works on plain HTTP development hosts; `t` removed from
+    `propTypes`.
+  - `MiradorSyncWindows.handleZoomChange`: defensive `windowsAll || {}`
+    guard, the original code crashed at first render when
+    `state.windows` was not yet hydrated.
+- `mirador-ocr-helper`:
+  - `state/sagas.js`: imports converted from default to named
+    (`{ ActionTypes, MiradorCanvas, getCanvases, … }`), the broken
+    default-import shape made `takeEvery(undefined)` loop and froze
+    Mirador init for >25 s.
+  - `OverlaySettings.jsx`: `useTranslation` injected (was waiting on a
+    `t` prop that Mirador 4 no longer auto-injects). Selectable-text
+    toggle re-added (parity with mirador-textoverlay) so the plugin
+    can stand alone.
+  - `index.js`: `OverlaySettings` re-registered on
+    `OpenSeadragonViewer`, with its own `mapStateToProps` /
+    `mapDispatchToProps`. Previously the bubble relied on
+    mirador-textoverlay to be loaded as well; the plugin is now
+    self-contained.
+  - `PageTextDisplay.jsx`: every line rectangle gets a
+    `data-line-key="${x}_${y}"` attribute and `pointer-events: fill`
+    so it remains clickable when transparent. New imperative
+    `highlightLine(line, options)` styles the targeted rect and
+    backs up its original inline fill so a later clear restores the
+    background instead of falling through to the SVG default `black`.
+    Click handler installed on the box container forwards the line
+    to the parent via `props.onLineClick`. `renderOpacity` is now
+    `visible ? opacity : 0` so background rects stay transparent
+    when the wrapper is forced visible by a highlight.
+  - `MiradorTextOverlay.jsx`: forwards
+    `onLineClick → doHighlightLine(canvasId, line, 'image')` so a
+    click on a rect highlights the same line in the OCR panel
+    (initiator `'image'` triggers panel scroll). New
+    `findHighlightedLine` / `syncHighlightedLine` push the highlight
+    state to the right `PageTextDisplay` via ref. New
+    `state.hasHighlight` forces `display: null` on the wrapper so
+    the imperatively-styled rect is visible even when the global
+    text overlay is hidden (typical case: only the OCR panel is
+    open). `lastHighlight` instance field tracks transitions
+    because the reducer mutates `line.isHighlighted` in place
+    (so `prevProps` and `props` share the same line objects).
+  - `MiradorOcrWindowViewer.jsx`: `LineWrap` highlight uses
+    `Math.max(lineOpacity ?? 0.5, 0.5)` so the panel highlight stays
+    visible even when the global text-overlay opacity is `0` (the
+    new default).
+  - `state/selectors.js`: defaults aligned with stand-alone use —
+    `opacity: 0` (overlay text hidden by default) and
+    `selectable: false` (text not selectable until the user toggles
+    the new bubble button).
+  - `state/sagas.js`: dedup with sibling plugins. Before fetching
+    OCR, `fetchAndProcessOcr` checks the shared `texts` Redux slice;
+    if a sibling has already populated `text` for the same source,
+    it returns immediately. If the sibling is still in flight
+    (`isFetching: true`), it waits via
+    `race({receive: take(...), failure: take(...)})` instead of
+    duplicating the network call. Useful when the host project
+    loads both `mirador-ocr-helper` and `mirador-textoverlay`.
+  - `src/locales.js`: French/Italian/German/English translations
+    completed (several keys previously kept the German text in
+    `fr`/`it` slots). Added `overlayTextSelectable` and the
+    textoverlay-side keys (`textSelect`, `textVisible`, `textOpacity`,
+    `opacityCurrentValue`) so the French label wins when the two
+    plugins coexist.
+- `mirador-textoverlay` (branch `mirador4`):
+  - `state/sagas.js`: `payload?.textOverlay` and
+    `getWindowConfig(...)?.textOverlay` optional-chained — the
+    Mirador 4 store can deliver the slice as `undefined` while a
+    window is being created.
+  - `OverlaySettings.jsx`: same `useTranslation` migration as
+    ocr-helper.
+
+### In-tree plugins (this module)
+
+- `plugin-zoom-percent.jsx`:
+  - Scope the zoom-in button lookup to the per-window root
+    (`document.getElementById(windowId)` then `.mirador-window`)
+    instead of `ownerDocument`. The previous fallback picked the
+    first matching button in the page, so in a multi-window
+    workspace every plugin instance attached its overlay to
+    window 0.
+  - Suppress placeholder-stage values (e.g. the spurious
+    `73300%` flashed at load): the percentage is computed only
+    after the first OSD `tile-loaded` event, the flag is reset on
+    every `open` (canvas swap), and any rounded value above
+    `MAX_REASONABLE_PCT` (5000%) is dropped as a defensive
+    fallback. Without these guards `viewportToImageZoom` was
+    sampled while OSD still held the placeholder
+    `getContentSize()` and produced absurd ratios.
+
+### Mirador 3 minified bundles (legacy)
+
+The three legacy Mirador 3 builds in `asset/vendor/mirador-3/*.min.js`
+have a `getRequiredStatement` null guard (`return e && e.getValues()`)
+to avoid a `TypeError` on manifests without a `requiredStatement`.
 
 TODO
 ----
@@ -492,6 +661,10 @@ TODO
 - [x] Split Mirador plugins for dynamic lazy load via ES modules and import maps.
 - [ ] Remove dependency to IiifServer for block.
 - [ ] Remove old directory asset/vendor/mirador.
+- [ ] Drop the local OSD `_setCoverage` patch once the matching PR
+      lands upstream (see `_pr-osd/`).
+- [ ] Drop the local Mirador `filteredMotivations` patch once 4.0.x
+      ships with the master alignment.
 
 
 Warning
@@ -532,7 +705,23 @@ This Agreement may be freely reproduced and published, provided it is not
 altered, and that no provisions are either added or removed herefrom.
 
 [Mirador] is published under the [Apache 2] license.
-Each Mirador plugin has a license. See each repository for more information.
+
+For Mirador 2 and Mirador 3 plugins (legacy), each repository keeps its own
+license; see the linked repositories above.
+
+Bundled Mirador 4 plugins keep their upstream license:
+
+* [Annotations] ([mirador-annotation-editor]): MIT
+* [Download] ([mirador-dl-plugin]): Apache 2
+* [Image Cropper v4] (port of [@dbmdz/mirador-imagecropper]): MIT
+* [Image Tools] ([mirador-image-tools]): Apache 2
+* [OCR Helper v4] (port of [@4eyes/mirador-ocr-helper]): MIT
+* [Physical Ruler]: MIT
+* [Rotation] ([mirador-rotation-plugin]): Apache 2
+* [Share] ([mirador-share-plugin]): Apache 2
+* [Sync Windows]: Apache 2
+* [Text Overlay v4] ([mirador-textoverlay] branch `mirador4`): MIT
+* [Zoom Percentage]: bundled with this module (CeCILL v2.1)
 
 
 Copyright
@@ -540,7 +729,21 @@ Copyright
 
 Widget [Mirador]:
 
-* Copyright 2018 The Board of Trustees of the Leland Stanford Junior University
+* Copyright 2018-2026 The Board of Trustees of the Leland Stanford Junior University
+
+Bundled Mirador 4 plugins:
+
+* [Annotations] ([mirador-annotation-editor]): copyright Project Mirador contributors
+* [Download] ([mirador-dl-plugin]): copyright Project Mirador contributors
+* [Image Cropper] (Mirador 2): copyright Matthias Lindinger / Bavarian State Library (dbmdz). Mirador 4 port: copyright Daniel Berthereau, 2026.
+* [Image Tools] ([mirador-image-tools]): copyright Project Mirador contributors
+* [OCR Helper] (Mirador 3): copyright 4eyes GmbH. Mirador 4 port: copyright Daniel Berthereau, 2026.
+* [Physical Ruler]: copyright Satoru Nakamura, 2024-2026.
+* [Rotation] ([mirador-rotation-plugin]): copyright Satoru Nakamura, 2024-2026.
+* [Share] ([mirador-share-plugin]): copyright Project Mirador contributors
+* [Sync Windows]: copyright Satoru Nakamura, 2024-2026.
+* [Text Overlay] ([mirador-textoverlay]): copyright Bavarian State Library / dbmdz, [Johannes Baiter] and contributors.
+* [Zoom Percentage]: copyright Daniel Berthereau, 2026.
 
 Module Mirador for Omeka S:
 
@@ -609,9 +812,28 @@ University of Applied Sciences and Arts, Basel Academy of Music, Academy of Musi
 [Download]: https://github.com/ProjectMirador/mirador-dl-plugin
 [Image Tools]: https://github.com/ProjectMirador/mirador-image-tools
 [OCR Helper]: https://www.npmjs.com/package/@4eyes/mirador-ocr-helper
+[OCR Helper v4]: https://github.com/Daniel-KM/Omeka-S-module-Mirador
+[@4eyes/mirador-ocr-helper]: https://www.npmjs.com/package/@4eyes/mirador-ocr-helper
 [Ruler]: https://www.npmjs.com/package/mirador-ruler-plugin
 [Share]: https://github.com/ProjectMirador/mirador-share-plugin
+[mirador-share-plugin]: https://github.com/ProjectMirador/mirador-share-plugin
 [Text overlay]: https://www.npmjs.com/package/mirador-textoverlay
+[Text Overlay v4]: https://github.com/dbmdz/mirador-textoverlay/tree/mirador4
+[mirador-textoverlay]: https://github.com/dbmdz/mirador-textoverlay
+[mirador-annotation-editor]: https://github.com/SCA-IIIF/mirador-annotation-editor
+[mirador-dl-plugin]: https://github.com/ProjectMirador/mirador-dl-plugin
+[mirador-image-tools]: https://github.com/ProjectMirador/mirador-image-tools
+[Image Cropper v4]: https://github.com/Daniel-KM/Omeka-S-module-Mirador
+[@dbmdz/mirador-imagecropper]: https://github.com/dbmdz/mirador-plugins/tree/main/ImageCropper
+[Physical Ruler]: https://github.com/nakamura196/mirador-physical-ruler
+[mirador-physical-ruler]: https://github.com/nakamura196/mirador-physical-ruler
+[Rotation]: https://github.com/nakamura196/mirador-rotation-plugin
+[Rotation Plugin]: https://github.com/nakamura196/mirador-rotation-plugin
+[mirador-rotation-plugin]: https://github.com/nakamura196/mirador-rotation-plugin
+[Sync Windows]: https://github.com/nakamura196/mirador-sync-windows
+[mirador-sync-windows]: https://github.com/nakamura196/mirador-sync-windows
+[Zoom Percentage]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador
+[Johannes Baiter]: https://github.com/jbaiter
 [Zen mode]: https://github.com/ProjectMirador/mirador/wiki/Configuration-Guides#zen-mode
 [feature]: https://github.com/ProjectMirador/mirador/pull/1235
 [module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/issues
