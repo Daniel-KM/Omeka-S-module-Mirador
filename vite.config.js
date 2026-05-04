@@ -48,6 +48,7 @@ export default defineConfig({
                 'plugin-image-tools': resolve(__dirname, 'asset/src/plugin-image-tools.js'),
                 'plugin-imagecropper': resolve(__dirname, 'asset/src/plugin-imagecropper.js'),
                 'plugin-ocr-helper': resolve(__dirname, 'asset/src/plugin-ocr-helper.js'),
+                'plugin-rotation': resolve(__dirname, 'asset/src/plugin-rotation.js'),
                 'plugin-ruler': resolve(__dirname, 'asset/src/plugin-ruler.js'),
                 'plugin-share': resolve(__dirname, 'asset/src/plugin-share.js'),
                 'plugin-sync-windows': resolve(__dirname, 'asset/src/plugin-sync-windows.js'),
@@ -67,7 +68,7 @@ export default defineConfig({
                         return undefined;
                     }
                     // Plugin packages stay in their respective entry chunks.
-                    if (/node_modules\/(mirador-annotation-editor|mirador-dl-plugin|mirador-imagecropper|mirador-image-tools|mirador-ocr-helper|mirador-physical-ruler|mirador-share-plugin|mirador-sync-windows|mirador-textoverlay)\//.test(id)) {
+                    if (/node_modules\/(mirador-annotation-editor|mirador-dl-plugin|mirador-imagecropper|mirador-image-tools|mirador-ocr-helper|mirador-physical-ruler|mirador-rotation|mirador-share-plugin|mirador-sync-windows|mirador-textoverlay)\//.test(id)) {
                         return undefined;
                     }
                     // Annotation-specific heavy deps stay with the plugin.

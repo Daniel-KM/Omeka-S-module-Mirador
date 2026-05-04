@@ -34,6 +34,10 @@ return [
         'package' => 'mirador-ocr-helper',
         'entry' => 'vendor/mirador-esm/plugin-ocr-helper.js',
     ],
+    'rotation' => [
+        'package' => 'mirador-rotation',
+        'entry' => 'vendor/mirador-esm/plugin-rotation.js',
+    ],
     'ruler' => [
         'package' => 'mirador-physical-ruler',
         'entry' => 'vendor/mirador-esm/plugin-ruler.js',

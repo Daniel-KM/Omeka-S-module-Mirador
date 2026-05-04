@@ -18,6 +18,7 @@ return [
     'image-tools' => 'Image tools',
     'imagecropper' => 'Image cropper', // @translate
     'ocr-helper' => 'OCR helper (text panel)', // @translate
+    'rotation' => 'Rotation', // @translate
     'ruler' => 'Physical ruler', // @translate
     'share' => 'Share',
     'sync-windows' => 'Synchronize windows', // @translate
