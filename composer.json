@@ -28,7 +28,7 @@
         "daniel-km/omeka-s-module-common": "*"
     },
     "require": {
-        "sempia/external-assets": "^1.0"
+        "sempia/external-assets": "^1.1"
     },
     "autoload": {
         "psr-4": {
