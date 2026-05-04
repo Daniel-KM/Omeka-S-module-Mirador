@@ -22,7 +22,11 @@ import { OSDReferences } from 'mirador';
  * `document.getElementById(windowId)` so the right toolbar wins in a
  * multi-window workspace.
  */
-const OSD_EVENTS = ['zoom', 'pan', 'animation', 'animation-finish', 'resize', 'open'];
+const OSD_EVENTS = ['zoom', 'pan', 'animation', 'animation-finish', 'resize'];
+
+// Sanity ceiling: any rounded percentage above this is treated as a
+// placeholder artefact (typical bug seen on first frames: 73300%).
+const MAX_REASONABLE_PCT = 5000;
 
 function ZoomPercentOverlay({ windowId }) {
     const [value, setValue] = useState(null);
@@ -32,6 +36,10 @@ function ZoomPercentOverlay({ windowId }) {
     const prevPctRef = useRef(null);
     const fadeTimerRef = useRef(null);
     const attachedOsdRef = useRef(null);
+    // Becomes true after the first OSD `tile-loaded` event, which is the
+    // earliest reliable signal that `getContentSize()` reflects the
+    // actual image resolution and not a 1x1 / low-res placeholder.
+    const firstTileLoadedRef = useRef(false);
 
     useEffect(() => {
         let cancelled = false;
@@ -46,8 +54,12 @@ function ZoomPercentOverlay({ windowId }) {
             }
             // OSD emits zoom/pan/resize events before the tiled image
             // actually opens; the placeholder viewport then yields huge
-            // ratios (e.g. 77054%). Wait until the world has at least
-            // one item with a positive content size before computing.
+            // ratios (e.g. 73300%). Wait until the first tile has loaded
+            // before measuring, so getContentSize() reflects the real
+            // image resolution.
+            if (!firstTileLoadedRef.current) {
+                return;
+            }
             if (!osd.world || osd.world.getItemCount() === 0) {
                 return;
             }
@@ -63,7 +75,7 @@ function ZoomPercentOverlay({ windowId }) {
                 osd.viewport.getZoom(true)
             );
             const pct = Math.round(imageZoom * 100);
-            if (!Number.isFinite(pct) || pct <= 0) {
+            if (!Number.isFinite(pct) || pct <= 0 || pct > MAX_REASONABLE_PCT) {
                 return;
             }
             // Even if the percentage is unchanged, re-show: the user may
@@ -124,6 +136,18 @@ function ZoomPercentOverlay({ windowId }) {
             return true;
         };
 
+        const onTileLoaded = () => {
+            firstTileLoadedRef.current = true;
+            compute();
+        };
+
+        const onOpen = () => {
+            // Canvas changed → reset until the new image has at least one
+            // tile loaded. Hide the previous percentage in the meantime.
+            firstTileLoadedRef.current = false;
+            setVisible(false);
+        };
+
         const ensureOsdHandlers = () => {
             const ref = OSDReferences.get(windowId);
             const osd = ref && ref.current;
@@ -137,8 +161,12 @@ function ZoomPercentOverlay({ windowId }) {
                 OSD_EVENTS.forEach((e) =>
                     attachedOsdRef.current.removeHandler(e, compute)
                 );
+                attachedOsdRef.current.removeHandler('tile-loaded', onTileLoaded);
+                attachedOsdRef.current.removeHandler('open', onOpen);
             }
             OSD_EVENTS.forEach((e) => osd.addHandler(e, compute));
+            osd.addHandler('tile-loaded', onTileLoaded);
+            osd.addHandler('open', onOpen);
             attachedOsdRef.current = osd;
             compute();
             return true;
@@ -192,6 +220,8 @@ function ZoomPercentOverlay({ windowId }) {
                 OSD_EVENTS.forEach((e) =>
                     attachedOsdRef.current.removeHandler(e, compute)
                 );
+                attachedOsdRef.current.removeHandler('tile-loaded', onTileLoaded);
+                attachedOsdRef.current.removeHandler('open', onOpen);
                 attachedOsdRef.current = null;
             }
             if (hostRef.current && hostRef.current.parentNode) {
