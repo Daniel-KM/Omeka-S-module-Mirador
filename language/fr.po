@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 00:00+0000\n"
-"PO-Revision-Date: 2026-03-09 00:00+0000\n"
+"POT-Creation-Date: 2026-05-04 00:00+0000\n"
+"PO-Revision-Date: 2026-05-04 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -17,16 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.6\n"
 
-#: Module.php:47
+#: Module.php:46
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
-
-#: data/scripts/upgrade.php:28
-msgid "The module {module} should be upgraded to version {version} or later."
-msgstr ""
-"Le module {module} doit être mis à niveau à la version {version} ou "
-"supérieure."
 
 #: data/scripts/upgrade.php:32 data/scripts/upgrade.php:94
 msgid "Missing requirement. Unable to upgrade."
@@ -82,7 +76,60 @@ msgstr ""
 msgid "Mirador version has been set to v4 for all settings and sites."
 msgstr "Mirador v4 a été défini pour tous les sites."
 
-#: Module.php:59
+#: data/scripts/upgrade.php:269
+msgid ""
+"Mirador v3 kept for {list} due to a custom v3 JSON config. Review and "
+"migrate manually."
+msgstr ""
+"Mirador v3 a été conservé pour {list} en raison d’une personnalisation de la "
+"config. Vérifier pour mettre à jour si besoin."
+
+#: data/scripts/upgrade.php:277
+msgid ""
+"Mirador forced to v4 for {list}. v3 plugins copied to v4 plugins. You may "
+"review the migration."
+msgstr ""
+"Mirador a forcé la mise à jour vers v4 pour {list}. Les extensions v3 ont "
+"été appliquées pour v4. Vous pouvez vérifier la migration."
+
+#: data/scripts/upgrade.php:284
+msgid ""
+"Mirador v4 now includes all plugins from Mirador v3 and some other ones, in "
+"particular image cropper, ocr helper and physical ruler."
+msgstr ""
+"Mirador v4 inclut désormais toutes les extensions de Mirador v3 et quelques "
+"autres, en particulier le recadreur d’image, l’assistant ocr et la règle "
+"physique."
+
+#: data/plugins/plugins.php:18
+msgid "Image cropper"
+msgstr "Recadreur d’image"
+
+#: data/plugins/plugins.php:20
+msgid "OCR helper (text panel)"
+msgstr "Assistant OCR (panneau texte)"
+
+#: data/plugins/plugins.php:21
+msgid "Rotation"
+msgstr "Rotation"
+
+#: data/plugins/plugins.php:22
+msgid "Physical ruler"
+msgstr "Règle physique"
+
+#: data/plugins/plugins.php:24
+msgid "Synchronize windows"
+msgstr "Synchronisation des fenêtres"
+
+#: data/plugins/plugins.php:25
+msgid "Text overlay (OCR)"
+msgstr "Couche texte (OCR)"
+
+#: data/plugins/plugins.php:26
+msgid "Zoom percentage"
+msgstr "Pourcentage du zoom"
+
+#: Module.php:58
 msgid ""
 "The library \"{library}\" should be installed. See module’s installation "
 "documentation."
@@ -90,68 +137,72 @@ msgstr ""
 "La bibliothèque « {library} » doit être installée. Consulter la "
 "documentation d’installation du module."
 
-#: src/View/Helper/Mirador.php:272
+#: src/View/Helper/Mirador.php:278
 msgid "Settings for Mirador config of items is not a valid json."
 msgstr ""
 "Les paramètres de la configuration de Mirador pour les contenus ne sont pas "
 "un json valide."
 
-#: src/View/Helper/Mirador.php:291
+#: src/View/Helper/Mirador.php:297
 msgid "Settings for Mirador config of collections is not a valid json."
 msgstr ""
 "Les paramètres de la configuration de Mirador pour les collections ne sont "
 "pas un json valide."
 
-#: src/Form/SiteSettingsFieldset.php:20
-msgid "Display Mirador viewer (old themes)"
-msgstr "Afficher la visionneuse Mirador (anciens thèmes)"
+#: src/Form/SiteSettingsFieldset.php:11 src/Form/SettingsFieldset.php:18
+msgid "Players"
+msgstr "Lecteurs"
 
-#: src/Form/SiteSettingsFieldset.php:22
+#: src/Form/SiteSettingsFieldset.php:12
+msgid "Old themes"
+msgstr "Anciens thèmes"
+
+#: src/Form/SiteSettingsFieldset.php:25
+msgid "Mirador: Skip default css"
+msgstr "Mirador : Ignorer le css par défaut"
+
+#: src/Form/SiteSettingsFieldset.php:37
+msgid "Display Mirador viewer"
+msgstr "Afficher la visionneuse Mirador"
+
+#: src/Form/SiteSettingsFieldset.php:39
 msgid "Item show"
 msgstr "Contenu / vue"
 
-#: src/Form/SiteSettingsFieldset.php:23
+#: src/Form/SiteSettingsFieldset.php:40
 msgid "Item browse"
 msgstr "Contenu / liste"
 
-#: src/Form/SiteSettingsFieldset.php:24
+#: src/Form/SiteSettingsFieldset.php:41
 msgid "Item set browse"
 msgstr "Collection / liste"
-
-#: src/Form/SiteSettingsFieldset.php:37
-msgid "Skip default css"
-msgstr "Ignorer le css par défaut"
 
 #: src/Form/SettingsFieldset.php:11
 msgid "Mirador IIIF Viewer"
 msgstr "Mirador IIIF Viewer"
 
-#: src/Form/SettingsFieldset.php:18
-msgid "Players"
-msgstr "Lecteurs"
+#: src/Form/SettingsFieldset.php:47
+msgid "Mirador: Version"
+msgstr "Mirador : Version"
 
-#: src/Form/SettingsFieldset.php:46
-msgid "Mirador version"
-msgstr "Version de Mirador"
-
-#: src/Form/SettingsFieldset.php:48
+#: src/Form/SettingsFieldset.php:49
 msgid "2.7 (light)"
 msgstr "2.7 (léger)"
 
-#: src/Form/SettingsFieldset.php:49
+#: src/Form/SettingsFieldset.php:50
 msgid "3.4.3 (deprecated)"
 msgstr "3.4.3 (obsolète)"
 
-#: src/Form/SettingsFieldset.php:50
+#: src/Form/SettingsFieldset.php:51
 msgid "4.0 and above"
 msgstr "4.0 et plus récent"
 
-#: src/Form/SettingsFieldset.php:65
-msgid "Mirador plugins for v2"
-msgstr "Extensions Mirador pour v2"
+#: src/Form/SettingsFieldset.php:66
+msgid "Mirador (v2): Plugins"
+msgstr "Mirador (v2) : Extensions"
 
-#: src/Form/SettingsFieldset.php:66 src/Form/SettingsFieldset.php:114
-#: src/Form/SettingsFieldset.php:162
+#: src/Form/SettingsFieldset.php:67 src/Form/SettingsFieldset.php:115
+#: src/Form/SettingsFieldset.php:163
 msgid ""
 "Some plugins require json options to work. Cross compatibility has not been "
 "checked, so add them one by one and only the needed ones."
@@ -160,16 +211,16 @@ msgstr ""
 "compatibilité croisée n’a pas été vérifiée. Il est donc recommandé de les "
 "ajouter un par un et seulement les plugins nécessaires."
 
-#: src/Form/SettingsFieldset.php:77 src/Form/SettingsFieldset.php:125
-#: src/Form/SettingsFieldset.php:173
+#: src/Form/SettingsFieldset.php:78 src/Form/SettingsFieldset.php:126
+#: src/Form/SettingsFieldset.php:174
 msgid "Select plugins…"
 msgstr "Choisir des plugins…"
 
-#: src/Form/SettingsFieldset.php:85
-msgid "Mirador json config for v2 (item)"
-msgstr "Configuration Mirador en json pour la v2 (contenu)"
-
 #: src/Form/SettingsFieldset.php:86
+msgid "Mirador (v2): Config (item)"
+msgstr "Mirador (v2) : Configuration (contenu)"
+
+#: src/Form/SettingsFieldset.php:87
 msgid ""
 "This json object will be merged with the default one generated by the "
 "module. Placeholders: {manifestUri} and {canvasID}."
@@ -177,51 +228,51 @@ msgstr ""
 "Cet objet json sera fusionné avec celui préparé par le module. Jokers : "
 "{manifestUri} et {canvasID}."
 
-#: src/Form/SettingsFieldset.php:98
-msgid "Mirador json config for v2 (collection)"
-msgstr "Configuration Mirador en json pour la v2 (collection)"
+#: src/Form/SettingsFieldset.php:99
+msgid "Mirador (v2): Config (collection)"
+msgstr "Mirador (v2) : Configuration (collection)"
 
-#: src/Form/SettingsFieldset.php:99 src/Form/SettingsFieldset.php:147
-#: src/Form/SettingsFieldset.php:195
+#: src/Form/SettingsFieldset.php:100 src/Form/SettingsFieldset.php:148
+#: src/Form/SettingsFieldset.php:196
 msgid "Iiif collections are Omeka item sets, but may be search results too."
 msgstr ""
 "Les collections Iiif sont des collections Omeka, mais peuvent également être "
 "des résultats de recherche."
 
-#: src/Form/SettingsFieldset.php:113
-msgid "Mirador plugins for v3"
-msgstr "Extensions Mirador pour v3"
+#: src/Form/SettingsFieldset.php:114
+msgid "Mirador (v3): Plugins"
+msgstr "Mirador (v3) : Extensions"
 
-#: src/Form/SettingsFieldset.php:133
-msgid "Mirador config as object string for v3 (item)"
-msgstr "Configuration Mirador en chaîne objet pour la v3 (contenu)"
+#: src/Form/SettingsFieldset.php:134
+msgid "Mirador (v3): Config (item)"
+msgstr "Mirador (v3) : Configuration (contenu)"
 
-#: src/Form/SettingsFieldset.php:134 src/Form/SettingsFieldset.php:182
+#: src/Form/SettingsFieldset.php:135 src/Form/SettingsFieldset.php:183
 msgid ""
 "This object will be merged with the default one generated by the module."
 msgstr "Cet objet sera fusionné avec celui préparé par le module."
 
-#: src/Form/SettingsFieldset.php:146
-msgid "Mirador config as object string for v3 (collection)"
-msgstr "Configuration Mirador en chaîne objet pour la v3 (collection)"
+#: src/Form/SettingsFieldset.php:147
+msgid "Mirador v3: Config (collection)"
+msgstr "Mirador v3 : Configuration (collection)"
 
-#: src/Form/SettingsFieldset.php:161
-msgid "Mirador plugins for v4"
-msgstr "Extensions Mirador pour v4"
+#: src/Form/SettingsFieldset.php:162
+msgid "Mirador (v4): Plugins"
+msgstr "Mirador (v4) : Extensions"
 
-#: src/Form/SettingsFieldset.php:181
-msgid "Mirador config as object string for v4 (item)"
-msgstr "Configuration Mirador en chaîne objet pour la v4 (contenu)"
+#: src/Form/SettingsFieldset.php:182
+msgid "Mirador (v4): Config (item)"
+msgstr "Mirador (v4) : Configuration (contenu)"
 
-#: src/Form/SettingsFieldset.php:194
-msgid "Mirador config as object string for v4 (collection)"
-msgstr "Configuration Mirador en chaîne objet pour la v4 (collection)"
-
-#: src/Form/SettingsFieldset.php:209
-msgid "Endpoint to store annotations externally"
-msgstr "Point d’accès pour enregistrer les annotations à l’extérieur"
+#: src/Form/SettingsFieldset.php:195
+msgid "Mirador (v4): Config (collection)"
+msgstr "Mirador (v4) : Configuration (collection)"
 
 #: src/Form/SettingsFieldset.php:210
+msgid "Mirador: Endpoint to store annotations externally"
+msgstr "Mirador : Point d’accès pour enregistrer les annotations à l’extérieur"
+
+#: src/Form/SettingsFieldset.php:211
 msgid ""
 "This option is used only if the plugin Annotations is enabled, and useful "
 "only with an external annotation server."
@@ -229,11 +280,12 @@ msgstr ""
 "Cette option est utilisée seulement quand l’extension Annotations est "
 "activée et avec un serveur d’annotations externe ."
 
-#: src/Form/SettingsFieldset.php:222
-msgid "Preselect manifests from the same collection"
-msgstr "Présélectionner des manifestes à partir de la même collection"
-
 #: src/Form/SettingsFieldset.php:223
+msgid "Mirador: Preselect manifests from the same collection"
+msgstr ""
+"Mirador : Présélectionner des manifestes à partir de la même collection"
+
+#: src/Form/SettingsFieldset.php:224
 msgid "Set a number of items to preselect. IiifServer should be enabled."
 msgstr ""
 "Indiquer le nombre de contenus à présélectionner. Le module IIIF Server doit "
@@ -264,6 +316,30 @@ msgstr "Mirador IIIF Viewer"
 #: src/Site/BlockLayout/Mirador.php:33
 msgid "Mirador Viewer"
 msgstr "Mirador Viewer"
+
+#~ msgid ""
+#~ "The module {module} should be upgraded to version {version} or later."
+#~ msgstr ""
+#~ "Le module {module} doit être mis à niveau à la version {version} ou "
+#~ "supérieure."
+
+#~ msgid "Mirador plugins for v3"
+#~ msgstr "Extensions Mirador pour v3"
+
+#~ msgid "Mirador config as object string for v3 (item)"
+#~ msgstr "Configuration Mirador en chaîne objet pour la v3 (contenu)"
+
+#~ msgid "Mirador config as object string for v3 (collection)"
+#~ msgstr "Configuration Mirador en chaîne objet pour la v3 (collection)"
+
+#~ msgid "Mirador plugins for v4"
+#~ msgstr "Extensions Mirador pour v4"
+
+#~ msgid "Mirador config as object string for v4 (item)"
+#~ msgstr "Configuration Mirador en chaîne objet pour la v4 (contenu)"
+
+#~ msgid "Mirador config as object string for v4 (collection)"
+#~ msgstr "Configuration Mirador en chaîne objet pour la v4 (collection)"
 
 #, php-format
 #~ msgid "The library \"%s\" should be installed."
