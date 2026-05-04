@@ -42,6 +42,10 @@ return [
         'package' => 'mirador-share-plugin',
         'entry' => 'vendor/mirador-esm/plugin-share.js',
     ],
+    'sync-windows' => [
+        'package' => 'mirador-sync-windows',
+        'entry' => 'vendor/mirador-esm/plugin-sync-windows.js',
+    ],
     'textoverlay' => [
         'package' => 'mirador-textoverlay',
         'entry' => 'vendor/mirador-esm/plugin-textoverlay.js',

@@ -20,6 +20,7 @@ return [
     'ocr-helper' => 'OCR helper (text panel)', // @translate
     'ruler' => 'Physical ruler', // @translate
     'share' => 'Share',
+    'sync-windows' => 'Synchronize windows', // @translate
     'textoverlay' => 'Text overlay (OCR)', // @translate
     'zoom-percent' => 'Zoom percentage', // @translate
 ];
