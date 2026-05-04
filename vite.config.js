@@ -39,6 +39,7 @@ export default defineConfig({
                 'plugin-dl': resolve(__dirname, 'asset/src/plugin-dl.js'),
                 'plugin-image-tools': resolve(__dirname, 'asset/src/plugin-image-tools.js'),
                 'plugin-ocr-helper': resolve(__dirname, 'asset/src/plugin-ocr-helper.js'),
+                'plugin-ruler': resolve(__dirname, 'asset/src/plugin-ruler.js'),
                 'plugin-share': resolve(__dirname, 'asset/src/plugin-share.js'),
                 'plugin-textoverlay': resolve(__dirname, 'asset/src/plugin-textoverlay.js'),
                 'plugin-zoom-percent': resolve(__dirname, 'asset/src/plugin-zoom-percent.jsx'),
@@ -56,7 +57,7 @@ export default defineConfig({
                         return undefined;
                     }
                     // Plugin packages stay in their respective entry chunks.
-                    if (/node_modules\/(mirador-annotation-editor|mirador-dl-plugin|mirador-image-tools|mirador-ocr-helper|mirador-share-plugin|mirador-textoverlay)\//.test(id)) {
+                    if (/node_modules\/(mirador-annotation-editor|mirador-dl-plugin|mirador-image-tools|mirador-ocr-helper|mirador-physical-ruler|mirador-share-plugin|mirador-textoverlay)\//.test(id)) {
                         return undefined;
                     }
                     // Annotation-specific heavy deps stay with the plugin.

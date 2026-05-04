@@ -30,6 +30,10 @@ return [
         'package' => 'mirador-ocr-helper',
         'entry' => 'vendor/mirador-esm/plugin-ocr-helper.js',
     ],
+    'ruler' => [
+        'package' => 'mirador-physical-ruler',
+        'entry' => 'vendor/mirador-esm/plugin-ruler.js',
+    ],
     'share' => [
         'package' => 'mirador-share-plugin',
         'entry' => 'vendor/mirador-esm/plugin-share.js',

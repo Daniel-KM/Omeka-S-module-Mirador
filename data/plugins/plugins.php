@@ -17,7 +17,7 @@ return [
     'dl' => 'Download files',
     'image-tools' => 'Image tools',
     'ocr-helper' => 'OCR helper (text panel)', // @translate
-    // 'ruler' => 'Ruler',
+    'ruler' => 'Physical ruler', // @translate
     'share' => 'Share',
     'textoverlay' => 'Text overlay (OCR)', // @translate
     'zoom-percent' => 'Zoom percentage', // @translate
