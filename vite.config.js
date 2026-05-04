@@ -2,6 +2,15 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+    esbuild: {
+        loader: 'jsx',
+        include: /\.[jt]sx?$/,
+    },
+    optimizeDeps: {
+        esbuildOptions: {
+            loader: { '.js': 'jsx' },
+        },
+    },
     resolve: {
         alias: {
             // Force every import of "mirador" (including from external
@@ -26,10 +35,11 @@ export default defineConfig({
             },
             input: {
                 mirador: resolve(__dirname, 'asset/src/mirador.js'),
-                'plugin-image-tools': resolve(__dirname, 'asset/src/plugin-image-tools.js'),
-                'plugin-dl': resolve(__dirname, 'asset/src/plugin-dl.js'),
-                'plugin-share': resolve(__dirname, 'asset/src/plugin-share.js'),
                 'plugin-annotations': resolve(__dirname, 'asset/src/plugin-annotations.js'),
+                'plugin-dl': resolve(__dirname, 'asset/src/plugin-dl.js'),
+                'plugin-image-tools': resolve(__dirname, 'asset/src/plugin-image-tools.js'),
+                'plugin-share': resolve(__dirname, 'asset/src/plugin-share.js'),
+                'plugin-textoverlay': resolve(__dirname, 'asset/src/plugin-textoverlay.js'),
                 'plugin-zoom-percent': resolve(__dirname, 'asset/src/plugin-zoom-percent.jsx'),
             },
             output: {
@@ -45,7 +55,7 @@ export default defineConfig({
                         return undefined;
                     }
                     // Plugin packages stay in their respective entry chunks.
-                    if (/node_modules\/(mirador-image-tools|mirador-dl-plugin|mirador-share-plugin|mirador-annotation-editor)\//.test(id)) {
+                    if (/node_modules\/(mirador-annotation-editor|mirador-dl-plugin|mirador-image-tools|mirador-share-plugin|mirador-textoverlay)\//.test(id)) {
                         return undefined;
                     }
                     // Annotation-specific heavy deps stay with the plugin.

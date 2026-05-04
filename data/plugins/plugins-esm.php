@@ -30,6 +30,10 @@ return [
         'package' => 'mirador-share-plugin',
         'entry' => 'vendor/mirador-esm/plugin-share.js',
     ],
+    'textoverlay' => [
+        'package' => 'mirador-textoverlay',
+        'entry' => 'vendor/mirador-esm/plugin-textoverlay.js',
+    ],
     'zoom-percent' => [
         'package' => 'mirador-zoom-percent-plugin',
         'entry' => 'vendor/mirador-esm/plugin-zoom-percent.js',
