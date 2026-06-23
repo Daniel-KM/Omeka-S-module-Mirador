@@ -53,7 +53,7 @@
             "asset/vendor/mirador-2-plugins/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2-plugins.tar.gz",
             "asset/vendor/mirador-3/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-3.4.3.tar.gz",
             "asset/vendor/mirador/mirador.min.js": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador.min.js",
-            "asset/vendor/mirador-esm/": "https://github.com/mcoonen/Omeka-S-module-Mirador/releases/download/3.4.17-pl1/mirador-esm.tar.gz"
+            "asset/vendor/mirador-esm/": "https://github.com/mcoonen/Omeka-S-module-Mirador/releases/download/3.4.17-pl2/mirador-esm.tar.gz"
         }
     }
 }
