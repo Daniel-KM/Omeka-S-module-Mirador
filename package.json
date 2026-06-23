@@ -1,7 +1,7 @@
 {
     "name": "omeka-s-module-mirador",
     "private": true,
-    "version": "3.4.17",
+    "version": "3.4.17-pl1",
     "type": "module",
     "license": "CECILL-2.1",
     "description": "Mirador (module for Omeka S)",
@@ -19,7 +19,7 @@
         "mirador-dl-plugin": "^1.0.0",
         "mirador-image-tools": "^1.0.0",
         "mirador-image-cropper": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-image-cropper-3.0.0.tgz",
-        "mirador-ocr-helper": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-ocr-helper-2.1.0.tgz",
+        "mirador-ocr-helper": "https://github.com/mcoonen/Omeka-S-module-Mirador/releases/download/3.4.17-pl1/mirador-ocr-helper-2.1.1.tgz",
         "mirador-physical-ruler": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-physical-ruler-1.0.0.tgz",
         "mirador-rotation": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-rotation-4.1.0.tgz",
         "mirador-share-plugin": "^1.0.0",
