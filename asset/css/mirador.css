@@ -18,6 +18,14 @@
     .mirador-viewer .manifest-info .window-manifest-title {
         line-height: initial;
     }
+    /*
+     * Override MUI's default `position: fixed` on `.MuiDrawer-paper`.
+     * This ensures the drawer (i.e. the element that contains the sidebar buttons) is positioned within the Mirador
+     * viewer rather than being anchored to the far left of the viewport edge.
+     */
+    .mirador .MuiDrawer-root.MuiDrawer-docked > .MuiDrawer-paper {
+        position: relative;
+    }
     @media (min-width: 1200px) {
         .modal-dialog {
             width: 1440px;
