@@ -19,6 +19,7 @@ class Mirador implements ResourcePageBlockLayoutInterface
             'items',
             'media',
             'item_sets',
+            'digital_objects',
         ];
     }
 

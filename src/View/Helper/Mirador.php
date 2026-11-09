@@ -80,8 +80,14 @@ class Mirador extends AbstractHelper
             $collectionResources = [];
             $seen = [];
             foreach ($resource as $res) {
-                if ($res->resourceName() === 'media') {
-                    $res = $res->item();
+                // Media and DigitalObject are file-bearing children whose
+                // manifest is the parent item's manifest.
+                if (in_array($res->resourceName(), ['media', 'digital_objects'], true)) {
+                    $parent = $res->item();
+                    if (!$parent) {
+                        continue;
+                    }
+                    $res = $parent;
                 }
                 $id = $res->id();
                 if (!isset($seen[$id])) {
@@ -103,9 +109,13 @@ class Mirador extends AbstractHelper
         // Prepare the url for the manifest of a record after additional checks.
         $resourceName = $resource->resourceName();
 
-        // For a media, use the parent item manifest.
-        if ($resourceName === 'media') {
-            $resource = $resource->item();
+        // For a media or a digital object, use the parent item manifest.
+        if (in_array($resourceName, ['media', 'digital_objects'], true)) {
+            $parent = $resource->item();
+            if (!$parent) {
+                return '';
+            }
+            $resource = $parent;
             $resourceName = 'items';
         }
 
@@ -138,8 +148,28 @@ class Mirador extends AbstractHelper
         switch ($resourceName) {
             case 'items':
                 /** @var \Omeka\Api\Representation\ItemRepresentation $resource */
-                // Currently, an item without files is unprocessable.
-                $medias = $resource->media();
+                // Currently, an item without files is unprocessable. File-
+                // bearing children are medias attached to the item plus digital
+                // objects referenced via property values.
+                $medias = [];
+                foreach ($resource->media() as $m) {
+                    $medias[] = $m;
+                }
+                $seen = [];
+                foreach ($resource->values() as $property) {
+                    foreach ($property['values'] as $value) {
+                        $vr = $value->valueResource();
+                        if (!$vr || $vr->resourceName() !== 'digital_objects') {
+                            continue;
+                        }
+                        $id = $vr->id();
+                        if (isset($seen[$id])) {
+                            continue;
+                        }
+                        $seen[$id] = true;
+                        $medias[] = $vr;
+                    }
+                }
                 if (!count($medias)) {
                     // return $view->translate('This item has no files and is not displayable.');
                     return '';
@@ -150,7 +180,7 @@ class Mirador extends AbstractHelper
                 $plugins = $this->getView()->getHelperPluginManager();
                 $isIiifMedia = $plugins->has('isIiifMedia')
                     ? $plugins->get('isIiifMedia')
-                    : fn ($media, $type = null) => $media->ingester() === 'iiif';
+                    : fn ($media, $type = null) => $media->renderer() === 'iiif';
                 $hasManagedMedia = false;
                 if ($this->version === '2') {
                     foreach ($medias as $media) {
