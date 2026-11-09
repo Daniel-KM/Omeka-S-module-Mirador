@@ -30,9 +30,16 @@ class IiifManifestExternal extends AbstractHelper
 
         // Manage the case where the url is saved as an uri or a text and the
         // case where the property contains other values that are not url.
+        // Value-resource values are skipped: linking another resource (item,
+        // media, digital object…) is a cross-reference, not an external
+        // manifest URL. Their __toString returns the resource site URL, which
+        // would otherwise be misused here as a manifest URL.
         foreach ($resource->value($manifestProperty, ['all' => true]) as $value) {
             if ($value->type() === 'uri') {
                 $urls[] = $value->uri();
+                continue;
+            }
+            if ($value->valueResource()) {
                 continue;
             }
             $urlManifest = (string) $value;
