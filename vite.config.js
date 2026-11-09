@@ -59,6 +59,7 @@ export default defineConfig({
                 format: 'es',
                 entryFileNames: '[name].js',
                 chunkFileNames: '[name].js',
+                assetFileNames: '[name][extname]',
                 manualChunks(id) {
                     if (!id.includes('node_modules')) {
                         return undefined;

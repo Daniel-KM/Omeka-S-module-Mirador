@@ -20,15 +20,15 @@
         }
     ],
     "support": {
-        "issues": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/issues",
+        "issues": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/work_items",
         "forum": "https://forum.omeka.org/"
     },
-    "_require (not set until Omeka S merges PR #2412)": {
+    "_require (not set until Omeka S merges PR #2432)": {
         "omeka/omeka-s": "^4.1",
         "daniel-km/omeka-s-module-common": "*"
     },
     "require": {
-        "sempia/external-assets": "^1.1"
+        "sempia/external-assets": "^1.3"
     },
     "autoload": {
         "psr-4": {
@@ -49,11 +49,11 @@
         "installer-name": "Mirador",
         "configurable": true,
         "external-assets": {
-            "asset/vendor/mirador-2/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2.tar.gz",
-            "asset/vendor/mirador-2-plugins/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.10/mirador-2-plugins.tar.gz",
-            "asset/vendor/mirador-3/": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-3.4.3.tar.gz",
-            "asset/vendor/mirador/mirador.min.js": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador.min.js",
-            "asset/vendor/mirador-esm/": "https://github.com/mcoonen/Omeka-S-module-Mirador/releases/download/3.4.17-pl2/mirador-esm.tar.gz"
+            "asset/vendor/mirador-2/": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-2.tar.gz",
+            "asset/vendor/mirador-2-plugins/": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-2-plugins.tar.gz",
+            "asset/vendor/mirador-3/": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-3.4.3.tar.gz",
+            "asset/vendor/mirador/mirador.min.js": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador.min.js",
+            "asset/vendor/mirador-esm/": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-esm.tar.gz"
         }
     }
 }

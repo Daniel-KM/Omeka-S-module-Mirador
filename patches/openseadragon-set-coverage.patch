@@ -1,0 +1,15 @@
+--- a/build/openseadragon/openseadragon.js
++++ b/build/openseadragon/openseadragon.js
+@@ -30959,11 +30959,7 @@
+      */
+     _setCoverage: function( coverage, level, x, y, covers ) {
+         if ( !coverage[ level ] ) {
+-            $.console.warn(
+-                "Setting coverage for a tile before its level's coverage has been reset: %s",
+-                level
+-            );
+-            return;
++            coverage[ level ] = {};
+         }
+ 
+         if ( !coverage[ level ][ x ] ) {

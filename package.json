@@ -14,22 +14,26 @@
     },
     "dependencies": {
         "dompurify": "^3.4.1",
-        "mirador": "^4.0.0",
-        "mirador-annotation-editor": "^1.2.1",
-        "mirador-dl-plugin": "^1.0.0",
-        "mirador-image-tools": "^1.0.0",
-        "mirador-image-cropper": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-image-cropper-3.0.0.tgz",
-        "mirador-ocr-helper": "https://github.com/mcoonen/Omeka-S-module-Mirador/releases/download/3.4.17-pl2/mirador-ocr-helper-2.1.1.tgz",
-        "mirador-physical-ruler": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-physical-ruler-1.0.0.tgz",
-        "mirador-rotation": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-rotation-4.1.0.tgz",
-        "mirador-share-plugin": "^1.0.0",
-        "mirador-sync-windows": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-sync-windows-4.0.0.tgz",
-        "mirador-textoverlay": "https://github.com/Daniel-KM/Omeka-S-module-Mirador/releases/download/3.4.17/mirador-textoverlay-0.4.0.tgz"
+        "mirador": "^4.3.0",
+        "mirador-annotation-editor": "^1.4.1",
+        "mirador-dl-plugin": "^1.1.2",
+        "mirador-image-tools": "^1.0.2",
+        "mirador-image-cropper": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-image-cropper-4.0.1.tgz",
+        "mirador-ocr-helper": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-ocr-helper-2.1.2.tgz",
+        "mirador-physical-ruler": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-physical-ruler-1.0.1-o.1.tgz",
+        "mirador-rotation": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-rotation-4.1.1-o.1.tgz",
+        "mirador-share-plugin": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-share-plugin-1.0.3-o.1.tgz",
+        "mirador-sync-windows": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-sync-windows-4.0.1-o.1.tgz",
+        "mirador-textoverlay": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-textoverlay-1.1.2-o.1.tgz",
+        "openseadragon": "6.1.1"
     },
     "devDependencies": {
         "vite": "^6.0.0"
     },
     "overrides": {
-        "openseadragon": "^6.0.2"
+        "@mui/icons-material": "^9.0.0",
+        "@mui/material": "^9.0.0",
+        "@mui/system": "^9.0.0",
+        "openseadragon": "6.1.1"
     }
 }
