@@ -55,6 +55,7 @@ class MiradorTest extends AbstractHttpControllerTestCase
         $this->assertContains('items', $resourceNames);
         $this->assertContains('media', $resourceNames);
         $this->assertContains('item_sets', $resourceNames);
-        $this->assertCount(3, $resourceNames);
+        $this->assertContains('digital_objects', $resourceNames);
+        $this->assertCount(4, $resourceNames);
     }
 }

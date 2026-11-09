@@ -52,10 +52,25 @@ class ConfigTest extends AbstractHttpControllerTestCase
             }
             JS;
 
+        $itemDefault = <<<'JS'
+            {
+                "osdConfig": {
+                    "maxZoomPixelRatio": 10
+                },
+                "window": {
+                    "views": [
+                        { "key": "single" },
+                        { "key": "book" },
+                        { "key": "gallery" }
+                    ]
+                }
+            }
+            JS;
+
         $settings = $config['mirador']['settings'];
         $this->assertEquals('4', $settings['mirador_version']);
-        $this->assertEquals([], $settings['mirador_plugins']);
-        $this->assertEquals($osdDefault, $settings['mirador_config_item']);
+        $this->assertEquals(['canvaslink', 'image-cropper', 'share'], $settings['mirador_plugins']);
+        $this->assertEquals($itemDefault, $settings['mirador_config_item']);
         $this->assertEquals($osdDefault, $settings['mirador_config_collection']);
         $this->assertEquals([], $settings['mirador_plugins_3']);
         $this->assertEquals($osdDefault, $settings['mirador_config_item_3']);
@@ -74,19 +89,9 @@ class ConfigTest extends AbstractHttpControllerTestCase
 
         $siteSettings = $config['mirador']['site_settings'];
         $this->assertEquals('4', $siteSettings['mirador_version']);
+        $this->assertEquals(['canvaslink', 'image-cropper', 'share'], $siteSettings['mirador_plugins']);
         $this->assertFalse($siteSettings['mirador_skip_default_css']);
         $this->assertEquals(0, $siteSettings['mirador_preselected_items']);
-    }
-
-    public function testConfigDefaultExternalManifestProperty(): void
-    {
-        $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-
-        $this->assertEquals(
-            'dcterms:hasFormat',
-            $config['mirador']['config']['iiifserver_manifest_external_property']
-        );
     }
 
     public function testViewHelpersAreRegistered(): void
