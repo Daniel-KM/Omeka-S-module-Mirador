@@ -134,11 +134,22 @@ return [
         ],
         'settings' => [
             'mirador_version' => '4',
-            'mirador_plugins' => [],
+            'mirador_plugins' => [
+                'canvaslink',
+                'image-cropper',
+                'share',
+            ],
             'mirador_config_item' => <<<'JS'
                 {
                     "osdConfig": {
                         "maxZoomPixelRatio": 10
+                    },
+                    "window": {
+                        "views": [
+                            { "key": "single" },
+                            { "key": "book" },
+                            { "key": "gallery" }
+                        ]
                     }
                 }
                 JS,
@@ -172,11 +183,22 @@ return [
         ],
         'site_settings' => [
             'mirador_version' => '4',
-            'mirador_plugins' => [],
+            'mirador_plugins' => [
+                'canvaslink',
+                'image-cropper',
+                'share',
+            ],
             'mirador_config_item' => <<<'JS'
                 {
                     "osdConfig": {
                         "maxZoomPixelRatio": 10
+                    },
+                    "window": {
+                        "views": [
+                            { "key": "single" },
+                            { "key": "book" },
+                            { "key": "gallery" }
+                        ]
                     }
                 }
                 JS,
