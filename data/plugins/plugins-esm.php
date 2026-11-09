@@ -18,6 +18,10 @@ return [
         'entry' => 'vendor/mirador-esm/plugin-annotations.js',
         'css' => 'vendor/mirador-esm/plugin-annotations.css',
     ],
+    'canvaslink' => [
+        'package' => 'mirador-canvaslink',
+        'entry' => 'vendor/mirador-esm/plugin-canvaslink.js',
+    ],
     'dl' => [
         'package' => 'mirador-dl-plugin',
         'entry' => 'vendor/mirador-esm/plugin-dl.js',

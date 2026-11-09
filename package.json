@@ -16,6 +16,7 @@
         "dompurify": "^3.4.1",
         "mirador": "^4.3.0",
         "mirador-annotation-editor": "^1.4.1",
+        "mirador-canvaslink": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-canvaslink-1.0.6-o.1.tgz",
         "mirador-dl-plugin": "^1.1.2",
         "mirador-image-tools": "^1.0.2",
         "mirador-image-cropper": "https://gitlab.com/Daniel-KM/Omeka-S-module-Mirador/-/releases/3.4.18/downloads/mirador-image-cropper-4.0.1.tgz",

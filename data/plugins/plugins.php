@@ -14,6 +14,7 @@
 
 return [
     'annotations' => 'Annotations',
+    'canvaslink' => 'Link to the current page (canvas)', // @translate
     'dl' => 'Download files',
     'image-cropper' => 'Image cropper', // @translate
     'image-tools' => 'Image tools',
