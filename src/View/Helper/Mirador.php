@@ -542,6 +542,15 @@ class Mirador extends AbstractHelper
 
         $config['language'] = $this->resolveLocale($setting);
 
+        // i18next fallback: when the primary locale is not bundled with Mirador
+        // (e.g. Breton "br"), let the viewer degrade to a fully translated
+        // language instead of mixing untranslated keys. The admin opts in via
+        // the per-site mirador_locale_fallback setting.
+        $fallback = strtr((string) $setting('mirador_locale_fallback', ''), ['_' => '-']);
+        if ($fallback !== '') {
+            $config['i18n'] = ['fallbackLng' => $fallback];
+        }
+
         $data = [];
 
         switch ($resourceName) {

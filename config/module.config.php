@@ -207,6 +207,7 @@ return [
             'mirador_config_collection_2' => null,
             'mirador_annotation_endpoint' => '',
             'mirador_preselected_items' => 0,
+            'mirador_locale_fallback' => null,
             'mirador_placement' => [
                 'after/items',
             ],

@@ -30,6 +30,19 @@ class SiteSettingsFieldset extends \Mirador\Form\SettingsFieldset
             ])
 
             ->add([
+                'name' => 'mirador_locale_fallback',
+                'type' => Element\Text::class,
+                'options' => [
+                    'element_group' => 'player',
+                    'label' => 'Mirador (v4): Locale fallback', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'mirador_locale_fallback',
+                    'placeholder' => 'fr', // @translate
+                ],
+            ])
+
+            ->add([
                 'name' => 'mirador_placement',
                 'type' => CommonElement\OptionalMultiCheckbox::class,
                 'options' => [
