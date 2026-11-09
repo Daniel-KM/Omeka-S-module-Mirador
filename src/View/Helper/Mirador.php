@@ -249,10 +249,7 @@ class Mirador extends AbstractHelper
         ];
 
         // TODO Manage locale in Mirador.
-        $config['locale'] = $view->identity()
-            ? (string) $view->userSetting('locale')
-            : (string) $setting('locale');
-        $config['locale'] = substr($config['locale'], 0, 2);
+        $config['locale'] = substr($this->resolveLocale($setting), 0, 2);
 
         $data = [];
         $location = '';
@@ -375,9 +372,7 @@ class Mirador extends AbstractHelper
             'globalMiradorPlugins' => $miradorPlugins,
         ];
 
-        $config['language'] = $view->identity()
-            ? strtr((string) $view->userSetting('locale'), ['_' => '-'])
-            : strtr((string) $setting('locale'), ['_' => '-']);
+        $config['language'] = $this->resolveLocale($setting);
 
         $data = [];
         $isCollection = false;
@@ -545,9 +540,7 @@ class Mirador extends AbstractHelper
             'id' => $viewerId,
         ];
 
-        $config['language'] = $view->identity()
-            ? strtr((string) $view->userSetting('locale'), ['_' => '-'])
-            : strtr((string) $setting('locale'), ['_' => '-']);
+        $config['language'] = $this->resolveLocale($setting);
 
         $data = [];
 
@@ -741,5 +734,44 @@ class Mirador extends AbstractHelper
         }
 
         return $data;
+    }
+
+    /**
+     * Pick the locale to forward to Mirador.
+     *
+     * Cascade:
+     * - user setting (when logged in and set)
+     * - site setting
+     * - global setting
+     * - default language in config (via translator).
+     *
+     * Does not use fallbackSetting() for compatibility.
+     */
+    protected function resolveLocale($setting): string
+    {
+        $view = $this->view;
+
+        if ($view->identity()) {
+            $userLocale = (string) $view->userSetting('locale');
+            if ($userLocale) {
+                return strtr($userLocale, ['_' => '-']);
+            }
+        }
+
+        // May be site locale or main locale.
+        $siteLocale = (string) $setting('locale');
+        if ($siteLocale) {
+            return strtr($siteLocale, ['_' => '-']);
+        }
+
+        $globalLocale = (string) $view->setting('locale');
+        if ($globalLocale) {
+            return strtr($globalLocale, ['_' => '-']);
+        }
+
+        // To get service locator from view helper is deprecated, but useful.
+        $config = @$view->getHelperPluginManager()->getServiceLocator()
+            ->get('Config');
+        return strtr($config['translator']['locale'] ?? '', ['_' => '-']);
     }
 }
