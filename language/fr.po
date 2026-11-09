@@ -101,7 +101,11 @@ msgstr ""
 "autres, en particulier le recadreur d’image, l’assistant ocr et la règle "
 "physique."
 
-#: data/plugins/plugins.php:18
+#: data/plugins/plugins.php:17
+msgid "Link to the current page (canvas)"
+msgstr "Lien vers la page courante (canevas)"
+
+#: data/plugins/plugins.php:19
 msgid "Image cropper"
 msgstr "Recadreur d’image"
 
@@ -275,10 +279,14 @@ msgstr "Mirador : Point d’accès pour enregistrer les annotations à l’exté
 #: src/Form/SettingsFieldset.php:211
 msgid ""
 "This option is used only if the plugin Annotations is enabled, and useful "
-"only with an external annotation server."
+"only with an external annotation server: Aiiinotate for Mirador v4, Annotot "
+"for Mirador v3. Without endpoint, annotations are stored in the browser of "
+"each visitor."
 msgstr ""
 "Cette option est utilisée seulement quand l’extension Annotations est "
-"activée et avec un serveur d’annotations externe ."
+"activée et avec un serveur d’annotations externe : Aiiinotate pour Mirador "
+"v4, Annotot pour Mirador v3. Sans point d’accès, les annotations sont "
+"enregistrées dans le navigateur de chaque visiteur."
 
 #: src/Form/SettingsFieldset.php:223
 msgid "Mirador: Preselect manifests from the same collection"
@@ -359,3 +367,12 @@ msgstr "Mirador Viewer"
 #~ msgstr ""
 #~ "Le module \"%s\" a été automatiquement désactivé car ses dépendances ne "
 #~ "sont plus disponibles."
+
+#: data/scripts/upgrade.php
+msgid ""
+"With Mirador v4, the endpoint to store annotations externally should be a "
+"server Aiiinotate, not Annotot. Check the setting for {list}."
+msgstr ""
+"Avec Mirador v4, le point d’accès pour enregistrer les annotations à "
+"l’extérieur doit être un serveur Aiiinotate et non Annotot. Vérifiez le "
+"réglage pour {list}."
