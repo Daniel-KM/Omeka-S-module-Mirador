@@ -23,10 +23,10 @@ $connection = $services->get('Omeka\Connection');
 $messenger = $plugins->get('messenger');
 $entityManager = $services->get('Omeka\EntityManager');
 
-if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.85')) {
+if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.96')) {
     $message = new \Omeka\Stdlib\Message(
         'The module %1$s should be upgraded to version %2$s or later.', // @translate
-        'Common', '3.4.85'
+        'Common', '3.4.96'
     );
     $messenger->addError($message);
     throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $translator('Missing requirement. Unable to upgrade.')); // @translate
@@ -284,4 +284,27 @@ if (version_compare($oldVersion, '3.4.17', '<')) {
         'Mirador v4 now includes all plugins from Mirador v3 and some other ones, in particular image cropper, ocr helper and physical ruler.' // @translate
     );
     $messenger->addSuccess($message);
+}
+
+if (version_compare($oldVersion, '3.4.18', '<')) {
+    $list = [];
+    if ($settings->get('mirador_annotation_endpoint')) {
+        $list[] = 'global settings';
+    }
+    $slugs = $connection->executeQuery(<<<'SQL'
+        SELECT `site`.`slug`
+        FROM `site_setting`
+        INNER JOIN `site` ON `site`.`id` = `site_setting`.`site_id`
+        WHERE `site_setting`.`id` = 'mirador_annotation_endpoint'
+            AND `site_setting`.`value` NOT IN ('""', 'null', '')
+        ORDER BY `site`.`slug`
+        SQL)->fetchFirstColumn();
+    $list = array_merge($list, $slugs);
+    if ($list) {
+        $message = new PsrMessage(
+            'With Mirador v4, the endpoint to store annotations externally should be a server Aiiinotate, not Annotot. Check the setting for {list}.', // @translate
+            ['list' => implode(', ', $list)]
+        );
+        $messenger->addWarning($message);
+    }
 }
