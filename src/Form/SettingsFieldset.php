@@ -208,7 +208,7 @@ class SettingsFieldset extends Fieldset
                 'options' => [
                     'element_group' => 'player',
                     'label' => 'Mirador: Endpoint to store annotations externally', // @translate
-                    'info' => 'This option is used only if the plugin Annotations is enabled, and useful only with an external annotation server.', // @translate
+                    'info' => 'This option is used only if the plugin Annotations is enabled, and useful only with an external annotation server: Aiiinotate for Mirador v4, Annotot for Mirador v3. Without endpoint, annotations are stored in the browser of each visitor.', // @translate
                 ],
                 'attributes' => [
                     'id' => 'mirador_annotation_endpoint',
