@@ -230,8 +230,9 @@ return [
             'mirador_annotation_endpoint' => '',
             'mirador_preselected_items' => 0,
             'mirador_locale_fallback' => null,
+            // Triggered partials are deprecated with new themes.
             'mirador_placement' => [
-                'after/items',
+                // 'after/items',
             ],
             'mirador_skip_default_css' => false,
         ],
