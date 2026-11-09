@@ -551,6 +551,23 @@ class Mirador extends AbstractHelper
             $config['i18n'] = ['fallbackLng' => $fallback];
         }
 
+        // Module-supplied translations: any locale shipped under
+        // modules/Mirador/asset/locales/<code>/translation.json is auto-loaded
+        // into i18n.resources so an unsupported-by-upstream locale (Breton "br"
+        // is shipped by default) becomes available without rebuilding the
+        // Mirador bundle. The lookup tries the full resolved code ("fr-FR"),
+        // then the short prefix ("fr"); the first hit wins.
+        $extras = $this->loadModuleLocale($config['language']);
+        if ($extras) {
+            if (!isset($config['i18n']) || !is_array($config['i18n'])) {
+                $config['i18n'] = [];
+            }
+            $config['i18n']['resources'] = array_replace(
+                $config['i18n']['resources'] ?? [],
+                $extras
+            );
+        }
+
         $data = [];
 
         switch ($resourceName) {
@@ -782,5 +799,52 @@ class Mirador extends AbstractHelper
         $config = @$view->getHelperPluginManager()->getServiceLocator()
             ->get('Config');
         return strtr($config['translator']['locale'] ?? '', ['_' => '-']);
+    }
+
+    /**
+     * Load a module-shipped i18next resource bundle for the given locale.
+     *
+     * Looks up modules/Mirador/asset/locales/<code>/translation.json in this
+     * order: full locale ("fr-FR"), short prefix ("fr"). Returns the i18next
+     * `resources` shape ready to be merged into the Mirador config, or an empty
+     * array when no bundled translation matches.
+     *
+     * Used today to inject the Breton translation shipped with the module
+     * (Mirador upstream does not bundle "br"); any extra locale dropped in the
+     * same directory is picked up automatically.
+     *
+     * @return array<string,array{translation:array<string,string>}>
+     */
+    protected function loadModuleLocale(string $locale): array
+    {
+        $locale = trim($locale);
+        if ($locale === '') {
+            return [];
+        }
+        $candidates = [$locale];
+        $short = strtok($locale, '-_');
+        if ($short && $short !== $locale) {
+            $candidates[] = $short;
+        }
+        $baseDir = dirname(__DIR__, 3) . '/asset/locales/';
+        foreach ($candidates as $code) {
+            if (!preg_match('/^[a-zA-Z][a-zA-Z0-9-]*$/', $code)) {
+                continue;
+            }
+            $path = $baseDir . $code . '/translation.json';
+            if (!is_readable($path)) {
+                continue;
+            }
+            $raw = @file_get_contents($path);
+            if ($raw === false || $raw === '') {
+                continue;
+            }
+            $decoded = json_decode($raw, true);
+            if (!is_array($decoded) || empty($decoded['translation'])) {
+                continue;
+            }
+            return [$code => ['translation' => $decoded['translation']]];
+        }
+        return [];
     }
 }
