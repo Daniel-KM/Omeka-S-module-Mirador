@@ -8,7 +8,6 @@ if (!class_exists('Common\TraitModule', false)) {
         : dirname(__DIR__) . '/Common/TraitModule.php';
 }
 
-use Common\Stdlib\PsrMessage;
 use Common\TraitModule;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
@@ -47,22 +46,6 @@ class Module extends AbstractModule
                 'Common', '3.4.85'
             );
             throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
-        }
-
-        $errors = [];
-
-        $js = __DIR__ . '/asset/vendor/mirador/mirador.min.js';
-        $jsEsm = __DIR__ . '/asset/vendor/mirador-esm/mirador.js';
-        if (!file_exists($js) && !file_exists($jsEsm)) {
-            $message = new PsrMessage(
-                'The library "{library}" should be installed. See module’s installation documentation.', // @translate
-                ['library' => 'Mirador']
-            );
-            $errors[] = (string) $message->setTranslator($translator);
-        }
-
-        if ($errors) {
-            throw new ModuleCannotInstallException(implode("\n", $errors));
         }
     }
 
